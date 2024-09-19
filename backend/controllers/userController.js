@@ -23,20 +23,20 @@ router.get("/", async (req, res) => {
 })
 
 /* 
-make dob standard, make ic unique and standard, make email standard, make country standard, make all required
+make dob standard, make nric unique and standard, make email standard, make country standard,
 make sign up more secure like singpass ?
 */
 router.post("/signup", async (req, res) => {
     const query = `
-    INSERT INTO users (fullname, iC, dOB, contactNumber, email, country, username, password)
+    INSERT INTO users (fullname, nric, dob, contactnumber, email, country, username, password)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
     RETURNING *
     `
     const input = {
         fullname: req.body.fullname,
-        iC: req.body.iC,
-        dOB: req.body.dOB,
-        contactNumber: req.body.contactNumber,
+        nric: req.body.nric,
+        dob: req.body.dob,
+        contactnumber: req.body.contactnumber,
         email: req.body.email,
         country: req.body.country,
         username: req.body.username,
@@ -44,9 +44,9 @@ router.post("/signup", async (req, res) => {
     }
     const inputArray = [
         input.fullname,
-        input.iC,
-        input.dOB,
-        input.contactNumber,
+        input.nric,
+        input.dob,
+        input.contactnumber,
         input.email,
         input.country,
         input.username,
@@ -90,12 +90,12 @@ router.post("/signin", async (req, res) => {
   }
 })
 
-router.use(verifyToken);
+// router.use(verifyToken);
 
-router.delete("/nukenukenuke", async (req, res) => {
-    const query = "DELETE FROM users WHERE fullname= $1 AND iC= $2;"
-    const { username, password } = req.body
-})
+// router.delete("/nukenukenuke", async (req, res) => {
+//     const query = "DELETE FROM users WHERE fullname= $1 AND nric= $2;"
+//     const { username, password } = req.body
+// })
 
 
 module.exports = router;
