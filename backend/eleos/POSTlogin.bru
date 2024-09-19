@@ -1,0 +1,24 @@
+meta {
+  name: POSTlogin
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:8888/api/user/signup
+  body: json
+  auth: none
+}
+
+body:json {
+  {   
+          "fullname": "leowkangsheng",
+          "iC": "s9138554f",
+          "dOB": "01Jan2024",
+          "contactNumber": "90237248",
+          "email": "aloy@gmail.com",
+          "country": "sg",
+          "name": "aloy",
+          "password": "123"
+  }
+}
