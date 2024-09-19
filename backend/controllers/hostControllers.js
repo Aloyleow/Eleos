@@ -1,41 +1,28 @@
 require("dotenv").config();
-const express = require("express");
-const router = express.Router();
+const express = require("express")
+const router = express.Router()
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { Pool } = require("pg");
 const verifyToken = require("../middlewares/verify-token");
 
-const SALT_LENGTH = 12;
+const SALT_LENGTH = 14;
 const connectionString = process.env.PGSTRING_URI;
 
 const pool = new Pool({
     connectionString
 });
 
-router.get("/", async (req, res) => {
-    try {
-        const result = await pool.query("SELECT * FROM users  WHERE username = 'aloy'");
-        res.json(result.rows); 
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-/* 
-make dob standard, make nric unique and standard, make email standard, make country standard,
-make sign up more secure like singpass ? make diff countries (nric, contactnumber)
-*/
 router.post("/signup", async (req, res) => {
     const query = `
-    INSERT INTO users (fullname, nric, dob, contactnumber, email, country, username, password)
+    INSERT INTO hosts (orgname, uen, regdate, contactnumber, email, country, username, password)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
     RETURNING *
     `;
     const input = {
-        fullname: req.body.fullname,
-        nric: req.body.nric,
-        dob: req.body.dob,
+        orgname: req.body.orgname,
+        uen: req.body.uen,
+        regdate: req.body.regdate,
         contactnumber: req.body.contactnumber,
         email: req.body.email,
         country: req.body.country,
@@ -43,9 +30,9 @@ router.post("/signup", async (req, res) => {
         password: bcrypt.hashSync(req.body.password, SALT_LENGTH)
     };
     const inputArray = [
-        input.fullname,
-        input.nric,
-        input.dob,
+        input.orgname,
+        input.uen,
+        input.regdate,
         input.contactnumber,
         input.email,
         input.country,
@@ -66,11 +53,8 @@ router.post("/signup", async (req, res) => {
 
 });
 
-/*
-improve error catches
-*/
 router.post("/signin", async (req, res) => {
-    const query = "SELECT * FROM users WHERE username = $1";
+    const query = "SELECT * FROM hosts WHERE username = $1";
     const { username, password } = req.body;
   try {
     const user = await pool.query(query, [username]);
@@ -90,14 +74,4 @@ router.post("/signin", async (req, res) => {
   };
 });
 
-// router.use(verifyToken);
-
-// router.delete("/nukenukenuke", async (req, res) => {
-//     const query = "DELETE FROM users WHERE fullname= $1 AND nric= $2;"
-//     const { username, password } = req.body
-// })
-
-
-module.exports = router;
-
-
+module.exports = router
