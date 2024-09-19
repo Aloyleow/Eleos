@@ -5,20 +5,14 @@ meta {
 }
 
 post {
-  url: http://localhost:8888/api/user/signup
+  url: http://localhost:8888/api/user/signin
   body: json
   auth: none
 }
 
 body:json {
   {   
-          "fullname": "leowkangsheng",
-          "iC": "s9138554f",
-          "dOB": "01Jan2024",
-          "contactNumber": "90237248",
-          "email": "aloy@gmail.com",
-          "country": "sg",
-          "name": "aloy",
+          "username": "aloy",
           "password": "123"
   }
 }
