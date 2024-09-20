@@ -18,28 +18,18 @@ router.post("/create", async (req, res) => {
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
     RETURNING *
     `;
-    const input = {
-        eventname: req.body.eventname,
-        type: req.body.type,
-        datentime: req.body.datentime,
-        location: req.body.location,
-        country: req.body.country,
-        comments: req.body.comments,
-        attendees: req.body.attendees,
-        hostsid: req.user.id
-    };
-    const inputArray = [
-        input.eventname,
-        input.type,
-        input.datentime,
-        input.location,
-        input.country,
-        input.comments,
-        input.attendees,
-        input.hostsid
+    const input = [
+        req.body.eventname,
+        req.body.type,
+        req.body.datentime,
+        req.body.location,
+        req.body.country,
+        req.body.comments,
+        req.body.attendees,
+        req.user.id
     ];
     try {
-        const event = (await pool.query(query, inputArray)).rows;
+        const event = (await pool.query(query, input)).rows;
         res.status(201).json({ event });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -53,29 +43,19 @@ router.put("/update/:eventsid", async (req, res) => {
     WHERE eventsid = $9 AND hostsid = $8
     `;
     const queryUpdate = "SELECT * FROM events WHERE eventsid = $1"
-    const input = {
-        eventname: req.body.eventname,
-        type: req.body.type,
-        datentime: req.body.datentime,
-        location: req.body.location,
-        country: req.body.country,
-        comments: req.body.comments,
-        attendees: req.body.attendees,
-        hostsid: req.user.id,
-    };
-    const inputArray = [
-        input.eventname,
-        input.type,
-        input.datentime,
-        input.location,
-        input.country,
-        input.comments,
-        input.attendees,
-        input.hostsid,
+    const input = [
+        req.body.eventname,
+        req.body.type,
+        req.body.datentime,
+        req.body.location,
+        req.body.country,
+        req.body.comments,
+        req.body.attendees,
+        req.user.id,
         req.params.eventsid
     ];
     try {
-        await pool.query(query, inputArray);
+        await pool.query(query, input);
         const event = await pool.query(queryUpdate, [req.params.eventsid])
         res.status(201).json( event.rows );
     } catch (error) {

@@ -32,28 +32,19 @@ router.post("/signup", async (req, res) => {
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
     RETURNING *
     `;
-  const input = {
-    fullname: req.body.fullname,
-    nric: req.body.nric,
-    dob: req.body.dob,
-    contactnumber: req.body.contactnumber,
-    email: req.body.email,
-    country: req.body.country,
-    username: req.body.username,
-    password: bcrypt.hashSync(req.body.password, SALT_LENGTH)
-  };
-  const inputArray = [
-    input.fullname,
-    input.nric,
-    input.dob,
-    input.contactnumber,
-    input.email,
-    input.country,
-    input.username,
-    input.password
+  const input = [
+    req.body.fullname,
+    req.body.nric,
+    req.body.dob,
+    req.body.contactnumber,
+    req.body.email,
+    req.body.country,
+    req.body.username,
+    bcrypt.hashSync(req.body.password, SALT_LENGTH)
   ];
+  
   try {
-    const user = (await pool.query(query, inputArray)).rows;
+    const user = (await pool.query(query, input)).rows;
     const token = jwt.sign(
       { id: req.body.id, username: req.body.username },
       process.env.JWT_SECRET,
@@ -92,22 +83,18 @@ router.post("/signin", async (req, res) => {
 
 router.use(verifyToken);
 
-router.post("/userattendings/:eventid", async (req, res) => {
+router.post("/userattendings/:eventsid", async (req, res) => {
   const query = `
     INSERT INTO user_attendings (usersid, eventsid)
     VALUES ($1, $2)
     RETURNING *
     `;
-  const input = {
-    usersid: req.user.id,
-    eventsid: req.params.eventid
-  }
-  const inputArray = [
-    input.usersid,
-    input.eventsid
+  const input = [
+    req.user.id,
+    req.params.eventsid
   ]
   try {
-    const userattendings = (await pool.query(query, inputArray)).rows;
+    const userattendings = (await pool.query(query, input)).rows;
     res.status(201).json({ userattendings });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -117,8 +104,12 @@ router.post("/userattendings/:eventid", async (req, res) => {
 
 router.delete("/userattendings/:eventsid", async (req, res) => {
   const query = "DELETE FROM user_attendings WHERE eventsid = $1 AND usersid = $2"
+  const input = [
+    req.params.eventsid,
+    req.user.id,
+  ]
   try {
-      const delattend = await pool.query(query, [req.params.eventsid, req.user.id]);
+      const delattend = await pool.query(query, input);
       res.status(200).json(delattend)
   } catch (error) {
       res.status(500).json({ error: error.message });
