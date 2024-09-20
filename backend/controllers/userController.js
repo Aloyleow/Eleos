@@ -60,7 +60,7 @@ router.post("/signup", async (req, res) => {
 /*
 improve error catches
 */
-router.post("/signin", async (req, res) => {
+router.post("/login", async (req, res) => {
   const query = "SELECT * FROM users WHERE username = $1";
   const { username, password } = req.body;
   try {
