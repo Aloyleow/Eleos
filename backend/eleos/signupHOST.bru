@@ -1,0 +1,24 @@
+meta {
+  name: signupHOST
+  type: http
+  seq: 6
+}
+
+post {
+  url: http://localhost:8888/api/host/signup
+  body: json
+  auth: none
+}
+
+body:json {
+  {   
+          "orgname": "morning",
+          "uen": "EG00880088",
+          "regdate": "01012024",
+          "contactnumber": "90237248",
+          "email": "aloy@gmail.com",
+          "country": "SG",
+          "username": "aloy",
+          "password": "123"
+  }
+}

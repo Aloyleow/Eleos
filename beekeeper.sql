@@ -1,5 +1,5 @@
 CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
+    usersid SERIAL PRIMARY KEY,
     fullname TEXT NOT NULL CHECK (fullname ~ '^[a-zA-Z\s]+$' AND fullname <> '') ,
     nric VARCHAR(9) NOT NULL CHECK (nric ~ '^[ST][0-9]{7}[A-Z]$' AND nric <> '' ),
     dob VARCHAR NOT NULL CHECK (dob <> ''),
@@ -12,7 +12,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE hosts (
-    id SERIAL PRIMARY KEY,
+    hostsid SERIAL PRIMARY KEY,
     orgname TEXT NOT NULL CHECK (orgname ~ '^[a-zA-Z\s]+$' AND orgname <> '') ,
     uen VARCHAR(9) NOT NULL CHECK (uen  ~ '^[a-zA-Z0-9]+$' AND uen  <> '' ),
     regdate VARCHAR NOT NULL CHECK (regdate <> ''),
@@ -23,15 +23,17 @@ CREATE TABLE hosts (
     password TEXT NOT NULL CHECK (password <> '')
 );
 
-CREATE TABLE event (
-    id SERIAL PRIMARY KEY,
+CREATE TABLE events (
+    eventid SERIAL PRIMARY KEY,
     eventname TEXT NOT NULL CHECK (eventname <> ''),
     type VARCHAR NOT NULL CHECK (type <> ''),
-    when VARCHAR NOT NULL CHECK (when <> ''),
+    datentime VARCHAR NOT NULL CHECK (datentime <> ''),
     location TEXT NOT NULL CHECK (location <> ''),
+    country TEXT NOT NULL CHECK (country <> ''),
     comments TEXT NOT NULL,
-    attendees INT NOT NULL CHECK (attendees <> '')
-)
+    attendees INT NOT NULL CHECK (attendees > 0),
+    hostsid INT REFERENCES hosts(hostsid)
+);
 
 
 SELECT * FROM users

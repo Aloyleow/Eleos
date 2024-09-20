@@ -15,8 +15,8 @@ const pool = new Pool({
 
 router.get("/", async (req, res) => {
     try {
-        const result = await pool.query("SELECT * FROM users  WHERE username = 'aloy'");
-        res.json(result.rows); 
+        const result = await pool.query("SELECT hostsid FROM hosts WHERE username = 'aloy'");
+        res.json(result.rows[0]); 
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -78,7 +78,7 @@ router.post("/signin", async (req, res) => {
     const match = await bcrypt.compare(password, result.password);
     if (user && match) {
       const token = jwt.sign(
-        {  id: req.body.id, username: req.body.username },
+        {  id: req.body.usersid, username: req.body.username },
         process.env.JWT_SECRET,
         { expiresIn: "10000hr" }
       );

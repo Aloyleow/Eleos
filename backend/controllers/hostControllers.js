@@ -57,12 +57,12 @@ router.post("/signin", async (req, res) => {
     const query = "SELECT * FROM hosts WHERE username = $1";
     const { username, password } = req.body;
   try {
-    const user = await pool.query(query, [username]);
-    const result = user.rows[0];
+    const host = await pool.query(query, [username]);
+    const result = host.rows[0];
     const match = await bcrypt.compare(password, result.password);
-    if (user && match) {
+    if (host && match) {
       const token = jwt.sign(
-        {  id: req.body.id, username: req.body.username },
+        {  id: host.rows[0].hostsid, username: req.body.username },
         process.env.JWT_SECRET,
         { expiresIn: "10000hr" }
       );
