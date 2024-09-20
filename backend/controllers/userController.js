@@ -15,54 +15,45 @@ const pool = new Pool({
 
 router.get("/", async (req, res) => {
     try {
-        const result = await pool.query("SELECT * FROM users  WHERE username = 'aloy'");
-        res.json(result.rows); 
+        const result = await pool.query("SELECT hostsid FROM hosts WHERE username = 'aloy'");
+        res.json(result.rows[0]); 
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
 /* 
-make dob standard, make nric unique and standard, make email standard, make country standard,
+make dob standard, make nric unique and standard, make email standard, make country standard, improve error catches
 make sign up more secure like singpass ? make diff countries (nric, contactnumber)
 */
 router.post("/signup", async (req, res) => {
-    const query = `
+  const query = `
     INSERT INTO users (fullname, nric, dob, contactnumber, email, country, username, password)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
     RETURNING *
     `;
-    const input = {
-        fullname: req.body.fullname,
-        nric: req.body.nric,
-        dob: req.body.dob,
-        contactnumber: req.body.contactnumber,
-        email: req.body.email,
-        country: req.body.country,
-        username: req.body.username,
-        password: bcrypt.hashSync(req.body.password, SALT_LENGTH)
-    };
-    const inputArray = [
-        input.fullname,
-        input.nric,
-        input.dob,
-        input.contactnumber,
-        input.email,
-        input.country,
-        input.username,
-        input.password
-    ];
-    try {
-        const user = (await pool.query(query, inputArray)).rows;
-        const token = jwt.sign(
-            { id: req.body.id, username: req.body.username },
-            process.env.JWT_SECRET,
-            { expiresIn: "10000hr" }
-          );
-        res.status(201).json({user, token});
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    };
+  const input = [
+    req.body.fullname,
+    req.body.nric,
+    req.body.dob,
+    req.body.contactnumber,
+    req.body.email,
+    req.body.country,
+    req.body.username,
+    bcrypt.hashSync(req.body.password, SALT_LENGTH)
+  ];
+  
+  try {
+    const user = (await pool.query(query, input)).rows;
+    const token = jwt.sign(
+      { id: req.body.id, username: req.body.username },
+      process.env.JWT_SECRET,
+      { expiresIn: "10000hr" }
+    );
+    res.status(201).json({ user, token });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  };
 
 });
 
@@ -70,15 +61,15 @@ router.post("/signup", async (req, res) => {
 improve error catches
 */
 router.post("/signin", async (req, res) => {
-    const query = "SELECT * FROM users WHERE username = $1";
-    const { username, password } = req.body;
+  const query = "SELECT * FROM users WHERE username = $1";
+  const { username, password } = req.body;
   try {
     const user = await pool.query(query, [username]);
     const result = user.rows[0];
     const match = await bcrypt.compare(password, result.password);
     if (user && match) {
       const token = jwt.sign(
-        {  id: req.body.id, username: req.body.username },
+        { id: user.rows[0].usersid, username: req.body.username },
         process.env.JWT_SECRET,
         { expiresIn: "10000hr" }
       );
@@ -90,13 +81,40 @@ router.post("/signin", async (req, res) => {
   };
 });
 
-// router.use(verifyToken);
+router.use(verifyToken);
 
-// router.delete("/nukenukenuke", async (req, res) => {
-//     const query = "DELETE FROM users WHERE fullname= $1 AND nric= $2;"
-//     const { username, password } = req.body
-// })
+router.post("/userattendings/:eventsid", async (req, res) => {
+  const query = `
+    INSERT INTO user_attendings (usersid, eventsid)
+    VALUES ($1, $2)
+    RETURNING *
+    `;
+  const input = [
+    req.user.id,
+    req.params.eventsid
+  ]
+  try {
+    const userattendings = (await pool.query(query, input)).rows;
+    res.status(201).json({ userattendings });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  };
+  
+})
 
+router.delete("/userattendings/:eventsid", async (req, res) => {
+  const query = "DELETE FROM user_attendings WHERE eventsid = $1 AND usersid = $2"
+  const input = [
+    req.params.eventsid,
+    req.user.id,
+  ]
+  try {
+      const delattend = await pool.query(query, input);
+      res.status(200).json(delattend)
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  };
+})
 
 module.exports = router;
 

@@ -1,10 +1,10 @@
 meta {
-  name: POSTlogin
+  name: user
   type: http
   seq: 4
 }
 
-post {
+delete {
   url: http://localhost:8888/api/user/signin
   body: json
   auth: none
@@ -12,7 +12,7 @@ post {
 
 body:json {
   {   
-          "username": "aloy",
+          "username": "Nuke",
           "password": "123"
   }
 }

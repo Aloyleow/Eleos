@@ -1,0 +1,26 @@
+meta {
+  name: CancelattendingsUSER
+  type: http
+  seq: 10
+}
+
+delete {
+  url: http://localhost:8888/api/user/userattendings/:eventid
+  body: none
+  auth: bearer
+}
+
+params:path {
+  eventid: 2
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhbG95IiwiaWF0IjoxNzI2ODEwNjIwLCJleHAiOjE3NjI4MTA2MjB9.ajo8UAGfsSxqkpi35448hANRkih_hftGqy5wQzXC0q8
+}
+
+body:json {
+  {   
+          "username": "aloy",
+          "password": "123"
+  }
+}

@@ -1,10 +1,10 @@
 meta {
-  name: DELETEuser
+  name: loginUSER
   type: http
-  seq: 5
+  seq: 3
 }
 
-delete {
+post {
   url: http://localhost:8888/api/user/signin
   body: json
   auth: none
@@ -12,7 +12,7 @@ delete {
 
 body:json {
   {   
-          "username": "Nuke",
+          "username": "aloy",
           "password": "123"
   }
 }
