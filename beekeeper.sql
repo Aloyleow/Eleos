@@ -23,6 +23,16 @@ CREATE TABLE hosts (
     password TEXT NOT NULL CHECK (password <> '')
 );
 
+CREATE TABLE event (
+    id SERIAL PRIMARY KEY,
+    eventname TEXT NOT NULL CHECK (eventname <> ''),
+    type VARCHAR NOT NULL CHECK (type <> ''),
+    when VARCHAR NOT NULL CHECK (when <> ''),
+    location TEXT NOT NULL CHECK (location <> ''),
+    comments TEXT NOT NULL,
+    attendees INT NOT NULL CHECK (attendees <> '')
+)
+
 
 SELECT * FROM users
 DELETE FROM users WHERE username= '' AND nric= '';

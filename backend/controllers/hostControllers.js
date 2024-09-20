@@ -4,7 +4,7 @@ const router = express.Router()
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { Pool } = require("pg");
-const verifyToken = require("../middlewares/verify-token");
+
 
 const SALT_LENGTH = 14;
 const connectionString = process.env.PGSTRING_URI;
