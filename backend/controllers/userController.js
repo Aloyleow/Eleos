@@ -115,6 +115,16 @@ router.post("/userattendings/:eventid", async (req, res) => {
   
 })
 
+router.delete("/userattendings/:eventsid", async (req, res) => {
+  const query = "DELETE FROM user_attendings WHERE eventsid = $1 AND usersid = $2"
+  try {
+      const delattend = await pool.query(query, [req.params.eventsid, req.user.id]);
+      res.status(200).json(delattend)
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  };
+})
+
 module.exports = router;
 
 

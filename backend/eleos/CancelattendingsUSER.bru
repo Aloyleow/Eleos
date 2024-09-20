@@ -1,10 +1,10 @@
 meta {
-  name: attendingsUSER
+  name: CancelattendingsUSER
   type: http
-  seq: 9
+  seq: 10
 }
 
-post {
+delete {
   url: http://localhost:8888/api/user/userattendings/:eventid
   body: none
   auth: bearer
