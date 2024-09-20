@@ -1,0 +1,18 @@
+meta {
+  name: attendingsUSER
+  type: http
+  seq: 9
+}
+
+post {
+  url: http://localhost:8888/api/user/signin
+  body: json
+  auth: none
+}
+
+body:json {
+  {   
+          "username": "aloy",
+          "password": "123"
+  }
+}

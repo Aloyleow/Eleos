@@ -13,7 +13,7 @@ CREATE TABLE users (
 
 CREATE TABLE hosts (
     hostsid SERIAL PRIMARY KEY,
-    orgname TEXT NOT NULL CHECK (orgname ~ '^[a-zA-Z\s]+$' AND orgname <> '') ,
+    orgname TEXT NOT NULL UNIQUE CHECK (orgname <> '') ,
     uen VARCHAR(9) NOT NULL CHECK (uen  ~ '^[a-zA-Z0-9]+$' AND uen  <> '' ),
     regdate VARCHAR NOT NULL CHECK (regdate <> ''),
     email TEXT NOT NULL CHECK (email ~ '^[^@]*@[^@]*$' AND email <> ''),
@@ -24,7 +24,7 @@ CREATE TABLE hosts (
 );
 
 CREATE TABLE events (
-    eventid SERIAL PRIMARY KEY,
+    eventsid SERIAL PRIMARY KEY,
     eventname TEXT NOT NULL CHECK (eventname <> ''),
     type VARCHAR NOT NULL CHECK (type <> ''),
     datentime VARCHAR NOT NULL CHECK (datentime <> ''),
@@ -32,9 +32,16 @@ CREATE TABLE events (
     country TEXT NOT NULL CHECK (country <> ''),
     comments TEXT NOT NULL,
     attendees INT NOT NULL CHECK (attendees > 0),
-    hostsid INT REFERENCES hosts(hostsid)
+    hostsid INT NOT NULL REFERENCES hosts(hostsid)
+);
+
+CREATE TABLE user_attendings (
+    user_attendingsid SERIAL PRIMARY KEY,
+    usersid INT NOT NULL REFERENCES users(usersid),
+    eventsid INT NOT NULL REFERENCES events(eventsid),
+    UNIQUE (usersid, eventsid)
 );
 
 
-SELECT * FROM users
-DELETE FROM users WHERE username= '' AND nric= '';
+SELECT * FROM events
+DELETE FROM hosts

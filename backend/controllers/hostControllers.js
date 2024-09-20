@@ -13,6 +13,9 @@ const pool = new Pool({
     connectionString
 });
 
+/*
+make regdate standard, make nric unique and standard, make email standard, make country standard, improve error catches
+*/
 router.post("/signup", async (req, res) => {
     const query = `
     INSERT INTO hosts (orgname, uen, regdate, contactnumber, email, country, username, password)
