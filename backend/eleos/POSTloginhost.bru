@@ -1,0 +1,18 @@
+meta {
+  name: POSTloginhost
+  type: http
+  seq: 7
+}
+
+post {
+  url: http://localhost:8888/api/host/signin
+  body: json
+  auth: none
+}
+
+body:json {
+  {   
+          "username": "aloy",
+          "password": "123"
+  }
+}
