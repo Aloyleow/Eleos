@@ -1,4 +1,4 @@
-export default function UpcomingPage() {
+export default function EventsPage() {
     return (
         <>upcoming</>
     )

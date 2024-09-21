@@ -87,10 +87,32 @@ const signUpHost = async (formData) => {
     }
 }
 
+const createEvent = async (formData) => {
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/event/create`, {
+            method: "POST",
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" 
+            },
+            body: JSON.stringify(formData),
+        });
+        const json = await res.json();
+        if (json.error) {
+            throw new Error (json.error);
+        }
+        return json;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
 export { 
     loginUser,
     loginHost,
     verifyUser,
     signUpUser,
-    signUpHost
+    signUpHost,
+    createEvent
 }

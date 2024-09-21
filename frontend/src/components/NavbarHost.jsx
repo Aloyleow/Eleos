@@ -39,7 +39,7 @@ export default function NavBarUser({handleSignOut}) {
 
   const handleChange = (event, newValue) => {
     if (newValue === "Events") {
-        navigate("/user")
+        navigate("/events")
     } else if (newValue === "Organisations") {
         navigate("/organisations")
     }

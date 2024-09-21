@@ -5,7 +5,7 @@ import Navbar from './components/Navbar'
 import SignUpPage from './pages/SignUpPage'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
-import UpcomingPage from './pages/UpcomingPage'
+import EventsPage from './pages/EventsPage'
 import OrganisationsPage from './pages/OrganisationsPage'
 import { useEffect, useState } from 'react'
 import UserPage from './pages/UserPage'
@@ -14,6 +14,7 @@ import NavBarUser from './components/NavbarUser'
 import NavBarHost from './components/NavbarHost'
 import CreateEventPage from './pages/CreateEventPage'
 import HostPage from './pages/HostPage'
+
 
 
 function App() {
@@ -43,7 +44,7 @@ function App() {
         <Route path='/login' element={<LoginPage setUser={setUser} setType={setType}/>} />
         <Route path="/signup" element={<SignUpPage />}/>
         <Route path="/signup/host" element={<SignUpPageHost />}/>
-        <Route path='/upcoming' element={<UpcomingPage />} />
+        <Route path='/events' element={<EventsPage />} />
         <Route path='/organisations' element={<OrganisationsPage />} />
         {user && type === "user" ? (
           <>

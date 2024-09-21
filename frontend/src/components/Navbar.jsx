@@ -34,7 +34,7 @@ export default function Navbar() {
         } else if (newValue === "Signup") {
             navigate("/signup")
         } else if (newValue === "Upcoming events") {
-            navigate("/upcoming")
+            navigate("/events")
         } else if (newValue === "Organisations") {
             navigate("/organisations")
         }
