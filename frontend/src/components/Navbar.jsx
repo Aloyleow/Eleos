@@ -7,14 +7,12 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import VolunteerActivismSharpIcon from '@mui/icons-material/VolunteerActivismSharp';
 import { useNavigate } from "react-router-dom";
 
-const pages = ["Login", "Signup", "Upcoming events", "Communities"];
+const pages = ["Login", "Signup", "Upcoming events", "Organisations"];
 
 export default function Navbar() {
     const navigate = useNavigate()
@@ -37,8 +35,8 @@ export default function Navbar() {
             navigate("/signup")
         } else if (newValue === "Upcoming events") {
             navigate("/upcoming")
-        } else if (newValue === "Communities") {
-            navigate("/communities")
+        } else if (newValue === "Organisations") {
+            navigate("/organisations")
         }
     }
      

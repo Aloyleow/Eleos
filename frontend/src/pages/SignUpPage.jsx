@@ -32,10 +32,6 @@ export default function SignUpPage() {
             return err
         }
     }
-    const handleClickHost = (event) => {
-        navigate("/signup/host")
-    }
-
 
     return (
         <Container

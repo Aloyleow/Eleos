@@ -1,10 +1,10 @@
-import { Container, Paper, TextField, Typography, Box, Button, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from "@mui/material";
+import { Container, Paper, TextField, Typography, Box, Button, Radio, RadioGroup, FormControlLabel, FormControl, } from "@mui/material";
 import { useState } from "react";
 import { loginHost, loginUser } from "../services/verifyServices";
 import { useNavigate } from "react-router-dom";
 
 
-export default function LoginPage({setUser}) {
+export default function LoginPage({setUser, setType}) {
     const navigate = useNavigate()
     const [host, setHost] = useState(false)
     const [formData, setFormData] = useState({
@@ -27,15 +27,16 @@ export default function LoginPage({setUser}) {
 
     const handleLogin = async (event) => {
         event.preventDefault();
-        console.log("login")
         try {
             if (host === true) {
                 const host = await loginHost(formData);
                 setUser(host);
-                navigate("/user");
+                setType("host")
+                navigate("/host");
             } else {
                 const user = await loginUser(formData);
                 setUser(user);
+                setType("user")
                 navigate("/user");
             }
         } catch (err) {
