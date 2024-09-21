@@ -1,7 +1,7 @@
 import { Container, Paper, TextField, Typography, Box, Button } from "@mui/material";
 import { useState } from "react";
 import { signUpUser } from "../services/verifyServices";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 
 
@@ -31,6 +31,9 @@ export default function SignUpPage() {
         } catch (err) {
             return err
         }
+    }
+    const handleClickHost = (event) => {
+        navigate("/signup/host")
     }
 
 
@@ -144,14 +147,16 @@ export default function SignUpPage() {
                 <Box
                     sx={{
                         display: { xs: "flex", md: "flex" },
-                        justifyContent: { xs: "center", md: "center" },
+                        justifyContent: { xs: "center", md: "space-between" },
                         alignItems: "center",
                     }}>
+                    <NavLink to="/signup/host">Organisation Signup</NavLink>    
                     <Button
                         variant="outlined"
-                        sx={{ mr: 2, color: "black", borderColor: "black" }}
+                        sx={{ mr: 18.5, color: "black", borderColor: "black" }}
                         onClick = {handlesignUpUser}
                     >Sign UP</Button>
+                    <Typography></Typography>
                 </Box>
             </Paper>
         </Container>
