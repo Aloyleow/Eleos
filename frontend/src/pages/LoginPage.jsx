@@ -1,11 +1,12 @@
-import { Container, Paper, TextField, Typography, Box, Button } from "@mui/material";
+import { Container, Paper, TextField, Typography, Box, Button, Radio, RadioGroup, FormControlLabel, FormControl, } from "@mui/material";
 import { useState } from "react";
-import { login } from "../services/verifyServices";
+import { loginHost, loginUser } from "../services/verifyServices";
 import { useNavigate } from "react-router-dom";
 
 
-export default function LoginPage({setUser}) {
+export default function LoginPage({setUser, setType}) {
     const navigate = useNavigate()
+    const [host, setHost] = useState(false)
     const [formData, setFormData] = useState({
         username: "",
         password: ""
@@ -15,13 +16,29 @@ export default function LoginPage({setUser}) {
         setFormData({...formData, [event.target.name]: event.target.value})
     }
 
+    const handleOnChangeRadio = (event) => {
+        if (event.target.value === "organisation") {
+            setHost(true)          
+        } else {
+            setHost(false)
+        }
+    }
+    
+
     const handleLogin = async (event) => {
         event.preventDefault();
-        console.log("login")
         try {
-            const user = await login(formData);
-            setUser(user);
-            navigate("/user");
+            if (host === true) {
+                const host = await loginHost(formData);
+                setUser(host);
+                setType("host")
+                navigate("/host");
+            } else {
+                const user = await loginUser(formData);
+                setUser(user);
+                setType("user")
+                navigate("/user");
+            }
         } catch (err) {
             return err
         }
@@ -73,18 +90,39 @@ export default function LoginPage({setUser}) {
                     />
                 </Box>
                 <Box
-                    sx={{
-                        display: { xs: "flex", md: "flex" },
-                        justifyContent: { xs: "center", md: "end" },
-                        alignItems: "center",
-                    }}>
+                sx={{
+                    display: { xs: "flex", md: "flex" },
+                    justifyContent: { xs: "center", md: "space-around"},
+                    alignItems: "center",
+                }}
+                >
+                     <FormControl>
+      
+      <RadioGroup row onChange={handleOnChangeRadio}>
+        <FormControlLabel
+          value="user"
+          control={<Radio />}
+          label="User"
+          labelPlacement="start"
+        />
+        <FormControlLabel
+          value="organisation"
+          control={<Radio />}
+          label="Organisation"
+          labelPlacement="start"
+        />
+
+      </RadioGroup>
+    </FormControl>     
                     <Button
                         variant="outlined"
                         sx={{ mr: 2 }}
                         onClick = {handleLogin}
                     >Login</Button>
+                    
                 </Box>
             </Paper>
         </Container>
     )
 }
+

@@ -1,16 +1,16 @@
 import { Container, Paper, TextField, Typography, Box, Button } from "@mui/material";
 import { useState } from "react";
-import { signUpUser } from "../services/verifyServices";
-import { NavLink, useNavigate } from "react-router-dom";
+import { signUpHost } from "../services/verifyServices";
+import { useNavigate } from "react-router-dom";
 
 
 
-export default function SignUpPage() {
+export default function SignUpPageHost() {
     const navigate = useNavigate()
     const [formData, setFormData] = useState({
-        fullname: "",
-        nric: "",
-        dob: "",
+        orgname: "",
+        uen: "",
+        regdate: "",
         email: "",
         contactnumber: "",
         country: "",
@@ -26,12 +26,13 @@ export default function SignUpPage() {
         event.preventDefault();
         console.log("login")
         try {
-            await signUpUser(formData);
+            await signUpHost(formData);
             navigate("/login");
         } catch (err) {
             return err
         }
     }
+
 
     return (
         <Container
@@ -65,24 +66,24 @@ export default function SignUpPage() {
                         padding: 2,
                         m: 1,
                     }}>
-                    <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Fullname :</Typography>
+                    <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Organisation :</Typography>
                     <TextField
-                    name = "fullname"
-                    value = {formData.fullname}
+                    name = "orgname"
+                    value = {formData.orgname}
                     onChange = {handleOnChange}
                     sx={{ mr: { xs: "auto", md: 1 } }} 
                     />
-                    <Typography sx={{ mr: { xs: "auto", md: 1 } }}>NRIC :</Typography>
+                    <Typography sx={{ mr: { xs: "auto", md: 1 } }}>UEN :</Typography>
                     <TextField 
-                    name = "nric"
-                    value = {formData.nric}
+                    name = "uen"
+                    value = {formData.uen}
                     onChange = {handleOnChange}
                     sx={{ mr: { xs: "auto", md: 1 } }}  
                     />
-                    <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Date Of Birth :</Typography>
+                    <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Registered date :</Typography>
                     <TextField
-                    name = "dob"
-                    value = {formData.dob} 
+                    name = "regdate"
+                    value = {formData.regdate} 
                     onChange = {handleOnChange} 
                     />
                 </Box>
@@ -143,16 +144,14 @@ export default function SignUpPage() {
                 <Box
                     sx={{
                         display: { xs: "flex", md: "flex" },
-                        justifyContent: { xs: "center", md: "space-between" },
+                        justifyContent: { xs: "center", md: "center" },
                         alignItems: "center",
                     }}>
-                    <NavLink to="/signup/host">Organisation Signup</NavLink>    
                     <Button
                         variant="outlined"
-                        sx={{ mr: 18.5, color: "black", borderColor: "black" }}
+                        sx={{ mr: 2, color: "black", borderColor: "black" }}
                         onClick = {handlesignUpUser}
                     >Sign UP</Button>
-                    <Typography></Typography>
                 </Box>
             </Paper>
         </Container>

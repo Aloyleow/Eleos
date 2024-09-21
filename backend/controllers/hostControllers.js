@@ -46,7 +46,7 @@ router.post("/signup", async (req, res) => {
 
 });
 
-router.post("/signin", async (req, res) => {
+router.post("/login", async (req, res) => {
     const query = "SELECT * FROM hosts WHERE username = $1";
     const { username, password } = req.body;
   try {
