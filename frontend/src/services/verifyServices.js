@@ -22,12 +22,12 @@ const loginUser = async (user) => {
     }
 }
 
-const loginHost = async (user) => {
+const loginHost = async (host) => {
     try {
-        const res = await fetch(`${BACKEND_URL}/api/user/login`, {
+        const res = await fetch(`${BACKEND_URL}/api/host/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(user),
+            body: JSON.stringify(host),
         });
         const json = await res.json();
         if (json.error) {
@@ -35,8 +35,8 @@ const loginHost = async (user) => {
         }
         if (json.token) {
             localStorage.setItem("token", json.token);
-            const user = JSON.parse(atob(json.token.split(".")[1]));
-            return user;
+            const host = JSON.parse(atob(json.token.split(".")[1]));
+            return host;
         }
     } catch (err) {
         console.log(err);

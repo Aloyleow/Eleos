@@ -1,6 +1,6 @@
-import { Container, Paper, TextField, Typography, Box, Button, Radio, RadioGroup } from "@mui/material";
+import { Container, Paper, TextField, Typography, Box, Button, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from "@mui/material";
 import { useState } from "react";
-import { loginUser } from "../services/verifyServices";
+import { loginHost, loginUser } from "../services/verifyServices";
 import { useNavigate } from "react-router-dom";
 
 
@@ -16,13 +16,28 @@ export default function LoginPage({setUser}) {
         setFormData({...formData, [event.target.name]: event.target.value})
     }
 
+    const handleOnChangeRadio = (event) => {
+        if (event.target.value === "organisation") {
+            setHost(true)          
+        } else {
+            setHost(false)
+        }
+    }
+    
+
     const handleLogin = async (event) => {
         event.preventDefault();
         console.log("login")
         try {
-            const user = await loginUser(formData);
-            setUser(user);
-            navigate("/user");
+            if (host === true) {
+                const host = await loginHost(formData);
+                setUser(host);
+                navigate("/user");
+            } else {
+                const user = await loginUser(formData);
+                setUser(user);
+                navigate("/user");
+            }
         } catch (err) {
             return err
         }
@@ -81,34 +96,23 @@ export default function LoginPage({setUser}) {
                 }}
                 >
                      <FormControl>
-      <FormLabel id="demo-form-control-label-placement">Label placement</FormLabel>
-      <RadioGroup
-        row
-        aria-labelledby="demo-form-control-label-placement"
-        name="position"
-        defaultValue="top"
-      >
+      
+      <RadioGroup row onChange={handleOnChangeRadio}>
         <FormControlLabel
-          value="top"
+          value="user"
           control={<Radio />}
-          label="Top"
-          labelPlacement="top"
-        />
-        <FormControlLabel
-          value="start"
-          control={<Radio />}
-          label="Start"
+          label="User"
           labelPlacement="start"
         />
         <FormControlLabel
-          value="bottom"
+          value="organisation"
           control={<Radio />}
-          label="Bottom"
-          labelPlacement="bottom"
+          label="Organisation"
+          labelPlacement="start"
         />
-        <FormControlLabel value="end" control={<Radio />} label="End" />
+
       </RadioGroup>
-    </FormControl>>     
+    </FormControl>     
                     <Button
                         variant="outlined"
                         sx={{ mr: 2 }}
