@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import VolunteerActivismSharp from '@mui/icons-material/VolunteerActivismSharp';
 import { useNavigate } from 'react-router-dom';
 
-const pages = ["Join Events", "Organisations"];
+const pages = ["My Events", "Join Events", "Organisations"];
 const profileSettings = ["Profile" , "Events history", "Log out"]
 
 export default function NavBarUser({handleSignOut}) {
@@ -39,9 +39,11 @@ export default function NavBarUser({handleSignOut}) {
 
   const handleChange = (event, newValue) => {
     if (newValue === "Join Events") {
-        navigate("/events")
+      navigate("/events")
     } else if (newValue === "Organisations") {
-        navigate("/organisations")
+      navigate("/organisations")
+    } else if (newValue === "My Events") {
+      navigate("/user")
     }
   }
 

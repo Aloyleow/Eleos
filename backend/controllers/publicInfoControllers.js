@@ -20,6 +20,17 @@ router.get("/viewall", async (req, res) => {
     };
 })
 
+router.get("/organisations", async (req, res) => {
+    const query = "SELECT * FROM hosts"
+    try {
+        const event = (await pool.query(query)).rows;
+        res.status(201).json({ event });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    };
+})
+
+
 router.use(verifyToken);
 
 router.get("/:eventid", async (req, res) => {
@@ -30,6 +41,21 @@ router.get("/:eventid", async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     };
+})
+
+router.get("/getuser_attendings/:eventsid", async (req, res) => {
+    const query = `
+    SELECT COUNT (*)
+    FROM user_attendings
+    WHERE eventsid=$1
+    `
+    try {
+        const event = await pool.query(query, [req.params.eventsid]);
+        res.status(201).json(event);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    };
+
 })
 
 module.exports = router

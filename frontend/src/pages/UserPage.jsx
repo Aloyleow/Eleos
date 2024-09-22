@@ -1,6 +1,6 @@
 import {Card, CardActionArea, CardContent ,Box, Container, CardMedia, Typography, Button,} from "@mui/material"
 import download from "../images/download.jpg"
-import { userEvents, cancelEvent } from "../services/verifyServices"
+import { userEvents, cancelEvent, user_attendingsCount } from "../services/verifyServices"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
@@ -21,8 +21,11 @@ export default function UserPage() {
             }
         }
         loadEvents()
+        setTestRefresh(false)
     },[testRefresh])
 
+   
+    
     const cancelAttending = async (eventid) => {     
         try {
             await cancelEvent(eventid);
@@ -67,9 +70,7 @@ export default function UserPage() {
                         <Typography gutterBottom variant="h6" component="div">
                             {event.datentime}
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                            {event.attendees} Attendees
-                        </Typography>
+                        
                     </CardContent>
                 </CardActionArea>
                 <Button  variant="outlined" onClick={() => {cancelAttending(event.eventsid)}}>Cancel</Button>
