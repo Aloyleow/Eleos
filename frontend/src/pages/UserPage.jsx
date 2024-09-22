@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom"
 
 export default function UserPage() {
     const navigate = useNavigate()
+    const [testRefresh, setTestRefresh] = useState(false)
     const [data, setData] = useState([])
 
     useEffect(()=>{
@@ -20,11 +21,12 @@ export default function UserPage() {
             }
         }
         loadEvents()
-    },[data])
+    },[testRefresh])
 
     const cancelAttending = async (eventid) => {     
         try {
             await deleteEvent(eventid);
+            setTestRefresh(true)
         } catch (err) {
             return err
         }

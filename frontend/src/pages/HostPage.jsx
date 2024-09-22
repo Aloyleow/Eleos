@@ -1,6 +1,6 @@
 import {Card, CardActionArea, CardContent ,Box, Container, CardMedia, Typography, Button,} from "@mui/material"
 import download from "../images/download.jpg"
-import { userEvents, deleteEvent } from "../services/verifyServices"
+import { hostEvents, deleteEvent } from "../services/verifyServices"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
@@ -11,22 +11,15 @@ export default function HostPage() {
     useEffect(()=>{
         const loadEvents = async() => {
             try{
-                const data = await userEvents();
-                setData(data.userattendings);            
+                const data = await hostEvents();
+                setData(data.event);         
             } catch (error) {
                 console.error(error.message);
             }
         }
         loadEvents()
-    },[data])
+    },[])
 
-    const cancelAttending = async (eventid) => {     
-        try {
-            await deleteEvent(eventid);
-        } catch (err) {
-            return err
-        }
-    }
     const handleOnClick = (id) => {
         navigate(`/event/${id}`)
     }
@@ -42,7 +35,7 @@ export default function HostPage() {
                 mt: 5
             }}
         >
-            <Typography>Events attending</Typography>
+            <Typography>Events created</Typography>
             {data.map((event, index)=>(
             <Card key={index} sx={{ width: "80%", minWidth: "auto", backgroundColor: "#FDF2E9", mt: 2, ml: 13 }}>
                 <CardActionArea sx={{display: "flex",}} onClick={() => {handleOnClick(event.eventsid)}}>                   
@@ -68,7 +61,8 @@ export default function HostPage() {
                         </Typography>
                     </CardContent>
                 </CardActionArea>
-                <Button  variant="outlined" onClick={() => {cancelAttending(event.eventsid)}}>Cancel</Button>
+                <Button  variant="outlined">Edit event</Button>
+                <Button  variant="outlined">Cancel event</Button>
             </Card>
             ))}
         </Container>

@@ -89,7 +89,7 @@ const signUpHost = async (formData) => {
 
 const createEvent = async (formData) => {
     try {
-        const res = await fetch(`${BACKEND_URL}/api/event/create`, {
+        const res = await fetch(`${BACKEND_URL}/api/host/event/create`, {
             method: "POST",
             headers: { 
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -110,7 +110,7 @@ const createEvent = async (formData) => {
 
 const getEvents = async () => {
     try {
-        const res = await fetch(`${BACKEND_URL}/api/event/viewall`, {
+        const res = await fetch(`${BACKEND_URL}/api/publicinfo/viewall`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
 
@@ -128,7 +128,7 @@ const getEvents = async () => {
 
 const getOneEvent = async (params) => {
     try {
-        const res = await fetch(`${BACKEND_URL}/api/event/${params}`, {
+        const res = await fetch(`${BACKEND_URL}/api/publicinfo/${params}`, {
             method: "GET",
             headers: { 
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -149,7 +149,7 @@ const getOneEvent = async (params) => {
 
 const joinEvent = async (params) => {
     try {
-        const res = await fetch(`${BACKEND_URL}/api/user/userattendings/${params}`, {
+        const res = await fetch(`${BACKEND_URL}/api/user/event/userattendings/${params}`, {
             method: "POST",
             headers: { 
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -169,7 +169,7 @@ const joinEvent = async (params) => {
 
 const userEvents = async () => {
     try {
-        const res = await fetch(`${BACKEND_URL}/api/user/userattendings`, {
+        const res = await fetch(`${BACKEND_URL}/api/user/event/userattendings`, {
             method: "GET",
             headers: { 
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -190,7 +190,7 @@ const userEvents = async () => {
 
 const deleteEvent = async (params) => {
     try {
-        const res = await fetch(`${BACKEND_URL}/api/user/userattendings/${params}`, {
+        const res = await fetch(`${BACKEND_URL}/api/user/event/userattendings/${params}`, {
             method: "DELETE",
             headers: { 
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -208,10 +208,10 @@ const deleteEvent = async (params) => {
     }
 }
 
-const hostEvents = async (params) => {
+const hostEvents = async () => {
     try {
-        const res = await fetch(`${BACKEND_URL}/api/user/userattendings/${params}`, {
-            method: "DELETE",
+        const res = await fetch(`${BACKEND_URL}/api/host/event/hostevents`, {
+            method: "GET",
             headers: { 
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json" 
@@ -239,5 +239,6 @@ export {
     getOneEvent,
     joinEvent,
     userEvents,
-    deleteEvent
+    deleteEvent,
+    hostEvents
 }
