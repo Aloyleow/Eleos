@@ -4,14 +4,18 @@ meta {
   seq: 8
 }
 
-post {
-  url: http://localhost:8888/api/event/create
+put {
+  url: http://localhost:8888/api/event/update/:eventsid
   body: json
   auth: bearer
 }
 
+params:path {
+  eventsid: 4
+}
+
 auth:bearer {
-  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhbG95IiwiaWF0IjoxNzI2ODEwNTY3LCJleHAiOjE3NjI4MTA1Njd9.lD8KNsebBfhr_VKeJ5ou-8lyLy4JO2A4BXz0cHokLEA
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidXNlcm5hbWUiOiJtb3JuaW5nIiwiaWF0IjoxNzI2OTk2NTU3LCJleHAiOjE3NjI5OTY1NTd9.8LDuvgE11eKhlViyvBy1IW7p4n5rTaxiQHcpJxuOi00
 }
 
 body:json {
@@ -19,7 +23,7 @@ body:json {
     "eventname": "cook5them",
     "type": "cook",
     "datentime": "1210202412pm",
-    "location": "tampines",
+    "location": "jurong",
     "country": "singapore",
     "comments": "hello",
     "attendees": 12

@@ -89,7 +89,7 @@ const signUpHost = async (formData) => {
 
 const createEvent = async (formData) => {
     try {
-        const res = await fetch(`${BACKEND_URL}/api/event/create`, {
+        const res = await fetch(`${BACKEND_URL}/api/host/event/create`, {
             method: "POST",
             headers: { 
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -110,7 +110,7 @@ const createEvent = async (formData) => {
 
 const getEvents = async () => {
     try {
-        const res = await fetch(`${BACKEND_URL}/api/event/viewall`, {
+        const res = await fetch(`${BACKEND_URL}/api/publicinfo/viewall`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
 
@@ -126,6 +126,151 @@ const getEvents = async () => {
     }
 }
 
+const getOneEvent = async (params) => {
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/publicinfo/${params}`, {
+            method: "GET",
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" 
+            },
+        });
+        const json = await res.json();
+        if (json.error) {
+            throw new Error (json.error);
+        }
+        return json;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+
+}
+
+const joinEvent = async (params) => {
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/user/event/userattendings/${params}`, {
+            method: "POST",
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" 
+            },
+        });
+        const json = await res.json();
+        if (json.error) {
+            throw new Error (json.error);
+        }
+        return json;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
+const userEvents = async () => {
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/user/event/userattendings`, {
+            method: "GET",
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" 
+            },
+        });
+        const json = await res.json();
+        if (json.error) {
+            throw new Error (json.error);
+        }
+        return json;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+
+}
+
+const cancelEvent = async (params) => {
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/user/event/userattendings/${params}`, {
+            method: "DELETE",
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" 
+            },
+        });
+        const json = await res.json();
+        if (json.error) {
+            throw new Error (json.error);
+        }
+        return json;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
+const hostEvents = async () => {
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/host/event/hostevents`, {
+            method: "GET",
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" 
+            },
+        });
+        const json = await res.json();
+        if (json.error) {
+            throw new Error (json.error);
+        }
+        return json;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
+const deleteEvent = async (params) => {
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/host/event/hostevents/${params}`, {
+            method: "DELETE",
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" 
+            },
+        });
+        const json = await res.json();
+        if (json.error) {
+            throw new Error (json.error);
+        }
+        return json;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+
+}
+
+const editEvent = async (params, formData) => {
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/host/event/update/${params}`, {
+            method: "PUT",
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" 
+            },
+            body: JSON.stringify(formData)
+        });
+        const json = await res.json();
+        if (json.error) {
+            throw new Error (json.error);
+        }
+        return json;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+
+}
+
 export { 
     loginUser,
     loginHost,
@@ -133,5 +278,12 @@ export {
     signUpUser,
     signUpHost,
     createEvent,
-    getEvents
+    getEvents,
+    getOneEvent,
+    joinEvent,
+    userEvents,
+    cancelEvent,
+    hostEvents,
+    deleteEvent,
+    editEvent
 }

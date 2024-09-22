@@ -47,11 +47,11 @@ export default function NavBarUser({handleSignOut}) {
 
   const handleChangeProfile = (event, newValue) => {
     if (newValue === "Profile") {
-      navigate("/user")
+      navigate("/host")
     } else if (newValue === "Create events") {
       navigate("/host/create")
     } else if (newValue === "Events history") {
-      navigate("/user")
+      navigate("/host")
     } else if (newValue === "Log out") {
       handleSignOut()
     }
@@ -69,7 +69,7 @@ export default function NavBarUser({handleSignOut}) {
             variant="h6"
             noWrap
             component="a"
-            href="/user"
+            href="/host"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },

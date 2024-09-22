@@ -10,16 +10,6 @@ const pool = new Pool({
     connectionString
 });
 
-router.get("/viewall", async (req, res) => {
-    const query = "SELECT * FROM events"
-    try {
-        const event = (await pool.query(query)).rows;
-        res.status(201).json({ event });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    };
-})
-
 router.use(verifyToken);
 
 router.post("/create", async (req, res) => {
@@ -36,7 +26,7 @@ router.post("/create", async (req, res) => {
         req.body.country,
         req.body.comments,
         req.body.attendees,
-        req.user.id
+        req.human.id
     ];
     try {
         const event = (await pool.query(query, input)).rows;
@@ -61,7 +51,7 @@ router.put("/update/:eventsid", async (req, res) => {
         req.body.country,
         req.body.comments,
         req.body.attendees,
-        req.user.id,
+        req.human.id,
         req.params.eventsid
     ];
     try {
@@ -73,4 +63,26 @@ router.put("/update/:eventsid", async (req, res) => {
     };
 })
 
-module.exports = router;
+router.get("/hostevents", async (req, res) => {
+    const query = "SELECT * FROM events WHERE hostsid = $1"
+    try {
+        const event = (await pool.query(query, [req.human.id])).rows;
+        res.status(201).json({ event });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    };
+
+})
+
+router.delete("/hostevents/:eventsid", async (req, res) => {
+    const query = "DELETE FROM events WHERE eventsid = $1"
+    try {
+        const event = (await pool.query(query, [req.params.eventsid])).rows;
+        res.status(201).json({ event });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    };
+
+})
+
+module.exports = router

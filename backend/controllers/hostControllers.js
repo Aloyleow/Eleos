@@ -34,12 +34,7 @@ router.post("/signup", async (req, res) => {
     ];
     try {
         const user = (await pool.query(query, input)).rows;
-        const token = jwt.sign(
-            { id: req.body.id, username: req.body.username },
-            process.env.JWT_SECRET,
-            { expiresIn: "10000hr" }
-          );
-        res.status(201).json({user, token});
+        res.status(201).json({user});
     } catch (error) {
         res.status(500).json({ error: error.message });
     };
