@@ -102,6 +102,22 @@ router.post("/userattendings/:eventsid", async (req, res) => {
   
 })
 
+router.get("/userattendings", async (req, res) => {
+  const query = `
+    SELECT e.* 
+    FROM events e
+    RIGHT JOIN user_attendings ua on e.eventsid = ua.eventsid
+    WHERE ua.usersid = $1
+  `
+  const input = [ req.user.id ]
+  try {
+    const userattendings = (await pool.query(query, input)).rows;
+    res.status(201).json({ userattendings });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  };
+})
+
 router.delete("/userattendings/:eventsid", async (req, res) => {
   const query = "DELETE FROM user_attendings WHERE eventsid = $1 AND usersid = $2"
   const input = [
