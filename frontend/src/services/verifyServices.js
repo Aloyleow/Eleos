@@ -188,7 +188,7 @@ const userEvents = async () => {
 
 }
 
-const deleteEvent = async (params) => {
+const cancelEvent = async (params) => {
     try {
         const res = await fetch(`${BACKEND_URL}/api/user/event/userattendings/${params}`, {
             method: "DELETE",
@@ -228,6 +228,49 @@ const hostEvents = async () => {
     }
 }
 
+const deleteEvent = async (params) => {
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/host/event/hostevents/${params}`, {
+            method: "DELETE",
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" 
+            },
+        });
+        const json = await res.json();
+        if (json.error) {
+            throw new Error (json.error);
+        }
+        return json;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+
+}
+
+const editEvent = async (params, formData) => {
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/host/event/update/${params}`, {
+            method: "PUT",
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" 
+            },
+            body: JSON.stringify(formData)
+        });
+        const json = await res.json();
+        if (json.error) {
+            throw new Error (json.error);
+        }
+        return json;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+
+}
+
 export { 
     loginUser,
     loginHost,
@@ -239,6 +282,8 @@ export {
     getOneEvent,
     joinEvent,
     userEvents,
+    cancelEvent,
+    hostEvents,
     deleteEvent,
-    hostEvents
+    editEvent
 }

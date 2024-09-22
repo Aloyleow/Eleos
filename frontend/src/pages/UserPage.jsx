@@ -1,6 +1,6 @@
 import {Card, CardActionArea, CardContent ,Box, Container, CardMedia, Typography, Button,} from "@mui/material"
 import download from "../images/download.jpg"
-import { userEvents, deleteEvent } from "../services/verifyServices"
+import { userEvents, cancelEvent } from "../services/verifyServices"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
@@ -25,7 +25,7 @@ export default function UserPage() {
 
     const cancelAttending = async (eventid) => {     
         try {
-            await deleteEvent(eventid);
+            await cancelEvent(eventid);
             setTestRefresh(true)
         } catch (err) {
             return err

@@ -38,10 +38,24 @@ CREATE TABLE events (
 CREATE TABLE user_attendings (
     user_attendingsid SERIAL PRIMARY KEY,
     usersid INT NOT NULL REFERENCES users(usersid),
-    eventsid INT NOT NULL REFERENCES events(eventsid),
+    eventsid INT NOT NULL REFERENCES events(eventsid) ON DELETE CASCADE,
     UNIQUE (usersid, eventsid)
 );
 
 
 SELECT * FROM events
 DELETE FROM hosts
+
+SELECT e.* 
+FROM events e
+RIGHT JOIN user_attendings ua on e.eventsid = ua.eventsid
+WHERE ua.usersid = 5
+
+SELECT * FROM events WHERE hostsid = 4
+
+
+
+
+
+
+

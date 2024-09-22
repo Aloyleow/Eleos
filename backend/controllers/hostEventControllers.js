@@ -74,4 +74,15 @@ router.get("/hostevents", async (req, res) => {
 
 })
 
+router.delete("/hostevents/:eventsid", async (req, res) => {
+    const query = "DELETE FROM events WHERE eventsid = $1"
+    try {
+        const event = (await pool.query(query, [req.params.eventsid])).rows;
+        res.status(201).json({ event });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    };
+
+})
+
 module.exports = router

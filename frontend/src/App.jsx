@@ -15,6 +15,7 @@ import NavBarHost from './components/NavbarHost'
 import CreateEventPage from './pages/CreateEventPage'
 import HostPage from './pages/HostPage'
 import EventsDetailPage from './pages/EventsDetailPage'
+import EditEventPage from './pages/EditEventPage'
 
 
 
@@ -50,12 +51,13 @@ function App() {
         {user && type === "user" ? (
           <>
             <Route path='/user' element={<UserPage />} />
-            <Route path='/event/:eventid' element={<EventsDetailPage/>}/>
+            <Route path='/event/:eventsid' element={<EventsDetailPage/>}/>
           </>) : <Route path='/' element={<HomePage />} />}
         {user && type === "host" ? (
           <>
             <Route path='/host' element={<HostPage/>} />
             <Route path='/host/create' element={<CreateEventPage/>}/>
+            <Route path='/host/:eventsid/edit' element={<EditEventPage/>}/>
           </>) : <Route path='/' element={<HomePage />} />}
       </Routes>
     </>

@@ -6,13 +6,13 @@ import download from "../images/download.jpg"
 
 export default function EventsDetailPage(){
     const navigate = useNavigate()
-    const { eventid } = useParams()
+    const { eventsid } = useParams()
     const [data, setData] = useState({})
 
     useEffect(()=>{
         const loadEvents = async() => {
             try{
-                const data = await getOneEvent(eventid);
+                const data = await getOneEvent(eventsid);
                 setData(data.event[0]);
                 
             } catch (error) {
@@ -20,13 +20,13 @@ export default function EventsDetailPage(){
             }
         }
         loadEvents()
-    },[eventid])
+    },[eventsid])
     console.log(data)
 
     const join = async (event) => {
         event.preventDefault();
         try {
-            await joinEvent(eventid);
+            await joinEvent(eventsid);
             navigate("/user");
         } catch (err) {
             return err

@@ -1,6 +1,6 @@
 import {Card, CardActionArea, CardContent ,Box, Container, CardMedia, Typography, Button,} from "@mui/material"
 import download from "../images/download.jpg"
-import { hostEvents, deleteEvent } from "../services/verifyServices"
+import { hostEvents} from "../services/verifyServices"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
@@ -21,10 +21,9 @@ export default function HostPage() {
     },[])
 
     const handleOnClick = (id) => {
-        navigate(`/event/${id}`)
+        navigate(`/host/${id}/edit`)
     }
  
-
     return (
         <Container
             sx={{
@@ -61,8 +60,6 @@ export default function HostPage() {
                         </Typography>
                     </CardContent>
                 </CardActionArea>
-                <Button  variant="outlined">Edit event</Button>
-                <Button  variant="outlined">Cancel event</Button>
             </Card>
             ))}
         </Container>
