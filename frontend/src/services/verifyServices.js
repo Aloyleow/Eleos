@@ -291,6 +291,24 @@ const user_attendingsCount = async (params) => {
     }
 }
 
+const getOrganisations = async () => {
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/publicinfo/organisations`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+
+        });
+        const json = await res.json();
+        if (json.error) {
+            throw new Error (json.error);
+        }
+        return json;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
 export { 
     loginUser,
     loginHost,
@@ -306,5 +324,6 @@ export {
     hostEvents,
     deleteEvent,
     editEvent,
-    user_attendingsCount
+    user_attendingsCount,
+    getOrganisations
 }

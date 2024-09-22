@@ -20,6 +20,16 @@ router.get("/viewall", async (req, res) => {
     };
 })
 
+router.get("/organisations", async (req, res) => {
+    const query = "SELECT * FROM hosts"
+    try {
+        const event = (await pool.query(query)).rows;
+        res.status(201).json({ event });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    };
+})
+
 
 router.use(verifyToken);
 
