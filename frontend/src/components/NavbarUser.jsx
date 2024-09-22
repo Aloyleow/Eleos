@@ -11,14 +11,16 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import VolunteerActivismSharp from '@mui/icons-material/VolunteerActivismSharp';
+import { useNavigate } from 'react-router-dom';
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = ["Join Events", "Organisations"];
+const profileSettings = ["Profile" , "Events history", "Log out"]
 
 export default function NavBarUser({handleSignOut}) {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const navigate = useNavigate()
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -34,6 +36,24 @@ export default function NavBarUser({handleSignOut}) {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleChange = (event, newValue) => {
+    if (newValue === "Join Events") {
+        navigate("/events")
+    } else if (newValue === "Organisations") {
+        navigate("/organisations")
+    }
+  }
+
+  const handleChangeProfile = (event, newValue) => {
+    if (newValue === "Profile") {
+      navigate("/user")
+    } else if (newValue === "Events history") {
+      navigate("/user")
+    } else if (newValue === "Log out") {
+      handleSignOut()
+    }
+  }
 
   return (
     <AppBar position="static"
@@ -89,7 +109,7 @@ export default function NavBarUser({handleSignOut}) {
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} onClick={() => {handleChange(null, page), handleCloseNavMenu}}>
                   <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
                 </MenuItem>
               ))}
@@ -118,7 +138,7 @@ export default function NavBarUser({handleSignOut}) {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={() => {handleChange(null, page), handleCloseNavMenu}}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page}
@@ -147,8 +167,11 @@ export default function NavBarUser({handleSignOut}) {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem>Profile</MenuItem>
-              <MenuItem key="signout" onClick={handleSignOut}>Log Out</MenuItem>
+              {profileSettings.map((setting) => (
+                <MenuItem key={setting} onClick={() => {handleChangeProfile(null, setting), handleCloseUserMenu}}>
+                  <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+                </MenuItem>
+              ))}
             </Menu>
           </Box>
         </Toolbar>

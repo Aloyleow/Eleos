@@ -20,6 +20,7 @@ router.get("/viewall", async (req, res) => {
     };
 })
 
+
 router.use(verifyToken);
 
 router.post("/create", async (req, res) => {
@@ -68,6 +69,16 @@ router.put("/update/:eventsid", async (req, res) => {
         await pool.query(query, input);
         const event = await pool.query(queryUpdate, [req.params.eventsid])
         res.status(201).json( event.rows );
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    };
+})
+
+router.get("/:eventid", async (req, res) => {
+    const query = "SELECT * FROM events WHERE eventsid = $1"
+    try {
+        const event = (await pool.query(query, [req.params.eventid])).rows;
+        res.status(201).json({ event });
     } catch (error) {
         res.status(500).json({ error: error.message });
     };

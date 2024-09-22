@@ -2,11 +2,13 @@ import { useState, useEffect } from "react"
 import { getEvents } from "../services/verifyServices"
 import { Container, Box, Typography, Card, CardContent, CardActionArea, CardMedia } from "@mui/material"
 import download from "../images/download.jpg"
+import { useNavigate } from "react-router-dom"
 
 
 
 export default function EventsPage() {
     const [events, setEvents] = useState([])
+    const navigate = useNavigate()
 
     useEffect(()=>{
         const loadEvents = async() => {
@@ -22,6 +24,11 @@ export default function EventsPage() {
     },[])
     
 
+    const handleOnClick = (id) => {
+        navigate(`/event/${id}`)
+    }
+    
+
 
     return (
         <Container
@@ -35,7 +42,7 @@ export default function EventsPage() {
         >
             {events.map((event, index)=>(
             <Card key={index} sx={{ width: "80%", minWidth: "auto", backgroundColor: "#FDF2E9", mt: 2, ml: 13 }}>
-                <CardActionArea sx={{display: "flex",}}>                   
+                <CardActionArea sx={{display: "flex",}} onClick={() => {handleOnClick(event.eventsid)}}>                   
                     <CardMedia
                         component="img"
                         height="140"

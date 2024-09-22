@@ -14,6 +14,7 @@ import NavBarUser from './components/NavbarUser'
 import NavBarHost from './components/NavbarHost'
 import CreateEventPage from './pages/CreateEventPage'
 import HostPage from './pages/HostPage'
+import EventsDetailPage from './pages/EventsDetailPage'
 
 
 
@@ -49,6 +50,7 @@ function App() {
         {user && type === "user" ? (
           <>
             <Route path='/user' element={<UserPage />} />
+            <Route path='/event/:eventid' element={<EventsDetailPage/>}/>
           </>) : <Route path='/' element={<HomePage />} />}
         {user && type === "host" ? (
           <>
