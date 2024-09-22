@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react"
-import { getEvents } from "../services/verifyServices"
+import { getEvents, user_attendingsCount } from "../services/verifyServices"
 import { Container, Box, Typography, Card, CardContent, CardActionArea, CardMedia } from "@mui/material"
 import download from "../images/download.jpg"
 import { useNavigate } from "react-router-dom"
 
-
+//try to play with usercounts on this page when free
 
 export default function EventsPage() {
     const [events, setEvents] = useState([])
@@ -22,6 +22,7 @@ export default function EventsPage() {
         }
         loadEvents()
     },[])
+
     
     const handleOnClick = (id) => {
         navigate(`/event/${id}`)
@@ -56,7 +57,7 @@ export default function EventsPage() {
                             {event.location}, {event.country}
                         </Typography>
                         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                            {event.attendees} Attendees
+                            {event.attendees} People needed
                         </Typography>
                     </CardContent>
                 </CardActionArea>

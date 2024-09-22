@@ -271,6 +271,26 @@ const editEvent = async (params, formData) => {
 
 }
 
+const user_attendingsCount = async (params) => {
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/publicinfo/getuser_attendings/${params}`, {
+            method: "GET",
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" 
+            },
+        });
+        const json = await res.json();
+        if (json.error) {
+            throw new Error (json.error);
+        }
+        return json;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
 export { 
     loginUser,
     loginHost,
@@ -285,5 +305,6 @@ export {
     cancelEvent,
     hostEvents,
     deleteEvent,
-    editEvent
+    editEvent,
+    user_attendingsCount
 }
