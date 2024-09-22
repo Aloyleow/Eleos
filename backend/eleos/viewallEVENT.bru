@@ -1,0 +1,27 @@
+meta {
+  name: viewallEVENT
+  type: http
+  seq: 12
+}
+
+post {
+  url: http://localhost:8888/api/event/create
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhbG95IiwiaWF0IjoxNzI2ODEwNTY3LCJleHAiOjE3NjI4MTA1Njd9.lD8KNsebBfhr_VKeJ5ou-8lyLy4JO2A4BXz0cHokLEA
+}
+
+body:json {
+  {
+    "eventname": "cook5them",
+    "type": "cook",
+    "datentime": "1210202412pm",
+    "location": "tampines",
+    "country": "singapore",
+    "comments": "hello",
+    "attendees": 12
+  }
+}

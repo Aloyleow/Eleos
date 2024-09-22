@@ -10,6 +10,16 @@ const pool = new Pool({
     connectionString
 });
 
+router.get("/viewall", async (req, res) => {
+    const query = "SELECT * FROM events"
+    try {
+        const event = (await pool.query(query)).rows;
+        res.status(201).json({ event });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    };
+})
+
 router.use(verifyToken);
 
 router.post("/create", async (req, res) => {
