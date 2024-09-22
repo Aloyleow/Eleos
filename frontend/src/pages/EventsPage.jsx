@@ -23,12 +23,10 @@ export default function EventsPage() {
         loadEvents()
     },[])
     
-
     const handleOnClick = (id) => {
         navigate(`/event/${id}`)
     }
     
-
 
     return (
         <Container

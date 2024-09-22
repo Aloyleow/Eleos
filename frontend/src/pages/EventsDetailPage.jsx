@@ -5,7 +5,7 @@ import { Box, Container, CardMedia, Typography, Button } from "@mui/material"
 import download from "../images/download.jpg"
 
 export default function EventsDetailPage(){
-    const navigate = useNavigate
+    const navigate = useNavigate()
     const { eventid } = useParams()
     const [data, setData] = useState({})
 
@@ -27,7 +27,7 @@ export default function EventsDetailPage(){
         event.preventDefault();
         try {
             await joinEvent(eventid);
-            // navigate("/user");
+            navigate("/user");
         } catch (err) {
             return err
         }
