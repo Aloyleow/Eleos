@@ -84,6 +84,15 @@ router.get("/:eventid", async (req, res) => {
     };
 })
 
+router.get("/host/getall", async (req, res) => {
+    const query = "SELECT * FROM events WHERE hostsid = $1"
+    try {
+        const event = (await pool.query(query, [req.user.id])).rows;
+        res.status(201).json({ event });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    };
 
+})
 
 module.exports = router;
