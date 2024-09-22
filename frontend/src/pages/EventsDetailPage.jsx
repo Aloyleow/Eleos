@@ -37,7 +37,6 @@ export default function EventsDetailPage(){
     },[eventsid])
 
                 
-
     const join = async (event) => {
         event.preventDefault();
         try {
@@ -47,7 +46,6 @@ export default function EventsDetailPage(){
             return err
         }
     }
-
 
     return (
     

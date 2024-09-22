@@ -1,4 +1,4 @@
-import { deleteEvent, editEvent, getOneEvent } from "../services/verifyServices"
+import { deleteEvent, editEvent, getOneEvent, user_attendingsCount } from "../services/verifyServices"
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { Box, Container, CardMedia, Typography, Button, Paper, TextField } from "@mui/material"
@@ -9,6 +9,7 @@ export default function EditEventPage() {
     const navigate = useNavigate()
     const { eventsid } = useParams()
     const [data, setData] = useState({})
+    const [attendees, setAttendees] = useState([])
     const [formData, setFormData] = useState({
         eventname: "",
         type: "",
@@ -22,7 +23,6 @@ export default function EditEventPage() {
     const handleOnChange = (event) => {
         setFormData({...formData, [event.target.name]: event.target.value})
     }
-    console.log(formData)
     const edit = async () => {
         try {
             await editEvent(eventsid, formData);
@@ -52,7 +52,19 @@ export default function EditEventPage() {
         }
         loadEvents()
     },[eventsid])
-    console.log(data)
+
+    useEffect(()=>{
+        const loadEvents = async() => {
+            try{
+                const attendees = await user_attendingsCount(eventsid)
+                setAttendees(attendees.rows[0])
+                               
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+        loadEvents()
+    },[eventsid])
 
     return (
     
@@ -88,7 +100,7 @@ export default function EditEventPage() {
                 <Typography>Location: {data.location}</Typography>
             </Box>
             <Box sx={{display: "flex", justifyContent: "space-evenly", alignItems: "center", width: 500, height: 80}}>
-                <Typography>Current attendees: {data.attendees}</Typography>
+                <Typography>Current attendees: {attendees.count}/{data.attendees}</Typography>
             </Box>
 
 
