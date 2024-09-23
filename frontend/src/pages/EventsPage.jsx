@@ -16,20 +16,16 @@ export default function EventsPage() {
         const loadEvents = async() => {
             try{
                 const data = await getEvents();
-                setEvents(data.event);
-                
+                setEvents(data.checkedEvent);
+
             } catch (error) {
                 console.error(error.message);
             }
         }
-        
+            
         loadEvents()
     },[])
 
-    console.log(events[3].datentime.toDate())
-    
-
-    
     const handleOnClick = (id) => {
         navigate(`/event/${id}`)
     }
