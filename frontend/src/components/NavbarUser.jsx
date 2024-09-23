@@ -51,7 +51,7 @@ export default function NavBarUser({handleSignOut}) {
     if (newValue === "Profile") {
       navigate("/user")
     } else if (newValue === "Events history") {
-      navigate("/user")
+      navigate("/user/history")
     } else if (newValue === "Log out") {
       handleSignOut()
     }

@@ -53,7 +53,7 @@ export default function NavBarUser({handleSignOut}) {
     } else if (newValue === "Create events") {
       navigate("/host/create")
     } else if (newValue === "Events history") {
-      navigate("/host")
+      navigate("/host/history")
     } else if (newValue === "Log out") {
       handleSignOut()
     }

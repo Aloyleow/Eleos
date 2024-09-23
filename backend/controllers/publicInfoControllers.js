@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const { Pool } = require("pg");
 const verifyToken = require("../middlewares/verify-token");
-const { filterEventsFutureDate } = require("../middlewares/functions")
+const { filterEventsFutureDate } = require("../utilities/functions")
 
 const connectionString = process.env.PGSTRING_URI;
 

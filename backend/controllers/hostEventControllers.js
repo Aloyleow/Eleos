@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const { Pool } = require("pg");
 const verifyToken = require("../middlewares/verify-token");
+const { filterEventsFutureDate, filterEventsPastDate } =require("../utilities/functions")
 
 const connectionString = process.env.PGSTRING_URI;
 
@@ -67,7 +68,20 @@ router.get("/hostevents", async (req, res) => {
     const query = "SELECT * FROM events WHERE hostsid = $1"
     try {
         const event = (await pool.query(query, [req.human.id])).rows;
-        res.status(201).json({ event });
+        const checkedEvent = filterEventsFutureDate(event)
+        res.status(201).json({ checkedEvent });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    };
+
+})
+
+router.get("/hostevents/history", async (req, res) => {
+    const query = "SELECT * FROM events WHERE hostsid = $1"
+    try {
+        const event = (await pool.query(query, [req.human.id])).rows;
+        const checkedEventsHistory = filterEventsPastDate(event)
+        res.status(201).json({ checkedEventsHistory });
     } catch (error) {
         res.status(500).json({ error: error.message });
     };
