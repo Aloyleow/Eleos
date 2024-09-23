@@ -3,11 +3,22 @@ import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { Box, Container, CardMedia, Typography, Button, Paper, TextField } from "@mui/material"
 import download from "../images/download.jpg"
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+
+dayjs.extend(utc);
+dayjs.extend(timezone)
 
 
 export default function EditEventPage() {
     const navigate = useNavigate()
     const { eventsid } = useParams()
+    const [date, setDate] = useState()
     const [data, setData] = useState({})
     const [attendees, setAttendees] = useState([])
     const [formData, setFormData] = useState({
@@ -65,6 +76,12 @@ export default function EditEventPage() {
         }
         loadEvents()
     },[eventsid])
+
+        
+    const handleDate = (event) => {
+        setDate(event.toString())
+        setFormData({...formData, datentime: date})
+    }
 
     return (
     
@@ -144,12 +161,13 @@ export default function EditEventPage() {
                         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
                     >
                         <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Date and Time :</Typography>
-                        <TextField
+                        <LocalizationProvider  dateAdapter={AdapterDayjs}>
+                            <DateTimePicker 
                             name="datentime"
-                            value={formData.datentime}
-                            onChange={handleOnChange}
-                            sx={{ mr: { xs: "auto", md: 1 } }}
-                        />
+                            defaultValue={dayjs().tz('Asia/Singapore')}
+                            onChange={handleDate}
+                            />
+                        </LocalizationProvider>
                         <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Location :</Typography>
                         <TextField
                             name="location"

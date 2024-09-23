@@ -2,11 +2,18 @@ import { Container, Paper, TextField, Typography, Box, Button } from "@mui/mater
 import { useState } from "react";
 import { signUpUser } from "../services/verifyServices";
 import { NavLink, useNavigate } from "react-router-dom";
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
+dayjs.extend(utc);
 
 export default function SignUpPage() {
     const navigate = useNavigate()
+    const [date, setDate] = useState()
     const [formData, setFormData] = useState({
         fullname: "",
         nric: "",
@@ -31,6 +38,10 @@ export default function SignUpPage() {
         } catch (err) {
             return err
         }
+    }
+    const handleDate = (event) => {
+        setDate(event.toString())
+        setFormData({...formData, dob: date})
     }
 
     return (
@@ -80,11 +91,13 @@ export default function SignUpPage() {
                     sx={{ mr: { xs: "auto", md: 1 } }}  
                     />
                     <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Date Of Birth :</Typography>
-                    <TextField
-                    name = "dob"
-                    value = {formData.dob} 
-                    onChange = {handleOnChange} 
-                    />
+                    <LocalizationProvider  dateAdapter={AdapterDayjs}>
+                            <DatePicker 
+                            name="dob"
+                            defaultValue={dayjs().tz('Asia/Singapore')}
+                            onChange={handleDate}
+                            />
+                    </LocalizationProvider>
                 </Box>
                 <Box
                     sx={{

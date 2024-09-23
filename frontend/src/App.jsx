@@ -20,6 +20,7 @@ import EditEventPage from './pages/EditEventPage'
 
 
 function App() {
+  const [date, setDate] = useState()
   const [user, setUser] = useState(verifyUser())
   const [type, setType] = useState(localStorage.getItem("type") || null)
   const navigate = useNavigate()

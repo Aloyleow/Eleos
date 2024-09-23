@@ -14,7 +14,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone)
 
 export default function CreateEventPage() {
-    const [test, setTest] = useState()
+    const [date, setDate] = useState()
     const [formData, setFormData] = useState({
         eventname: "",
         type: "",
@@ -40,9 +40,9 @@ export default function CreateEventPage() {
         }
     }
     
-    const handleTest = (event) => {
-        setTest(event.toString())
-        setFormData({...formData, datentime: test})
+    const handleDate = (event) => {
+        setDate(event.toString())
+        setFormData({...formData, datentime: date})
     }
     
 
@@ -93,17 +93,11 @@ export default function CreateEventPage() {
                         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
                     >
                         <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Date and Time :</Typography>
-                        {/* <TextField
-                            
-                            value={formData.datentime}
-                            onChange={handleOnChange}
-                            sx={{ mr: { xs: "auto", md: 1 } }}
-                        /> */}
                         <LocalizationProvider  dateAdapter={AdapterDayjs}>
                             <DateTimePicker 
                             name="datentime"
                             defaultValue={dayjs().tz('Asia/Singapore')}
-                            onChange={handleTest}
+                            onChange={handleDate}
                             />
                         </LocalizationProvider>
                         <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Location :</Typography>
