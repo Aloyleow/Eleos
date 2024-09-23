@@ -41,7 +41,7 @@ export default function SignUpPageHost() {
         }
     }
     const handleDate = (event) => {
-        setDate(event.toString())
+        setDate(event.format('DD-MM-YYYY'))
         setFormData({...formData, regdate: date})
     }
 
@@ -96,7 +96,7 @@ export default function SignUpPageHost() {
                     <LocalizationProvider  dateAdapter={AdapterDayjs}>
                             <DatePicker 
                             name="regdate"
-                            defaultValue={dayjs().tz('Asia/Singapore')}
+                            defaultValue={dayjs().tz('Asia/Singapore', true)}
                             onChange={handleDate}
                             />
                     </LocalizationProvider>

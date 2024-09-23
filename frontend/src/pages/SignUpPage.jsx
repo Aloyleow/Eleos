@@ -40,7 +40,7 @@ export default function SignUpPage() {
         }
     }
     const handleDate = (event) => {
-        setDate(event.toString())
+        setDate(event.format('DD-MM-YYYY'))
         setFormData({...formData, dob: date})
     }
 

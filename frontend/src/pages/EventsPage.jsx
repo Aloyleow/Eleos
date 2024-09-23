@@ -4,10 +4,6 @@ import { Container, Box, Typography, Card, CardContent, CardActionArea, CardMedi
 import download from "../images/download.jpg"
 import { useNavigate } from "react-router-dom"
 
-import dayjs from 'dayjs';
-
-//try to play with usercounts on this page when free
-
 export default function EventsPage() {
     const [events, setEvents] = useState([])
     const navigate = useNavigate()

@@ -66,6 +66,18 @@ router.post("/login", async (req, res) => {
   };
 });
 
+router.use(verifyToken)
+
+router.get("/details", async (req, res) => {
+  const query = "SELECT reputation FROM users WHERE usersid = $1";
+  const input = [req.human.id]
+  try {
+    const userStarPoints = (await pool.query(query, input)).rows;
+    res.status(201).json({ userStarPoints });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  };
+})
 module.exports = router;
 
 
