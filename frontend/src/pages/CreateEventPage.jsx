@@ -1,11 +1,20 @@
 import { Box, Paper, Container, Typography, TextField, Button } from "@mui/material"
 import { createEvent } from "../services/verifyServices"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
+dayjs.extend(utc);
+dayjs.extend(timezone)
 
 export default function CreateEventPage() {
+    const [test, setTest] = useState()
     const [formData, setFormData] = useState({
         eventname: "",
         type: "",
@@ -30,8 +39,13 @@ export default function CreateEventPage() {
             return err
         }
     }
-
     
+    const handleTest = (event) => {
+        setTest(event.toString())
+        setFormData({...formData, datentime: test})
+    }
+    
+
     return (
         <Container
             sx={{
@@ -79,12 +93,19 @@ export default function CreateEventPage() {
                         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
                     >
                         <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Date and Time :</Typography>
-                        <TextField
-                            name="datentime"
+                        {/* <TextField
+                            
                             value={formData.datentime}
                             onChange={handleOnChange}
                             sx={{ mr: { xs: "auto", md: 1 } }}
-                        />
+                        /> */}
+                        <LocalizationProvider  dateAdapter={AdapterDayjs}>
+                            <DateTimePicker 
+                            name="datentime"
+                            defaultValue={dayjs().tz('Asia/Singapore')}
+                            onChange={handleTest}
+                            />
+                        </LocalizationProvider>
                         <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Location :</Typography>
                         <TextField
                             name="location"
