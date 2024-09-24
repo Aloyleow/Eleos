@@ -23,10 +23,10 @@ import { serviceTypes } from './utilities/serviceTypes'
 import { hostImage, eventImage } from './utilities/images'
 
 function App() {
-  const [imageHost] = useState([hostImage])
-  const [imageEvents] = useState([eventImage])
-  const [countries] = useState([countrys])
-  const [types] = useState([serviceTypes])
+  const [imageHost] = useState(hostImage)
+  const [imageEvents] = useState(eventImage)
+  const [countries] = useState(countrys)
+  const [types] = useState(serviceTypes)
   const [user, setUser] = useState(verifyUser())
   const [type, setType] = useState(localStorage.getItem("type") || null)
   const navigate = useNavigate()
@@ -67,8 +67,8 @@ function App() {
           <>
             <Route path='/host' element={<HostPage/>} />
             <Route path='/host/history' element={<HostEventHistoryPage/>} />
-            <Route path='/host/create' element={<CreateEventPage imageEvents={imageEvents}/>}/>
-            <Route path='/host/:eventsid/edit' element={<EditEventPage/>}/>
+            <Route path='/host/create' element={<CreateEventPage imageEvents={imageEvents} countries={countries} types={types}/>}/>
+            <Route path='/host/:eventsid/edit' element={<EditEventPage imageEvents={imageEvents}/>}/>
             <Route path='/event/:eventsid' element={<EventsDetailPage/>}/>
           </>) : <Route path='/' element={<HomePage />} />}
       </Routes>

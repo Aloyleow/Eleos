@@ -42,7 +42,7 @@ router.put("/update/:eventsid", async (req, res) => {
     const query = `
     UPDATE events
     SET eventname = $1, type = $2, datentime = $3, location = $4, country = $5, comments = $6, attendees = $7, image =$8
-    WHERE eventsid = $9 AND hostsid = $8
+    WHERE eventsid = $10 AND hostsid = $9
     `;
     const queryUpdate = "SELECT * FROM events WHERE eventsid = $1"
     const input = [
@@ -53,6 +53,7 @@ router.put("/update/:eventsid", async (req, res) => {
         req.body.country,
         req.body.comments,
         req.body.attendees,
+        req.body.image,
         req.human.id,
         req.params.eventsid
     ];
@@ -100,18 +101,6 @@ router.delete("/hostevents/:eventsid", async (req, res) => {
 
 })
 
-// router.get("/hostevents/", async (req, res) => {
-//     const query = `
-//     SELECT COUNT (*)
-//     FROM user_attendings
-//     WHERE eventsid= $1
-//     `
-//     try {
-//         const event = (await pool.query(query, [req.body.eventsid])).rows;
-//         res.status(201).json({ event });
-//     } catch (error) {
-//         res.status(500).json({ error: error.message });
-//     };
-// })
+
 
 module.exports = router
