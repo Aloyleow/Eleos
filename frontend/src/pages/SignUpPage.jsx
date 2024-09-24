@@ -96,6 +96,7 @@ export default function SignUpPage() {
                             name="dob"
                             defaultValue={dayjs().tz('Asia/Singapore')}
                             onChange={handleDate}
+                            
                             />
                     </LocalizationProvider>
                 </Box>
