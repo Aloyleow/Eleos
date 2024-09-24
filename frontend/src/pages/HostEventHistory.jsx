@@ -1,5 +1,4 @@
 import {Card, CardActionArea, CardContent ,Box, Container, CardMedia, Typography, Button,} from "@mui/material"
-import download from "../images/download.jpg"
 import {  hostEventsHistory } from "../services/verifyServices"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
@@ -44,7 +43,7 @@ export default function HostEventHistoryPage() {
                     <CardMedia
                         component="img"
                         height="140"
-                        image={download}
+                        image={event.image}
                         alt="green iguana"
                         sx={{ maxWidth :300, minWidth: 300, flexShrink: 0}}
                     />

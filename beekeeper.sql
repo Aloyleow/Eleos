@@ -19,8 +19,10 @@ CREATE TABLE hosts (
     email TEXT NOT NULL CHECK (email ~ '^[^@]*@[^@]*$' AND email <> ''),
     contactnumber VARCHAR(8) CHECK (contactnumber ~ '^[0-9]+$' and contactnumber <> ''),
     country TEXT NOT NULL CHECK (country <> ''),
+    image TEXT NOT NULL CHECK (image <> ''),
     username VARCHAR(20) NOT NULL UNIQUE CHECK (username <> ''), 
     password TEXT NOT NULL CHECK (password <> '')
+    
 );
 
 CREATE TABLE events (
@@ -32,6 +34,7 @@ CREATE TABLE events (
     country TEXT NOT NULL CHECK (country <> ''),
     comments TEXT NOT NULL,
     attendees INT NOT NULL CHECK (attendees > 0),
+    image TEXT NOT NULL CHECK (image <> ''),
     hostsid INT NOT NULL REFERENCES hosts(hostsid)
 );
 

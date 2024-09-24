@@ -369,6 +369,27 @@ const userStarPoints = async () => {
         throw err;
     }
 }
+
+const updateStarPoints = async () => {
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/user/event/update/reputation`, {
+            method: "PUT",
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" 
+            },
+        });
+        const json = await res.json();
+        if (json.error) {
+            throw new Error (json.error);
+        }
+        return json;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+
+}
 export { 
     loginUser,
     loginHost,
@@ -388,5 +409,6 @@ export {
     getOrganisations,
     userEventsHistory,
     hostEventsHistory,
-    userStarPoints
+    userStarPoints,
+    updateStarPoints
 }

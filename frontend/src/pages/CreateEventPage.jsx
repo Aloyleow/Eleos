@@ -1,10 +1,11 @@
-import { Box, Paper, Container, Typography, TextField, Button } from "@mui/material"
+import { Box, Paper, Container, Typography, TextField, Button, Card, CardMedia, FormControl, Select, InputLabel, MenuItem } from "@mui/material"
 import { createEvent } from "../services/verifyServices"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -13,7 +14,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 dayjs.extend(utc);
 dayjs.extend(timezone)
 
-export default function CreateEventPage() {
+export default function CreateEventPage({imageEvents}) {
     const [date, setDate] = useState()
     const [formData, setFormData] = useState({
         eventname: "",
@@ -22,7 +23,8 @@ export default function CreateEventPage() {
         location: "",
         country: "",
         comments: "",
-        attendees: ""
+        attendees: "",
+        image: ""
     })
 
     const navigate = useNavigate()
@@ -65,9 +67,32 @@ export default function CreateEventPage() {
                 }}
             >
                 <Box
-                    sx={{ backgroundColor: "grey" }}
+                    sx={{display: "flex", flexDirection: "column",justifyContent: "space-around", alignItems: "center"}}
                 >
-                    <Typography>box 1</Typography>
+                    <Card sx={{ width: 300, height: 140}}>
+                        <CardMedia
+                            component="img"
+                            alt="blueSpider"
+                            height="140"
+                            image={formData.image || imageEvents[0]}
+                        />
+                    </Card>
+                    <FormControl>
+                        <InputLabel id="demo-simple-select-label">Image</InputLabel>
+                        <Select
+                            name="image"
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={formData.image}
+                            label="Image"
+                            onChange={handleOnChange}
+                            sx={{width: 200}}
+                        >
+                            {imageEvents.map((click, index) => (
+                                <MenuItem key = {index} value={click}>{index}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                 </Box>
                 <Box
                     sx={{ display: "block", border: "1px solid" }}

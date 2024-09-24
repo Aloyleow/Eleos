@@ -18,12 +18,23 @@ import EventsDetailPage from './pages/EventsDetailPage'
 import EditEventPage from './pages/EditEventPage'
 import UserEventHistoryPage from './pages/UserEventHistoryPage'
 import HostEventHistoryPage from './pages/HostEventHistory'
+import eleos from './images/eleos.jpg'
+import fourPoints from './images/fourPoints.jpg'
+import freedom from './images/freedom.jpg'
+import givingOuts from './images/givingOuts.jpg'
+import morningCross from './images/morningCross.jpg'
+import cleaningupEvent from './images/cleaningupEvent.jpg'
+import cookingEvent from './images/cookingEvent.jpg'
+import elderlyEvent from './images/elderlyEvent.jpg'
+import religiousEvent from './images/religiousEvent.jpg'
+
 
 function App() {
+  const [imageHost] = useState([eleos, fourPoints, freedom, givingOuts, morningCross])
+  const [imageEvents] = useState([cleaningupEvent, cookingEvent, elderlyEvent, religiousEvent])
   const [user, setUser] = useState(verifyUser())
   const [type, setType] = useState(localStorage.getItem("type") || null)
   const navigate = useNavigate()
-  
   const handleSignOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("type");
@@ -35,6 +46,8 @@ function App() {
   useEffect (() => {
     if (type) {localStorage.setItem("type", type)}
   })
+
+  
   
   return (
     <>
@@ -45,7 +58,7 @@ function App() {
         <Route path='/' element={<HomePage />} />
         <Route path='/login' element={<LoginPage setUser={setUser} setType={setType}/>} />
         <Route path="/signup" element={<SignUpPage />}/>
-        <Route path="/signup/host" element={<SignUpPageHost />}/>
+        <Route path="/signup/host" element={<SignUpPageHost imageHost={imageHost}/>}/>
         <Route path='/events' element={<EventsPage />} />
         <Route path='/organisations' element={<OrganisationsPage />} />
         {user && type === "user" ? (
@@ -58,7 +71,7 @@ function App() {
           <>
             <Route path='/host' element={<HostPage/>} />
             <Route path='/host/history' element={<HostEventHistoryPage/>} />
-            <Route path='/host/create' element={<CreateEventPage/>}/>
+            <Route path='/host/create' element={<CreateEventPage imageEvents={imageEvents}/>}/>
             <Route path='/host/:eventsid/edit' element={<EditEventPage/>}/>
           </>) : <Route path='/' element={<HomePage />} />}
       </Routes>

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react"
-import { getEvents, user_attendingsCount } from "../services/verifyServices"
-import { Container, Box, Typography, Card, CardContent, CardActionArea, CardMedia } from "@mui/material"
-import download from "../images/download.jpg"
+import { getEvents } from "../services/verifyServices"
+import { Container, Typography, Card, CardContent, CardActionArea, CardMedia } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 
 export default function EventsPage() {
@@ -43,7 +42,7 @@ export default function EventsPage() {
                     <CardMedia
                         component="img"
                         height="140"
-                        image={download}
+                        image={event.image}
                         alt="green iguana"
                         sx={{ maxWidth :300, minWidth: 300, flexShrink: 0}}
                     />

@@ -15,8 +15,8 @@ router.use(verifyToken);
 
 router.post("/create", async (req, res) => {
     const query = `
-    INSERT INTO events (eventname, type, datentime, location, country, comments, attendees, hostsid)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+    INSERT INTO events (eventname, type, datentime, location, country, comments, attendees, hostsid, image)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
     RETURNING *
     `;
     const input = [
@@ -27,7 +27,8 @@ router.post("/create", async (req, res) => {
         req.body.country,
         req.body.comments,
         req.body.attendees,
-        req.human.id
+        req.human.id,
+        req.body.image,
     ];
     try {
         const event = (await pool.query(query, input)).rows;
@@ -40,7 +41,7 @@ router.post("/create", async (req, res) => {
 router.put("/update/:eventsid", async (req, res) => {
     const query = `
     UPDATE events
-    SET eventname = $1, type = $2, datentime = $3, location = $4, country = $5, comments = $6, attendees = $7
+    SET eventname = $1, type = $2, datentime = $3, location = $4, country = $5, comments = $6, attendees = $7, image =$8
     WHERE eventsid = $9 AND hostsid = $8
     `;
     const queryUpdate = "SELECT * FROM events WHERE eventsid = $1"

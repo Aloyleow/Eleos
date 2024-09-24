@@ -1,5 +1,5 @@
-import { Container, Paper, TextField, Typography, Box, Button } from "@mui/material";
-import { useState } from "react";
+import { Container, Paper, TextField, Typography, Box, Button, Card, CardContent, CardMedia, FormControl, Select, InputLabel, MenuItem } from "@mui/material";
+import { useEffect, useState } from "react";
 import { signUpHost } from "../services/verifyServices";
 import { useNavigate } from "react-router-dom";
 import dayjs from 'dayjs';
@@ -12,8 +12,9 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 dayjs.extend(utc);
 
 
-export default function SignUpPageHost() {
+export default function SignUpPageHost({imageHost}) {
     const navigate = useNavigate()
+    
     const [date, setDate] = useState()
     const [formData, setFormData] = useState({
         orgname: "",
@@ -22,9 +23,11 @@ export default function SignUpPageHost() {
         email: "",
         contactnumber: "",
         country: "",
+        image: "",
         username: "",
         password: ""
     })
+
 
     const handleOnChange = (event) => {
         setFormData({...formData, [event.target.name]: event.target.value})
@@ -53,7 +56,8 @@ export default function SignUpPageHost() {
                 height: "80vh",
                 display: "flex",
                 justifyContent: "center",
-                alignItems: "center"
+                alignItems: "center",
+                mt: 4
             }}
         >
             <Paper
@@ -131,12 +135,48 @@ export default function SignUpPageHost() {
                     />
                 </Box>
                 </Box>
+                <Box sx={{display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <FormControl>
+                        <InputLabel id="demo-simple-select-label">Image</InputLabel>
+                        <Select
+                            name="image"
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={formData.image}
+                            label="Image"
+                            onChange={handleOnChange}
+                            sx={{width: 200}}
+                        >
+                            {imageHost.map((click, index) => (
+                                <MenuItem key = {index} value={click}>{index}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    <Card sx={{ width: 300, height: 250 }}>
+                        <CardMedia
+                            component="img"
+                            alt="blueSpider"
+                            height="140"
+                            image={formData.image || imageHost[0]}
+                        />
+                        <CardContent>
+                            <Typography component="div">
+                                Organisation: {formData.orgname}
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                UEN: {formData.uen}
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                Reg. date: {formData.regdate}
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                </Box>
                 <Box
                     sx={{
                         display: { xs: "block", md: "flex" },
                         justifyContent: { xs: "center", md: "center" },
-                        alignItems: "center",
-                        
+                        alignItems: "center",   
                         padding: 2,
                         m: 1
                     }}>

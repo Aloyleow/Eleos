@@ -2,7 +2,6 @@ import { deleteEvent, editEvent, getOneEvent, user_attendingsCount } from "../se
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { Box, Container, CardMedia, Typography, Button, Paper, TextField } from "@mui/material"
-import download from "../images/download.jpg"
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
@@ -96,7 +95,7 @@ export default function EditEventPage() {
             <CardMedia
                 component="img"
                 height="140"
-                image={download}
+                image={data.image}
                 alt="green iguana"
                 sx={{ maxWidth: 300, minWidth: 300, flexShrink: 0 }}
             />

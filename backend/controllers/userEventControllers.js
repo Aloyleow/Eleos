@@ -75,7 +75,30 @@ router.get("/userattendings/history", async (req, res) => {
   try {
     const userattendings = (await pool.query(query, input)).rows;
     const checkedUserAttendings = filterEventsPastDate(userattendings)
+    
     res.status(201).json({ checkedUserAttendings });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  };
+})
+
+router.put("/update/reputation", async (req, res) => {
+  const queryHistory = `
+    SELECT e.* 
+    FROM events e
+    RIGHT JOIN user_attendings ua on e.eventsid = ua.eventsid
+    WHERE ua.usersid = $1
+  `
+  const queryEdit = `
+  UPDATE users
+  SET reputation = $1
+  WHERE usersid = $2
+  `
+  try {
+    const userattendings = (await pool.query(queryHistory, [req.human.id])).rows;
+    const checkedUserAttendings = filterEventsPastDate(userattendings)
+    const updateReputation = (await pool.query(queryEdit, [checkedUserAttendings.length, req.human.id])).rows;
+    res.status(201).json({ updateReputation });
   } catch (error) {
     res.status(500).json({ error: error.message });
   };

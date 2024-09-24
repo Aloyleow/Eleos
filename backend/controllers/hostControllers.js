@@ -18,8 +18,8 @@ make regdate standard, make nric unique and standard, make email standard, make 
 */
 router.post("/signup", async (req, res) => {
     const query = `
-    INSERT INTO hosts (orgname, uen, regdate, contactnumber, email, country, username, password)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+    INSERT INTO hosts (orgname, uen, regdate, contactnumber, email, country, image, username, password)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
     RETURNING *
     `;
     const input = [
@@ -29,6 +29,7 @@ router.post("/signup", async (req, res) => {
         req.body.contactnumber,
         req.body.email,
         req.body.country,
+        req.body.image,
         req.body.username,
         bcrypt.hashSync(req.body.password, SALT_LENGTH)
     ];

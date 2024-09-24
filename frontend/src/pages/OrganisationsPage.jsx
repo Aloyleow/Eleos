@@ -5,7 +5,6 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import download from "../images/download.jpg"
 import { getOrganisations } from '../services/verifyServices';
 import { Container, Box } from '@mui/material';
 
@@ -44,7 +43,7 @@ export default function OrganisationsPage() {
                   component="img"
                   alt="green iguana"
                   height="140"
-                  image={download}
+                  image={organisation.image}
               />
               <CardContent>
                   <Typography gutterBottom variant="h5" component="div">

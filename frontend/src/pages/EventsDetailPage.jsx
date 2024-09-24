@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 import { getOneEvent, joinEvent, user_attendingsCount } from "../services/verifyServices"
 import { useNavigate, useParams } from "react-router-dom"
 import { Box, Container, CardMedia, Typography, Button } from "@mui/material"
-import download from "../images/download.jpg"
 
 export default function EventsDetailPage(){
     const navigate = useNavigate()
@@ -60,7 +59,7 @@ export default function EventsDetailPage(){
             <CardMedia
                 component="img"
                 height="140"
-                image={download}
+                image={data.image}
                 alt="green iguana"
                 sx={{ maxWidth: 300, minWidth: 300, flexShrink: 0 }}
             />

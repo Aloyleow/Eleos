@@ -22,8 +22,6 @@ router.get("/viewall", async (req, res) => {
     };
 })
 
-// console.log(Date.now())
-
 
 router.get("/organisations", async (req, res) => {
     const query = "SELECT * FROM hosts"
