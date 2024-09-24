@@ -12,7 +12,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 dayjs.extend(utc);
 
 
-export default function SignUpPageHost({imageHost}) {
+export default function SignUpPageHost({imageHost, countries}) {
     const navigate = useNavigate()
     
     const [date, setDate] = useState()
@@ -129,11 +129,22 @@ export default function SignUpPageHost({imageHost}) {
                     sx={{ mr: { xs: "auto", md: 1 } }}  
                     />
                     <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Country :</Typography>
-                    <TextField
-                    name = "country"
-                    value = {formData.country}
-                    onChange = {handleOnChange}  
-                    />
+                    <FormControl>
+                        <InputLabel id="demo-simple-select-label">Country</InputLabel>
+                        <Select
+                            name="country"
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={formData.country}
+                            label="Country"
+                            onChange={handleOnChange}
+                            sx={{width: 200, mr: { xs: "auto", md: 1 }}}
+                        >
+                            {countries.map((click, index) => (
+                                <MenuItem key = {index} value={click}>{click}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                 </Box>
                 </Box>
                 <Box sx={{display: "flex", justifyContent: "center", alignItems: "center" }}>
@@ -172,6 +183,7 @@ export default function SignUpPageHost({imageHost}) {
                             </Typography>
                         </CardContent>
                     </Card>
+                    <Typography>Profile view under organisations</Typography>
                 </Box>
                 <Box
                     sx={{
