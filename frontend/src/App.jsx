@@ -18,23 +18,35 @@ import EventsDetailPage from './pages/EventsDetailPage'
 import EditEventPage from './pages/EditEventPage'
 import UserEventHistoryPage from './pages/UserEventHistoryPage'
 import HostEventHistoryPage from './pages/HostEventHistory'
-import eleos from './images/eleos.jpg'
-import fourPoints from './images/fourPoints.jpg'
-import freedom from './images/freedom.jpg'
-import givingOuts from './images/givingOuts.jpg'
-import morningCross from './images/morningCross.jpg'
-import cleaningupEvent from './images/cleaningupEvent.jpg'
-import cookingEvent from './images/cookingEvent.jpg'
-import elderlyEvent from './images/elderlyEvent.jpg'
-import religiousEvent from './images/religiousEvent.jpg'
+// import eleos from 'frontend/public/images/eleos.jpg'
+// import fourPoints from 'frontend/public/images/fourPoints.jpg'
+// import freedom from 'frontend/public/images/freedom.jpg'
+// import givingOuts from 'frontend/public/images/givingOuts.jpg'
+// import morningCross from 'frontend/public/images/morningCross.jpg'
+// import cleaningupEvent from 'frontend/public/images/cleaningupEvent.jpg'
+// import cookingEvent from 'frontend/public/images/cookingEvent.jpg'
+// import elderlyEvent from 'frontend/public/images/elderlyEvent.jpg'
+// import religiousEvent from "frontend/public/images/religiousEvent.jpg"
 
 
 function App() {
-  const [imageHost] = useState([eleos, fourPoints, freedom, givingOuts, morningCross])
-  const [imageEvents] = useState([cleaningupEvent, cookingEvent, elderlyEvent, religiousEvent])
+  const [imageHost] = useState([
+    "/images/eleos.jpg",
+    "/images/fourPoints.jpg",
+    "/images/freedom.jpg",
+    "/images/givingOuts.jpg",
+    "/images/morningCross.jpg"
+  ])
+  const [imageEvents] = useState([
+    "/images/cleaningupEvent.jpg",
+    "/images/cookingEvent.jpg",
+    "/images/elderlyEvent.jpg",
+    "/images/religiousEvent.jpg"
+  ])
   const [user, setUser] = useState(verifyUser())
   const [type, setType] = useState(localStorage.getItem("type") || null)
   const navigate = useNavigate()
+  
   const handleSignOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("type");
@@ -55,7 +67,7 @@ function App() {
       {type === "user" && <NavBarUser handleSignOut={handleSignOut}/>}
       {type === "host" && <NavBarHost handleSignOut={handleSignOut}/>}
       <Routes>
-        <Route path='/' element={<HomePage />} />
+        <Route path='/' element={<HomePage handleSignOut={handleSignOut}/>} />
         <Route path='/login' element={<LoginPage setUser={setUser} setType={setType}/>} />
         <Route path="/signup" element={<SignUpPage />}/>
         <Route path="/signup/host" element={<SignUpPageHost imageHost={imageHost}/>}/>
