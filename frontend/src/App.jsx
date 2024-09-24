@@ -16,11 +16,10 @@ import CreateEventPage from './pages/CreateEventPage'
 import HostPage from './pages/HostPage'
 import EventsDetailPage from './pages/EventsDetailPage'
 import EditEventPage from './pages/EditEventPage'
-
-
+import UserEventHistoryPage from './pages/UserEventHistoryPage'
+import HostEventHistoryPage from './pages/HostEventHistory'
 
 function App() {
-  const [date, setDate] = useState()
   const [user, setUser] = useState(verifyUser())
   const [type, setType] = useState(localStorage.getItem("type") || null)
   const navigate = useNavigate()
@@ -52,11 +51,13 @@ function App() {
         {user && type === "user" ? (
           <>
             <Route path='/user' element={<UserPage />} />
+            <Route path='/user/history' element={<UserEventHistoryPage/>}/>
             <Route path='/event/:eventsid' element={<EventsDetailPage/>}/>
           </>) : <Route path='/' element={<HomePage />} />}
         {user && type === "host" ? (
           <>
             <Route path='/host' element={<HostPage/>} />
+            <Route path='/host/history' element={<HostEventHistoryPage/>} />
             <Route path='/host/create' element={<CreateEventPage/>}/>
             <Route path='/host/:eventsid/edit' element={<EditEventPage/>}/>
           </>) : <Route path='/' element={<HomePage />} />}

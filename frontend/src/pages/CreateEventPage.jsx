@@ -41,8 +41,9 @@ export default function CreateEventPage() {
     }
     
     const handleDate = (event) => {
-        setDate(event.toString())
+        setDate(event.format('ddd DD-MMM-YYYY hh:mm a'))
         setFormData({...formData, datentime: date})
+
     }
     
 
@@ -96,7 +97,7 @@ export default function CreateEventPage() {
                         <LocalizationProvider  dateAdapter={AdapterDayjs}>
                             <DateTimePicker 
                             name="datentime"
-                            defaultValue={dayjs().tz('Asia/Singapore')}
+                            defaultValue={dayjs().tz('Asia/Singapore', true)}
                             onChange={handleDate}
                             />
                         </LocalizationProvider>

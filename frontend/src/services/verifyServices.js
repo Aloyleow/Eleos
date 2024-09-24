@@ -309,6 +309,66 @@ const getOrganisations = async () => {
     }
 }
 
+const userEventsHistory = async () => {
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/user/event/userattendings/history`, {
+            method: "GET",
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" 
+            },
+        });
+        const json = await res.json();
+        if (json.error) {
+            throw new Error (json.error);
+        }
+        return json;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+
+}
+
+const hostEventsHistory = async () => {
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/host/event/hostevents/history`, {
+            method: "GET",
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" 
+            },
+        });
+        const json = await res.json();
+        if (json.error) {
+            throw new Error (json.error);
+        }
+        return json;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
+const userStarPoints = async () => {
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/user/details`, {
+            method: "GET",
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" 
+            },
+        });
+        const json = await res.json();
+        if (json.error) {
+            throw new Error (json.error);
+        }
+        return json;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
 export { 
     loginUser,
     loginHost,
@@ -325,5 +385,8 @@ export {
     deleteEvent,
     editEvent,
     user_attendingsCount,
-    getOrganisations
+    getOrganisations,
+    userEventsHistory,
+    hostEventsHistory,
+    userStarPoints
 }

@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const { Pool } = require("pg");
 const verifyToken = require("../middlewares/verify-token");
+const { filterEventsFutureDate, filterEventsPastDate } = require("../utilities/functions")
 
 const connectionString = process.env.PGSTRING_URI;
 
@@ -23,7 +24,8 @@ router.get("/userattendings", async (req, res) => {
     const input = [ req.human.id ]
     try {
       const userattendings = (await pool.query(query, input)).rows;
-      res.status(201).json({ userattendings });
+      const checkedUserAttendings = filterEventsFutureDate(userattendings)
+      res.status(201).json({ checkedUserAttendings });
     } catch (error) {
       res.status(500).json({ error: error.message });
     };
@@ -59,6 +61,23 @@ router.delete("/userattendings/:eventsid", async (req, res) => {
       res.status(200).json(delattend)
   } catch (error) {
       res.status(500).json({ error: error.message });
+  };
+})
+
+router.get("/userattendings/history", async (req, res) => {
+  const query = `
+    SELECT e.* 
+    FROM events e
+    RIGHT JOIN user_attendings ua on e.eventsid = ua.eventsid
+    WHERE ua.usersid = $1
+  `
+  const input = [ req.human.id ]
+  try {
+    const userattendings = (await pool.query(query, input)).rows;
+    const checkedUserAttendings = filterEventsPastDate(userattendings)
+    res.status(201).json({ checkedUserAttendings });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   };
 })
 

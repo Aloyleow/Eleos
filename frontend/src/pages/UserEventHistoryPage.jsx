@@ -1,27 +1,30 @@
 import {Card, CardActionArea, CardContent ,Box, Container, CardMedia, Typography, Button,} from "@mui/material"
 import download from "../images/download.jpg"
-import { hostEvents} from "../services/verifyServices"
+import {  userEventsHistory } from "../services/verifyServices"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
-export default function HostPage() {
+
+
+export default function UserEventHistoryPage() {
     const navigate = useNavigate()
     const [data, setData] = useState([])
 
     useEffect(()=>{
         const loadEvents = async() => {
             try{
-                const data = await hostEvents();
-                setData(data.checkedEvent);         
+                const data = await userEventsHistory();
+                setData(data.checkedUserAttendings);            
             } catch (error) {
                 console.error(error.message);
             }
         }
         loadEvents()
+        
     },[])
 
     const handleOnClick = (id) => {
-        navigate(`/host/${id}/edit`)
+        navigate(`/event/${id}`)
     }
  
     return (
@@ -34,7 +37,7 @@ export default function HostPage() {
                 mt: 5
             }}
         >
-            <Typography>Events created</Typography>
+            <Typography>Events attended</Typography>
             {data.map((event, index)=>(
             <Card key={index} sx={{ width: "80%", minWidth: "auto", backgroundColor: "#FDF2E9", mt: 2, ml: 13 }}>
                 <CardActionArea sx={{display: "flex",}} onClick={() => {handleOnClick(event.eventsid)}}>                   
@@ -55,14 +58,11 @@ export default function HostPage() {
                         <Typography gutterBottom variant="h6" component="div">
                             {event.datentime}
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                            {event.attendees} Attendees
-                        </Typography>
+                        
                     </CardContent>
                 </CardActionArea>
             </Card>
             ))}
-        </Container>
-        
+        </Container>       
     )
 }

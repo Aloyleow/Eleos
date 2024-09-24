@@ -1,0 +1,27 @@
+meta {
+  name: getUserSPEVENT
+  type: http
+  seq: 17
+}
+
+get {
+  url: http://localhost:8888/api/user/details
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidXNlcm5hbWUiOiJhbG95IiwiaWF0IjoxNzI3MTAzODAzLCJleHAiOjE3NjMxMDM4MDN9.d1Dv47WBY3h0aex6QusCLR64-tn2FdSNGZf2_YRajCA
+}
+
+body:json {
+  {
+    "eventname": "cook5them",
+    "type": "cook",
+    "datentime": "1210202412pm",
+    "location": "jurong",
+    "country": "singapore",
+    "comments": "hello",
+    "attendees": 12
+  }
+}

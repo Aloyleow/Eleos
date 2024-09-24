@@ -1,6 +1,6 @@
 import {Card, CardActionArea, CardContent ,Box, Container, CardMedia, Typography, Button,} from "@mui/material"
 import download from "../images/download.jpg"
-import { userEvents, cancelEvent, user_attendingsCount } from "../services/verifyServices"
+import { userEvents, cancelEvent } from "../services/verifyServices"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
@@ -15,7 +15,7 @@ export default function UserPage() {
         const loadEvents = async() => {
             try{
                 const data = await userEvents();
-                setData(data.userattendings);            
+                setData(data.checkedUserAttendings);            
             } catch (error) {
                 console.error(error.message);
             }
