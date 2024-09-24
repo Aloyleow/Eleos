@@ -20,12 +20,9 @@ export default function EditEventPage({imageEvents}) {
     const [date, setDate] = useState()
     const [data, setData] = useState({})
     const [attendees, setAttendees] = useState([])
-    const [formData, setFormData] = useState({
-        eventname: "",
-        type: "",
+    const [formData, setFormData] = useState({ 
         datentime: "",
-        location: "",
-        country: "",
+        location: "", 
         comments: "",
         attendees: "",
         image: ""
