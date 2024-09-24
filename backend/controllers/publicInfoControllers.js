@@ -12,7 +12,7 @@ const pool = new Pool({
 });
 
 router.get("/viewall", async (req, res) => {
-    const query = "SELECT * FROM events"
+    const query = "SELECT * FROM events ORDER BY datentime DESC"
     try {
         const event = (await pool.query(query)).rows;
         const checkedEvent = filterEventsFutureDate(event)    

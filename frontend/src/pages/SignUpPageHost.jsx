@@ -102,6 +102,7 @@ export default function SignUpPageHost({imageHost}) {
                             name="regdate"
                             defaultValue={dayjs().tz('Asia/Singapore', true)}
                             onChange={handleDate}
+                            format="DD-MM-YYYY"
                             />
                     </LocalizationProvider>
                 </Box>

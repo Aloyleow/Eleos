@@ -124,6 +124,7 @@ export default function CreateEventPage({imageEvents}) {
                             name="datentime"
                             defaultValue={dayjs().tz('Asia/Singapore', true)}
                             onChange={handleDate}
+                            format="DD-MM-YYYY hh:mm a"
                             />
                         </LocalizationProvider>
                         <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Location :</Typography>

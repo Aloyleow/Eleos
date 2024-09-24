@@ -1,27 +1,38 @@
 import {Card, CardActionArea, CardContent ,Box, Container, CardMedia, Typography, Button,} from "@mui/material"
-import { hostEvents} from "../services/verifyServices"
+import { hostEvents } from "../services/verifyServices"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { sortEventsAsc } from "../utilities/functions"
 
 export default function HostPage() {
     const navigate = useNavigate()
     const [data, setData] = useState([])
+    
 
     useEffect(()=>{
         const loadEvents = async() => {
             try{
-                const data = await hostEvents();
-                setData(data.checkedEvent);         
+                const dataLoaded = await hostEvents();
+                const sortDataLoaded = sortEventsAsc(dataLoaded.checkedEvent)
+                setData(sortDataLoaded); 
+                
             } catch (error) {
                 console.error(error.message);
             }
         }
         loadEvents()
     },[])
+    
+    
+
+    
+
+    
 
     const handleOnClick = (id) => {
         navigate(`/host/${id}/edit`)
     }
+
  
     return (
         <Container
@@ -51,12 +62,14 @@ export default function HostPage() {
                         <Typography gutterBottom variant="h6" component="div">
                             {event.location}, {event.country}
                         </Typography>
+                        <Box sx={{display: "flex", alignItems: "center"}}>
                         <Typography gutterBottom variant="h6" component="div">
                             {event.datentime}
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                        <Typography variant="body2" sx={{ color: 'text.secondary', ml: 25 }}>
                             {event.attendees} Attendees
                         </Typography>
+                        </Box>
                     </CardContent>
                 </CardActionArea>
             </Card>
