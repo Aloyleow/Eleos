@@ -1,4 +1,4 @@
-import { Box, Container, Typography, ImageList, ImageListItem } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 
 export default function AboutPage() {
 
@@ -28,7 +28,7 @@ export default function AboutPage() {
                 }}
             >
                 <Typography variant="h2">Developed and designed by</Typography>
-                <Typography variant="h5" sx={{ mt: 4 }}>Aloysious Leow KangSheng</Typography>
+                <Typography variant="h5" sx={{ mt: 4 }}>Aloysious Leow</Typography>
             </Box>
 
             <Box

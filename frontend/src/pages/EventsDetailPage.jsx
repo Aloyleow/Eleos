@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { getOneEvent, joinEvent, user_attendingsCount, isUserAttending } from "../services/verifyServices"
+import { getOneEvent, joinEvent, user_attendingsCount, checkUser_attendingsCount, isUserAttending } from "../services/verifyServices"
 import { useNavigate, useParams } from "react-router-dom"
 import { Box, Container, CardMedia, Typography, Button } from "@mui/material"
 
@@ -9,6 +9,7 @@ export default function EventsDetailPage(){
     const [data, setData] = useState([])
     const [attendees, setAttendees] = useState([])
     const [disable, setDisable] = useState(false)
+    const [canJoin, setCanJoin] = useState(true)
 
     useEffect(()=>{
         const loadEvents = async() => {
@@ -19,7 +20,7 @@ export default function EventsDetailPage(){
                 if (userAttendingThisEvent.userAttendings === 1){
                     setDisable(true)
                 }
-                               
+                           
             } catch (error) {
                 console.error(error.message);
             }
@@ -32,7 +33,10 @@ export default function EventsDetailPage(){
             try{
                 const attendees = await user_attendingsCount(eventsid)
                 setAttendees(attendees.rows[0])
-                               
+                const checkAttendees = await checkUser_attendingsCount(eventsid)
+                if (attendees.rows[0].count >= checkAttendees.userAttendings.rows[0].attendees){
+                    setCanJoin(false)
+                }                        
             } catch (error) {
                 console.error(error.message);
             }
@@ -130,9 +134,18 @@ export default function EventsDetailPage(){
                 }}>
                     <Typography>Current attendees: {attendees.count}/{data.attendees}</Typography>
                     <Box sx={{ justifyContent: "center", display: "flex", width: "300px", height: "30px"}}>
-                        {disable && <Typography color="#FF6F61">You are already Attending!</Typography>}
+                        {disable && <Typography color="#FF6F61">You are Attending!</Typography>}
                     </Box>
-                    <Button disabled={disable} variant="contained" onClick={join} size="large" sx={{height: 100, width: 300, backgroundColor: "#FF6F61"}}>Join Now!</Button>
+                    {canJoin && <Button 
+                    disabled={disable} 
+                    variant="contained" 
+                    onClick={join} 
+                    size="large" 
+                    sx={{
+                        height: 100, 
+                        width: 300, 
+                        backgroundColor: "#FF6F61"
+                    }}>Join Now!</Button>}
                 </Box>
 
             </Box>

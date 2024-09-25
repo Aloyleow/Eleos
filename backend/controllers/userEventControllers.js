@@ -31,6 +31,7 @@ router.get("/userattendings", async (req, res) => {
     };
   })
 
+
 router.post("/userattendings/:eventsid", async (req, res) => {
   const queryCount = `
     SELECT COUNT (*)
@@ -52,12 +53,13 @@ router.post("/userattendings/:eventsid", async (req, res) => {
   ]
   try {
     const checkAvailability = await pool.query(queryCount, [req.params.eventsid])
-    console.log(checkAvailability.rows[0].count)
     const queryAttendees = await pool.query(queryEvent, [req.params.eventsid])
     if(checkAvailability.rows[0].count < queryAttendees.rows[0].attendees){
       const userattendings = (await pool.query(queryfinal, input)).rows;
       res.status(201).json({ userattendings });
-    } 
+    } else {
+      res.status(403).json({ userattendings })
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   };
@@ -132,5 +134,21 @@ router.get("/userattendings/:eventsid/check", async (req, res) => {
     res.status(500).json({ error: error.message });
   };
 })
+
+router.get("/userattendings/:eventsid/checkAttendees", async (req, res) => {
+  const queryEvent = `
+  SELECT attendees FROM events
+  WHERE eventsid = $1
+  `
+  const input = [ req.params.eventsid ]
+  try {
+    const userAttendings = (await pool.query(queryEvent, input));
+    res.status(201).json({ userAttendings });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  };
+})
+
+
 
 module.exports = router;
