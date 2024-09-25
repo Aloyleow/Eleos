@@ -63,7 +63,7 @@ function App() {
         <Route path='/login' element={<LoginPage setUser={setUser} setType={setType}/>} />
         <Route path="/signup" element={<SignUpPage />}/>
         <Route path="/signup/host" element={<SignUpPageHost imageHost={imageHost} countries={countries}/>}/>
-        <Route path='/events' element={<EventsPage countries={countries} types={types}/>} />
+        <Route path='/events' element={<EventsPage countries={countries} types={types} user={user}/>} />
         <Route path='/organisations' element={<OrganisationsPage />} />
         <Route path='/about' element={<AboutPage/>}/>
         {user && type === "user" ? (
