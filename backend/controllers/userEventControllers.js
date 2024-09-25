@@ -32,7 +32,16 @@ router.get("/userattendings", async (req, res) => {
   })
 
 router.post("/userattendings/:eventsid", async (req, res) => {
-  const query = `
+  const queryCount = `
+    SELECT COUNT (*)
+    FROM user_attendings
+    WHERE eventsid = $1
+  `
+  const queryEvent = `
+    SELECT attendees FROM events
+    WHERE eventsid = $1
+  `
+  const queryfinal = `
     INSERT INTO user_attendings (usersid, eventsid)
     VALUES ($1, $2)
     RETURNING *
@@ -42,8 +51,13 @@ router.post("/userattendings/:eventsid", async (req, res) => {
     req.params.eventsid
   ]
   try {
-    const userattendings = (await pool.query(query, input)).rows;
-    res.status(201).json({ userattendings });
+    const checkAvailability = await pool.query(queryCount, [req.params.eventsid])
+    console.log(checkAvailability.rows[0].count)
+    const queryAttendees = await pool.query(queryEvent, [req.params.eventsid])
+    if(checkAvailability.rows[0].count < queryAttendees.rows[0].attendees){
+      const userattendings = (await pool.query(queryfinal, input)).rows;
+      res.status(201).json({ userattendings });
+    } 
   } catch (error) {
     res.status(500).json({ error: error.message });
   };

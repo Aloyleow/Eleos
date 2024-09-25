@@ -22,6 +22,9 @@ export default function HomePage({ handleHomePage }) {
     "/images/Tzuchifoundation.JPG",
     "/images/whatAreyoudoingSG.jpg",
     "/images/YmcaSingapore.jpg",
+    "/images/one.jpg",
+    "/images/two.jpg",
+    "/images/three.jpg"
   ];
 
   const handleOnClick = (event) => {
@@ -37,7 +40,7 @@ export default function HomePage({ handleHomePage }) {
       setImageIndex((prevIndex) => (prevIndex + 1) % images.length);
        
       setTimeout(() => setScale(1), 1400); 
-    }, 6000); 
+    }, 5000); 
 
     return () => clearInterval(interval);
   }, [handleHomePage, images.length]);
@@ -106,7 +109,7 @@ export default function HomePage({ handleHomePage }) {
           <Typography variant="h4" component="h1">
             Welcome to 
           </Typography>
-          <Typography variant="h4" >Lets * Help</Typography>
+          <Typography variant="h4" color="#FF6F61">Lets * Help</Typography>
           <Typography variant="body1" sx={{ marginTop: 2, mb: 2 }}>
             A small project that allows you to join volunteer services like @Meetup and @Volunteer.Sg
             Stay tuned for updates and upcoming events!

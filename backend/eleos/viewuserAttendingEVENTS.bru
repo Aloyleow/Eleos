@@ -5,17 +5,17 @@ meta {
 }
 
 get {
-  url: http://localhost:8888/api/event/:eventid
+  url: http://localhost:8888/api/user/event/userattendings/:eventsid/check
   body: none
   auth: bearer
 }
 
 params:path {
-  eventid: 4
+  eventsid: 17
 }
 
 auth:bearer {
-  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcm5hbWUiOiJhbG95IiwiaWF0IjoxNzI2OTgyNjMxLCJleHAiOjE3NjI5ODI2MzF9.xJZLlYh5RjtHfJ77ubAF1Qj4FVF6Re3s4b2yW64Nu-s
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJhbG95IiwiaWF0IjoxNzI3MjYwNzMzLCJleHAiOjE3NjMyNjA3MzN9.pfW4wJxRPTAL--9PIeKWtXgWni_juGLwHeMmqCkRBCo
 }
 
 body:json {
