@@ -62,34 +62,43 @@ export default function UserPage() {
                 mt: 5
             }}
         >
-            <Typography>Events attending</Typography>
-            {data.map((event, index)=>(
-            <Card key={index} sx={{ width: "80%", minWidth: "auto", backgroundColor: "#FDF2E9", mt: 2, ml: 13 }}>
-                <CardActionArea sx={{display: "flex",}} onClick={() => {handleOnClick(event.eventsid)}}>                   
-                    <CardMedia
-                        component="img"
-                        height="140"
-                        image={event.image}
-                        alt="green iguana"
-                        sx={{ maxWidth :300, minWidth: 300, flexShrink: 0}}
-                    />
-                    <CardContent sx={{flex: 1}}>
-                        <Typography gutterBottom variant="h5" component="div">
-                            {event.eventname}, {event.type}
-                        </Typography>
-                        <Typography gutterBottom variant="h6" component="div">
-                            {event.location}, {event.country}
-                        </Typography>
-                        <Typography gutterBottom variant="h6" component="div">
-                            {event.datentime}
-                        </Typography>
-                        
-                    </CardContent>
-                </CardActionArea>
-                <Button  variant="outlined" onClick={() => {cancelAttending(event.eventsid)}}>Cancel</Button>
-            </Card>
+            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Typography variant="h4">Events attending</Typography>
+            </Box>
+            {data.map((event, index) => (
+                <Box key={index} sx={{ display: "flex" }}>
+                    <Card sx={{ width: "80%", backgroundColor: "#FDF2E9", mt: 2, ml: 13, display: "flex" }}>
+                        <CardActionArea sx={{ display: "flex", }} onClick={() => { handleOnClick(event.eventsid) }}>
+                            <CardMedia
+                                component="img"
+                                height="140"
+                                image={event.image}
+                                alt="green iguana"
+                                sx={{ maxWidth: 300, height: 150, flexShrink: 0 }}
+                            />
+                            <CardContent sx={{ flex: 1 }}>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    {event.eventname}, {event.type}
+                                </Typography>
+                                <Typography gutterBottom variant="h6" component="div">
+                                    {event.location}, {event.country}
+                                </Typography>
+                                <Typography gutterBottom variant="h6" component="div">
+                                    {event.datentime}
+                                </Typography>
+
+                            </CardContent>
+                        </CardActionArea>
+                        <Button 
+                        variant="outlined" 
+                        onClick={() => { cancelAttending(event.eventsid) }}
+                        color="black"
+                        >Cancel</Button>
+                    </Card>
+                    
+                </Box>
             ))}
         </Container>
-        
+
     )
 }

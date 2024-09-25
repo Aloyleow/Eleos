@@ -104,4 +104,19 @@ router.put("/update/reputation", async (req, res) => {
   };
 })
 
+router.get("/userattendings/:eventsid/check", async (req, res) => {
+  const query = `
+    SELECT *
+    FROM user_attendings 
+    WHERE usersid = $1 AND eventsid =$2 
+  `
+  const input = [ req.human.id, req.params.eventsid ]
+  try {
+    const userAttendings = (((await pool.query(query, input)).rowCount));
+    res.status(201).json({ userAttendings });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  };
+})
+
 module.exports = router;
