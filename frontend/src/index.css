@@ -1,3 +1,9 @@
 :root {
   background-color: #FDF2E9;
 }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}

@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import VolunteerActivismSharpIcon from '@mui/icons-material/VolunteerActivismSharp';
 import { useNavigate } from "react-router-dom";
 
-const pages = ["Login", "Signup", "Upcoming events", "Organisations"];
+const pages = ["Login", "Signup", "Upcoming events", "Organisations", "About"];
 
 export default function Navbar() {
     const navigate = useNavigate()
@@ -37,7 +37,9 @@ export default function Navbar() {
             navigate("/events")
         } else if (newValue === "Organisations") {
             navigate("/organisations")
-        }
+        } else if (newValue === "About") {
+            navigate("/about")
+        } 
     }
      
     return (
