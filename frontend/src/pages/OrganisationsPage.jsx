@@ -6,10 +6,11 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { getOrganisations } from '../services/verifyServices';
-import { Container, Box } from '@mui/material';
+import { Container, Box, TextField } from '@mui/material';
 
 export default function OrganisationsPage() {
     const [org, setOrg] = useState([])
+    const [search, setSearch] = useState("")
 
     useEffect(() => {
         const loadEvents = async() => {
@@ -22,22 +23,36 @@ export default function OrganisationsPage() {
         }
         loadEvents()
     },[])
-    console.log(org)
+
+    const handleOnSearch = (event) => {
+        setSearch(event.target.value)
+    }
+
+    const filteredOrg = org.filter((event) =>
+        (event.orgname.toLowerCase().includes(search.toLowerCase()))
+    )
+
+
 
 
   return (
       <Container
           sx={{
               height: "80vh",
-              display: "flex",
-              flexWrap: "wrap",
-              // backgroundColor: "burlywood",
-              justifyContent: "space-around",
-              alignItems: "center",
               mt: 5
           }}
       >
-          {org.map((organisation, index)=> (
+          <TextField placeholder='Search...' onChange={handleOnSearch} value={search}></TextField>
+          <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            // backgroundColor: "burlywood",
+            justifyContent: "space-around",
+            alignItems: "center"
+        }}
+          >
+          {filteredOrg.map((organisation, index)=> (
           <Card sx={{ maxWidth: 300, maxHeight: 290 }} key = {index}>
               <CardMedia
                   component="img"
@@ -58,6 +73,7 @@ export default function OrganisationsPage() {
               </CardContent>
           </Card>
           ))}
+          </Box>
       </Container>
   );
 }

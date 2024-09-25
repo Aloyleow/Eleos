@@ -6,7 +6,6 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 
-
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
@@ -14,7 +13,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 dayjs.extend(utc);
 dayjs.extend(timezone)
 
-export default function CreateEventPage({imageEvents}) {
+export default function CreateEventPage({imageEvents, countries, types}) {
     const [date, setDate] = useState()
     const [formData, setFormData] = useState({
         eventname: "",
@@ -108,12 +107,22 @@ export default function CreateEventPage({imageEvents}) {
                             sx={{ mr: { xs: "auto", md: 1 } }}
                         />
                         <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Type :</Typography>
-                        <TextField
+                        <FormControl>
+                        <InputLabel id="demo-simple-select-label">Type</InputLabel>
+                        <Select
                             name="type"
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
                             value={formData.type}
+                            label="Type"
                             onChange={handleOnChange}
-                            sx={{ mr: { xs: "auto", md: 1 } }}
-                        />
+                            sx={{width: 200, mr: { xs: "auto", md: 1 }}}
+                        >
+                            {types.map((click, index) => (
+                                <MenuItem key = {index} value={click}>{click}</MenuItem>
+                            ))}
+                        </Select>
+                        </FormControl>
                     </Box>
                     <Box
                         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
@@ -124,6 +133,7 @@ export default function CreateEventPage({imageEvents}) {
                             name="datentime"
                             defaultValue={dayjs().tz('Asia/Singapore', true)}
                             onChange={handleDate}
+                            format="DD-MM-YYYY hh:mm a"
                             />
                         </LocalizationProvider>
                         <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Location :</Typography>
@@ -138,12 +148,22 @@ export default function CreateEventPage({imageEvents}) {
                         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
                     >
                         <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Country :</Typography>
-                        <TextField
+                        <FormControl>
+                        <InputLabel id="demo-simple-select-label">Country</InputLabel>
+                        <Select
                             name="country"
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
                             value={formData.country}
+                            label="Country"
                             onChange={handleOnChange}
-                            sx={{ mr: { xs: "auto", md: 1 } }}
-                        />
+                            sx={{width: 200, mr: { xs: "auto", md: 1 }}}
+                        >
+                            {countries.map((click, index) => (
+                                <MenuItem key = {index} value={click}>{click}</MenuItem>
+                            ))}
+                        </Select>
+                        </FormControl>
                         <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Attendees :</Typography>
                         <TextField
                             name="attendees"

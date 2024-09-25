@@ -2,6 +2,7 @@ import {Card, CardActionArea, CardContent ,Box, Container, CardMedia, Typography
 import { userEvents, cancelEvent, updateStarPoints } from "../services/verifyServices"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { sortEventsAsc } from "../utilities/functions"
 
 
 
@@ -14,7 +15,8 @@ export default function UserPage() {
         const loadEvents = async() => {
             try{
                 const data = await userEvents();
-                setData(data.checkedUserAttendings);            
+                const sortData = sortEventsAsc(data.checkedUserAttendings)
+                setData(sortData);            
             } catch (error) {
                 console.error(error.message);
             }

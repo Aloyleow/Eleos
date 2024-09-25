@@ -41,18 +41,16 @@ router.post("/create", async (req, res) => {
 router.put("/update/:eventsid", async (req, res) => {
     const query = `
     UPDATE events
-    SET eventname = $1, type = $2, datentime = $3, location = $4, country = $5, comments = $6, attendees = $7, image =$8
-    WHERE eventsid = $9 AND hostsid = $8
+    SET datentime = $1, location = $2, comments = $3, attendees = $4, image =$5
+    WHERE eventsid = $7 AND hostsid = $6
     `;
     const queryUpdate = "SELECT * FROM events WHERE eventsid = $1"
     const input = [
-        req.body.eventname,
-        req.body.type,
         req.body.datentime,
         req.body.location,
-        req.body.country,
         req.body.comments,
         req.body.attendees,
+        req.body.image,
         req.human.id,
         req.params.eventsid
     ];
@@ -99,5 +97,7 @@ router.delete("/hostevents/:eventsid", async (req, res) => {
     };
 
 })
+
+
 
 module.exports = router

@@ -2,6 +2,7 @@ import {Card, CardActionArea, CardContent ,Box, Container, CardMedia, Typography
 import {  hostEventsHistory } from "../services/verifyServices"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { sortEventsDec } from "../utilities/functions"
 
 
 
@@ -13,7 +14,8 @@ export default function HostEventHistoryPage() {
         const loadEvents = async() => {
             try{
                 const data = await hostEventsHistory();
-                setData(data.checkedEventsHistory);            
+                const sortData = sortEventsDec(data.checkedEventsHistory)
+                setData(sortData);            
             } catch (error) {
                 console.error(error.message);
             }
