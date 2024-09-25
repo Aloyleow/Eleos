@@ -78,7 +78,7 @@ export default function SignUpPage() {
             <Box
               sx={{ justifyContent: "center", display: "flex", width: "300px", height: "30px"}}
             >
-            {error && <Typography disabled={error} sx={{fontStyle: "italic", color: "red"}}>Please check your details!</Typography>}
+            {error && <Typography sx={{fontStyle: "italic", color: "red"}}>Please check your details!</Typography>}
             </Box>
             <Paper
                 sx={{

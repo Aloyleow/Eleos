@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function LoginPage({setUser, setType}) {
     const navigate = useNavigate()
+    const [error, setError] = useState(false)
     const [host, setHost] = useState(false)
     const [formData, setFormData] = useState({
         username: "",
@@ -40,6 +41,7 @@ export default function LoginPage({setUser, setType}) {
                 navigate("/user");
             }
         } catch (err) {
+            setError(true)
             return err
         }
     }
@@ -51,10 +53,16 @@ export default function LoginPage({setUser, setType}) {
                 // backgroundColor: "lightgreen",
                 height: "80vh",
                 display: "flex",
+                flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center"
             }}
         >
+             <Box
+              sx={{ justifyContent: "center", display: "flex", width: "300px", height: "30px"}}
+            >
+            {error && <Typography sx={{fontStyle: "italic", color: "red", mb: 5}}>Invalid Authorization!</Typography>}
+            </Box>
             <Paper
                 sx={{
                     padding: 3,
