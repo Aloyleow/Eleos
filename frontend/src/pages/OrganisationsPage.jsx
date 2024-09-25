@@ -32,9 +32,6 @@ export default function OrganisationsPage() {
         (event.orgname.toLowerCase().includes(search.toLowerCase()))
     )
 
-
-
-
   return (
       <Container
           sx={{
@@ -42,7 +39,11 @@ export default function OrganisationsPage() {
               mt: 5
           }}
       >
+        <Box
+         sx={{display: "flex", justifyContent: "center"}}
+        >
           <TextField placeholder='Search...' onChange={handleOnSearch} value={search}></TextField>
+        </Box>
           <Box
           sx={{
             display: "flex",
@@ -53,7 +54,7 @@ export default function OrganisationsPage() {
         }}
           >
           {filteredOrg.map((organisation, index)=> (
-          <Card sx={{ maxWidth: 300, maxHeight: 290 }} key = {index}>
+          <Card sx={{ maxWidth: 300, maxHeight: 290, border: "1px solid", backgroundColor: "#FDF2E9" }} key = {index}>
               <CardMedia
                   component="img"
                   alt="green iguana"
