@@ -6,7 +6,7 @@ const verifyToken = require("../middlewares/verify-token");
 const { filterEventsFutureDate, filterEventsPastDate } =require("../utilities/functions")
 const nodeMailer = require("nodemailer")
 
-const connectionString = process.env.PGSTRING_URI;
+const connectionString = process.env.DATABASE_URL;
 
 const pool = new Pool({
     connectionString
