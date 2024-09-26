@@ -31,8 +31,18 @@ router.get("/userattendings", async (req, res) => {
     };
   })
 
+
 router.post("/userattendings/:eventsid", async (req, res) => {
-  const query = `
+  const queryCount = `
+    SELECT COUNT (*)
+    FROM user_attendings
+    WHERE eventsid = $1
+  `
+  const queryEvent = `
+    SELECT attendees FROM events
+    WHERE eventsid = $1
+  `
+  const queryfinal = `
     INSERT INTO user_attendings (usersid, eventsid)
     VALUES ($1, $2)
     RETURNING *
@@ -42,8 +52,14 @@ router.post("/userattendings/:eventsid", async (req, res) => {
     req.params.eventsid
   ]
   try {
-    const userattendings = (await pool.query(query, input)).rows;
-    res.status(201).json({ userattendings });
+    const checkAvailability = await pool.query(queryCount, [req.params.eventsid])
+    const queryAttendees = await pool.query(queryEvent, [req.params.eventsid])
+    if(checkAvailability.rows[0].count < queryAttendees.rows[0].attendees){
+      const userattendings = (await pool.query(queryfinal, input)).rows;
+      res.status(201).json({ userattendings });
+    } else {
+      res.status(403).json({ userattendings })
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   };
@@ -103,5 +119,36 @@ router.put("/update/reputation", async (req, res) => {
     res.status(500).json({ error: error.message });
   };
 })
+
+router.get("/userattendings/:eventsid/check", async (req, res) => {
+  const query = `
+    SELECT *
+    FROM user_attendings 
+    WHERE usersid = $1 AND eventsid =$2 
+  `
+  const input = [ req.human.id, req.params.eventsid ]
+  try {
+    const userAttendings = (((await pool.query(query, input)).rowCount));
+    res.status(201).json({ userAttendings });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  };
+})
+
+router.get("/userattendings/:eventsid/checkAttendees", async (req, res) => {
+  const queryEvent = `
+  SELECT attendees FROM events
+  WHERE eventsid = $1
+  `
+  const input = [ req.params.eventsid ]
+  try {
+    const userAttendings = (await pool.query(queryEvent, input));
+    res.status(201).json({ userAttendings });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  };
+})
+
+
 
 module.exports = router;

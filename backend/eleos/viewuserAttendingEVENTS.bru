@@ -1,0 +1,31 @@
+meta {
+  name: viewuserAttendingEVENTS
+  type: http
+  seq: 20
+}
+
+get {
+  url: http://localhost:8888/api/user/event/userattendings/:eventsid/check
+  body: none
+  auth: bearer
+}
+
+params:path {
+  eventsid: 17
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJhbG95IiwiaWF0IjoxNzI3MjYwNzMzLCJleHAiOjE3NjMyNjA3MzN9.pfW4wJxRPTAL--9PIeKWtXgWni_juGLwHeMmqCkRBCo
+}
+
+body:json {
+  {
+    "eventname": "cook5them",
+    "type": "cook",
+    "datentime": "1210202412pm",
+    "location": "tampines",
+    "country": "singapore",
+    "comments": "hello",
+    "attendees": 12
+  }
+}

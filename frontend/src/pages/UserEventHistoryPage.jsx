@@ -1,4 +1,4 @@
-import {Card, CardActionArea, CardContent ,Box, Container, CardMedia, Typography, Button,} from "@mui/material"
+import {Card, CardActionArea, CardContent ,Box, Container, CardMedia, Typography} from "@mui/material"
 import {  userEventsHistory } from "../services/verifyServices"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
@@ -37,7 +37,9 @@ export default function UserEventHistoryPage() {
                 mt: 5
             }}
         >
-            <Typography>Events attended</Typography>
+            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Typography variant="h4">Events Completed!</Typography>
+            </Box>
             {data.map((event, index)=>(
             <Card key={index} sx={{ width: "80%", minWidth: "auto", backgroundColor: "#FDF2E9", mt: 2, ml: 13 }}>
                 <CardActionArea sx={{display: "flex",}} onClick={() => {handleOnClick(event.eventsid)}}>                   
@@ -46,7 +48,7 @@ export default function UserEventHistoryPage() {
                         height="140"
                         image={event.image}
                         alt="green iguana"
-                        sx={{ maxWidth :300, minWidth: 300, flexShrink: 0}}
+                        sx={{ maxWidth: 300, height: 150, flexShrink: 0}}
                     />
                     <CardContent sx={{flex: 1}}>
                         <Typography gutterBottom variant="h5" component="div">

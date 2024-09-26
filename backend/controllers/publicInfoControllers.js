@@ -11,6 +11,20 @@ const pool = new Pool({
     connectionString
 });
 
+// router.get("/test", async (req, res) => {
+//     const query = ` 
+//     SELECT COUNT (*)
+//     FROM user_attendings
+//     WHERE eventsid=7`
+//     try {
+//         const event = await pool.query(query);    
+//         res.status(201).json({ event });
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     };
+// })
+
+
 router.get("/viewall", async (req, res) => {
     const query = "SELECT * FROM events ORDER BY datentime DESC"
     try {

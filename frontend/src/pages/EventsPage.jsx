@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react"
 import { getEvents } from "../services/verifyServices"
-import { Container, Typography, Card, CardContent, CardActionArea, CardMedia, TextField, Select, FormControl, MenuItem, InputLabel } from "@mui/material"
+import { Container, Typography, Card, CardContent, CardActionArea, CardMedia, TextField, Select, FormControl, MenuItem, InputLabel, Box } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import { sortEventsAsc }  from "../utilities/functions"
 
-export default function EventsPage({countries, types}) {
+export default function EventsPage({countries, types, user}) {
     const [events, setEvents] = useState([])
     const [search, setSearch] = useState("")
     const [selectCountry, setSelectCountry] = useState("")
@@ -28,7 +28,11 @@ export default function EventsPage({countries, types}) {
     },[])
 
     const handleOnClick = (id) => {
+        if (!user){
+            navigate("/login")
+        } else {
         navigate(`/event/${id}`)
+        }
     }
     const handleSearch = (event) => {
         setSearch(event.target.value)
@@ -63,6 +67,21 @@ export default function EventsPage({countries, types}) {
                 mt: 5
             }}
         >
+            <Box
+            sx={{
+                display: "flex",
+                justifyContent: "center",
+                mb: 2
+              }}
+            >
+            <Typography variant="h4">List of Upcoming Events</Typography>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-evenly"
+              }}
+            >
             <TextField placeholder="Search..." value={search} onChange={handleSearch}></TextField>
             <FormControl>
                         <InputLabel id="demo-simple-select-label">Country</InputLabel>
@@ -99,6 +118,7 @@ export default function EventsPage({countries, types}) {
                             ))}          
                         </Select>
             </FormControl>
+            </Box>
             {filterEvent.map((event, index)=>(
             <Card key={index} sx={{ width: "80%", minWidth: "auto", backgroundColor: "#FDF2E9", mt: 2, ml: 13 }}>
                 <CardActionArea sx={{display: "flex",}} onClick={() => {handleOnClick(event.eventsid)}}>                   

@@ -21,6 +21,7 @@ import HostEventHistoryPage from './pages/HostEventHistory'
 import { countrys } from './utilities/countries'
 import { serviceTypes } from './utilities/serviceTypes'
 import { hostImage, eventImage } from './utilities/images'
+import AboutPage from './pages/AboutPage'
 
 function App() {
   const [imageHost] = useState(hostImage)
@@ -39,6 +40,13 @@ function App() {
     navigate('/');
   };
 
+  const handleHomePage = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("type");
+    setUser(null);
+    setType(null);
+  }
+
   useEffect (() => {
     if (type) {localStorage.setItem("type", type)}
   })
@@ -51,12 +59,13 @@ function App() {
       {type === "user" && <NavBarUser handleSignOut={handleSignOut}/>}
       {type === "host" && <NavBarHost handleSignOut={handleSignOut}/>}
       <Routes>
-        <Route path='/' element={<HomePage handleSignOut={handleSignOut}/>} />
+        <Route path='/' element={<HomePage handleHomePage={handleHomePage}/>} />
         <Route path='/login' element={<LoginPage setUser={setUser} setType={setType}/>} />
         <Route path="/signup" element={<SignUpPage />}/>
         <Route path="/signup/host" element={<SignUpPageHost imageHost={imageHost} countries={countries}/>}/>
-        <Route path='/events' element={<EventsPage countries={countries} types={types}/>} />
+        <Route path='/events' element={<EventsPage countries={countries} types={types} user={user}/>} />
         <Route path='/organisations' element={<OrganisationsPage />} />
+        <Route path='/about' element={<AboutPage/>}/>
         {user && type === "user" ? (
           <>
             <Route path='/user' element={<UserPage />} />

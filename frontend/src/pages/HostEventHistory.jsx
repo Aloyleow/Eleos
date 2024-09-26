@@ -47,7 +47,7 @@ export default function HostEventHistoryPage() {
                         height="140"
                         image={event.image}
                         alt="green iguana"
-                        sx={{ maxWidth :300, minWidth: 300, flexShrink: 0}}
+                        sx={{ maxWidth: 300, height: 150, flexShrink: 0}}
                     />
                     <CardContent sx={{flex: 1}}>
                         <Typography gutterBottom variant="h5" component="div">

@@ -14,7 +14,7 @@ dayjs.extend(utc);
 
 export default function SignUpPageHost({imageHost, countries}) {
     const navigate = useNavigate()
-    
+    const [error, setError] = useState(false)
     const [date, setDate] = useState()
     const [formData, setFormData] = useState({
         orgname: "",
@@ -40,12 +40,25 @@ export default function SignUpPageHost({imageHost, countries}) {
             await signUpHost(formData);
             navigate("/login");
         } catch (err) {
+            setError(true)
             return err
         }
     }
     const handleDate = (event) => {
         setDate(event.format('DD-MM-YYYY'))
         setFormData({...formData, regdate: date})
+    }
+
+    const handleDisable = () => {
+        for (const obj in formData){
+            if (formData[obj] === '') {
+                return true      
+            }
+            if (formData[obj] === undefined) {
+                return true      
+            } 
+        } 
+        return false
     }
 
 
@@ -55,11 +68,17 @@ export default function SignUpPageHost({imageHost, countries}) {
                 // backgroundColor: "lightgreen",
                 height: "80vh",
                 display: "flex",
+                flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
                 mt: 4
             }}
         >
+            <Box
+              sx={{ justifyContent: "center", display: "flex", width: "300px", height: "30px"}}
+            >
+            {error && <Typography sx={{fontStyle: "italic", color: "red"}}>Please check your details!</Typography>}
+            </Box>
             <Paper
                 sx={{
                     padding: 3,
@@ -82,19 +101,21 @@ export default function SignUpPageHost({imageHost, countries}) {
                         padding: 2,
                         m: 1,
                     }}>
-                    <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Organisation :</Typography>
+                    <Typography sx={{ mr: { xs: "auto", md: 1 }}}>Organisation :</Typography>
                     <TextField
+                    placeholder="Org. name"
                     name = "orgname"
                     value = {formData.orgname}
                     onChange = {handleOnChange}
-                    sx={{ mr: { xs: "auto", md: 1 } }} 
+                    sx={{ mr: { xs: "auto", md: 3 } }} 
                     />
                     <Typography sx={{ mr: { xs: "auto", md: 1 } }}>UEN :</Typography>
                     <TextField 
+                    placeholder="UEN/SSN/VCRN/BRN"
                     name = "uen"
                     value = {formData.uen}
                     onChange = {handleOnChange}
-                    sx={{ mr: { xs: "auto", md: 1 } }}  
+                    sx={{ mr: { xs: "auto", md: 3 } }}  
                     />
                     <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Registered date :</Typography>
                     <LocalizationProvider  dateAdapter={AdapterDayjs}>
@@ -103,6 +124,7 @@ export default function SignUpPageHost({imageHost, countries}) {
                             defaultValue={dayjs().tz('Asia/Singapore', true)}
                             onChange={handleDate}
                             format="DD-MM-YYYY"
+                            sx={{width: "150px"}}
                             />
                     </LocalizationProvider>
                 </Box>
@@ -116,6 +138,7 @@ export default function SignUpPageHost({imageHost, countries}) {
                     }}>
                     <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Email :</Typography>
                     <TextField
+                    placeholder="Org. Email"
                     name = "email"
                     value = {formData.email} 
                     onChange = {handleOnChange}
@@ -123,6 +146,7 @@ export default function SignUpPageHost({imageHost, countries}) {
                     />
                     <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Contact number :</Typography>
                     <TextField
+                    placeholder="Org. Contact Number"
                     name = "contactnumber"
                     value = {formData.contactnumber} 
                     onChange = {handleOnChange}
@@ -147,7 +171,7 @@ export default function SignUpPageHost({imageHost, countries}) {
                     </FormControl>
                 </Box>
                 </Box>
-                <Box sx={{display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Box sx={{display: "flex", justifyContent: "space-around", alignItems: "center" }}>
                     <FormControl>
                         <InputLabel id="demo-simple-select-label">Image</InputLabel>
                         <Select
@@ -183,7 +207,7 @@ export default function SignUpPageHost({imageHost, countries}) {
                             </Typography>
                         </CardContent>
                     </Card>
-                    <Typography>Profile view under organisations</Typography>
+                    <Typography>  Profile view under organisations</Typography>
                 </Box>
                 <Box
                     sx={{
@@ -218,6 +242,7 @@ export default function SignUpPageHost({imageHost, countries}) {
                         variant="outlined"
                         sx={{ mr: 2, color: "black", borderColor: "black" }}
                         onClick = {handlesignUpUser}
+                        disabled = {handleDisable()}
                     >Sign UP</Button>
                 </Box>
             </Paper>

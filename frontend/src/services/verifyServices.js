@@ -291,6 +291,26 @@ const user_attendingsCount = async (params) => {
     }
 }
 
+const checkUser_attendingsCount = async (params) => {
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/user/event/userattendings/${params}/checkAttendees`, {
+            method: "GET",
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" 
+            },
+        });
+        const json = await res.json();
+        if (json.error) {
+            throw new Error (json.error);
+        }
+        return json;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
 const getOrganisations = async () => {
     try {
         const res = await fetch(`${BACKEND_URL}/api/publicinfo/organisations`, {
@@ -393,13 +413,13 @@ const updateStarPoints = async () => {
 
 const eventHostUserTrack = async (eventsid) => {
     try {
-        const res = await fetch(`${BACKEND_URL}/api/host/event/hostevents/user_attendings`, {
-            method: "GET",
+        const res = await fetch(`${BACKEND_URL}/api/host/event/getuser_attendings`, {
+            method: "POST",
             headers: { 
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json" 
             },
-            body: JSON.stringify(eventsid)
+            body: JSON.stringify({eventsid: eventsid})
         });
         const json = await res.json();
         if (json.error) {
@@ -410,6 +430,27 @@ const eventHostUserTrack = async (eventsid) => {
         console.log(err);
         throw err;
     }
+}
+
+const isUserAttending = async (eventsid) => {
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/user/event/userattendings/${eventsid}/check`, {
+            method: "GET",
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" 
+            },
+        });
+        const json = await res.json();
+        if (json.error) {
+            throw new Error (json.error);
+        }
+        return json;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+
 }
 
 export { 
@@ -433,5 +474,7 @@ export {
     hostEventsHistory,
     userStarPoints,
     updateStarPoints,
-    eventHostUserTrack
+    eventHostUserTrack,
+    isUserAttending,
+    checkUser_attendingsCount
 }

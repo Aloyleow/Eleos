@@ -1,5 +1,5 @@
-import {Card, CardActionArea, CardContent ,Box, Container, CardMedia, Typography, Button,} from "@mui/material"
-import { hostEvents } from "../services/verifyServices"
+import {Card, CardActionArea, CardContent ,Box, Container, CardMedia, Typography } from "@mui/material"
+import { hostEvents, eventHostUserTrack } from "../services/verifyServices"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { sortEventsAsc } from "../utilities/functions"
@@ -7,6 +7,7 @@ import { sortEventsAsc } from "../utilities/functions"
 export default function HostPage() {
     const navigate = useNavigate()
     const [data, setData] = useState([])
+    const [attendees, setAttendees] = useState({})
     
 
     useEffect(()=>{
@@ -14,20 +15,21 @@ export default function HostPage() {
             try{
                 const dataLoaded = await hostEvents();
                 const sortDataLoaded = sortEventsAsc(dataLoaded.checkedEvent)
-                setData(sortDataLoaded); 
+                setData(sortDataLoaded);
                 
+                const attendeesData = {}
+                for (const event of sortDataLoaded){
+                    const eventAttendees = await eventHostUserTrack(event.eventsid)
+                    attendeesData[event.eventsid] = eventAttendees.rows[0].count
+                }
+                setAttendees(attendeesData)
             } catch (error) {
                 console.error(error.message);
             }
         }
         loadEvents()
+        
     },[])
-    
-    
-
-    
-
-    
 
     const handleOnClick = (id) => {
         navigate(`/host/${id}/edit`)
@@ -44,7 +46,9 @@ export default function HostPage() {
                 mt: 5
             }}
         >
-            <Typography>Events created</Typography>
+            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Typography variant="h4">Your organisation upcoming events !</Typography>
+            </Box>
             {data.map((event, index)=>(
             <Card key={index} sx={{ width: "80%", minWidth: "auto", backgroundColor: "#FDF2E9", mt: 2, ml: 13 }}>
                 <CardActionArea sx={{display: "flex",}} onClick={() => {handleOnClick(event.eventsid)}}>                   
@@ -53,7 +57,7 @@ export default function HostPage() {
                         height="140"
                         image={event.image}
                         alt="green iguana"
-                        sx={{ maxWidth :300, minWidth: 300, flexShrink: 0}}
+                        sx={{ maxWidth: 300, height: 150, flexShrink: 0}}
                     />
                     <CardContent sx={{flex: 1}}>
                         <Typography gutterBottom variant="h5" component="div">
@@ -66,8 +70,8 @@ export default function HostPage() {
                         <Typography gutterBottom variant="h6" component="div">
                             {event.datentime}
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'text.secondary', ml: 25 }}>
-                            {event.attendees} Attendees
+                        <Typography sx={{ color: 'text.secondary', ml: 25 }}>
+                        {attendees[event.eventsid] || 0} / {event.attendees} Attendees
                         </Typography>
                         </Box>
                     </CardContent>

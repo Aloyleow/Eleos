@@ -1,0 +1,21 @@
+meta {
+  name: viewuserAttendingHostEVENTS
+  type: http
+  seq: 21
+}
+
+post {
+  url: http://localhost:8888/api/host/event/getuser_attendings
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtb3JuaW5nIiwiaWF0IjoxNzI3MjcwMjc2LCJleHAiOjE3NjMyNzAyNzZ9.pwF_T6jJUWPWFDnp-dcs74xSVlUcZVLW-plSVWf_W8o
+}
+
+body:json {
+  {
+    "eventsid": 7
+  }
+}
