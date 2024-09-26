@@ -21,6 +21,7 @@ export default function HostPage() {
                 for (const event of sortDataLoaded){
                     const eventAttendees = await eventHostUserTrack(event.eventsid)
                     attendeesData[event.eventsid] = eventAttendees.rows[0].count
+                    console.log(eventAttendees)
                 }
                 setAttendees(attendeesData)
             } catch (error) {

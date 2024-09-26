@@ -4,6 +4,7 @@ const router = express.Router();
 const { Pool } = require("pg");
 const verifyToken = require("../middlewares/verify-token");
 const { filterEventsFutureDate, filterEventsPastDate } =require("../utilities/functions")
+const nodeMailer = require("nodemailer")
 
 const connectionString = process.env.PGSTRING_URI;
 
@@ -88,25 +89,62 @@ router.get("/hostevents/history", async (req, res) => {
 })
 
 router.delete("/hostevents/:eventsid", async (req, res) => {
-    const query = "DELETE FROM events WHERE eventsid = $1"
+    const queryUsers =`
+      SELECT email 
+      FROM users u
+      RIGHT JOIN user_attendings ua on u.usersid = ua.usersid
+      WHERE ua.eventsid = $1
+    `
+    let userEmails = []
+    const html = `
+    <head>
+    <h1>LETS * HELP<h1>
+    </head>
+    <body>
+    <h3>Dear user<h3>
+    <p>Due to some changes, your event by ${req.human.orgname} has been cancelled<p>
+    `;
+    const transporter = nodeMailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: process.env.EMAIL_USERNAME,
+            pass: process.env.EMAIL_PASSWORD
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
+    })
+    const email = {
+        from: `aloyleowWork@gmail.com`,
+        to: userEmails,
+        subject: `Test`,
+        html: html
+    }
+    const queryDelete = "DELETE FROM events WHERE eventsid = $1"
+    
     try {
-        const event = (await pool.query(query, [req.params.eventsid])).rows;
-        res.status(201).json({ event });
+        const users = (await pool.query(queryUsers, [req.params.eventsid])).rows
+        for (const obj of users) {
+            userEmails.push(obj.email)
+        }
+        const info = await transporter.sendMail(email)
+        const event = (await pool.query(queryDelete, [req.params.eventsid])).rows;
+        res.status(201).json({ info, event });
     } catch (error) {
         res.status(500).json({ error: error.message });
     };
 
 })
 
-router.post("/getuser_attendings", async (req, res) => {
+router.get("/getuser_attendings/:eventsid", async (req, res) => {
     const query = `
     SELECT COUNT (*)
     FROM user_attendings ua
     RIGHT JOIN events e ON ua.eventsid = e.eventsid
-    WHERE e.eventsid= $1 AND e.hostsid= $2
+    WHERE ua.eventsid= $1 AND e.hostsid= $2
     `
     const input =[
-        req.body.eventsid,
+        req.params.eventsid,
         req.human.id
     ]
     try {

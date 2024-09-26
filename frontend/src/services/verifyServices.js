@@ -413,13 +413,12 @@ const updateStars = async () => {
 
 const eventHostUserTrack = async (eventsid) => {
     try {
-        const res = await fetch(`${BACKEND_URL}/api/host/event/getuser_attendings`, {
-            method: "POST",
+        const res = await fetch(`${BACKEND_URL}/api/host/event/getuser_attendings/${eventsid}`, {
+            method: "GET",
             headers: { 
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json" 
             },
-            body: JSON.stringify({eventsid: eventsid})
         });
         const json = await res.json();
         if (json.error) {
