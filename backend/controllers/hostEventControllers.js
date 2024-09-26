@@ -16,8 +16,8 @@ router.use(verifyToken);
 
 router.post("/create", async (req, res) => {
     const query = `
-    INSERT INTO events (eventname, type, datentime, location, country, comments, attendees, hostsid, image)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    INSERT INTO events (eventname, type, datentime, location, country, comments, attendees, hostsid, image, orgname)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
     RETURNING *
     `;
     const input = [
@@ -30,6 +30,7 @@ router.post("/create", async (req, res) => {
         req.body.attendees,
         req.human.id,
         req.body.image,
+        req.human.orgname
     ];
     try {
         const event = (await pool.query(query, input)).rows;
@@ -117,7 +118,7 @@ router.delete("/hostevents/:eventsid", async (req, res) => {
     const email = {
         from: `aloyleowWork@gmail.com`,
         to: userEmails,
-        subject: `Test`,
+        subject: `Event Cancelled`,
         html: html
     }
     const queryDelete = "DELETE FROM events WHERE eventsid = $1"

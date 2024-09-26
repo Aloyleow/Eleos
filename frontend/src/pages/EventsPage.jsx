@@ -129,16 +129,17 @@ export default function EventsPage({countries, types, user, humanType}) {
                         height="140"
                         image={event.image}
                         alt="green iguana"
-                        sx={{ maxWidth :300, minWidth: 300, flexShrink: 0}}
+                        sx={{ height: 180, width: 300, flexShrink: 0}}
                     />
-                    <CardContent sx={{flex: 1}}>
-                        <Typography gutterBottom variant="h5" component="div">
+                    <CardContent sx={{flex: 1, display: "flex", flexDirection: "column"}}>
+                        <Typography gutterBottom variant="h5" component="div" color="#FF6F61">
                             {event.eventname}, {event.type}
                         </Typography>
-                        
+                        <Typography>By {event.orgname}</Typography>
                         <Typography gutterBottom variant="h6" component="div">
                             {event.location}, {event.country}
                         </Typography>
+                        
                         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                             {event.attendees} People needed.  {event.datentime}
                         </Typography>

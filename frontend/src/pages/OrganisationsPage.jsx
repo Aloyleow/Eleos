@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { getOrganisations } from '../services/verifyServices';
 import { Container, Box, TextField } from '@mui/material';
@@ -54,7 +52,7 @@ export default function OrganisationsPage() {
         }}
           >
           {filteredOrg.map((organisation, index)=> (
-          <Card sx={{ maxWidth: 300, maxHeight: 290, border: "1px solid", backgroundColor: "#FDF2E9" }} key = {index}>
+          <Card sx={{ width: 300, height: 290, mt: 3, border: "1px solid", backgroundColor: "#FDF2E9" }} key = {index}>
               <CardMedia
                   component="img"
                   alt="green iguana"
@@ -62,7 +60,7 @@ export default function OrganisationsPage() {
                   image={organisation.image}
               />
               <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
+                  <Typography gutterBottom sx={{fontSize: 16}} component="div">
                       {organisation.orgname}
                   </Typography>
                   <Typography variant="body2" sx={{ color: 'text.secondary' }}>
