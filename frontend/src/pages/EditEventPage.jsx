@@ -81,57 +81,37 @@ export default function EditEventPage({imageEvents}) {
     }
 
     return (
-    
-    <Container
-    sx={{height: "90vh", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}
-    >
-        <Box sx={{display: "flex"}}>
-        <Box
-        sx={{display: "flex", flexDirection: "column", justifyContent: "space-evenly"}}
-        >
-            <Box>
-            <CardMedia
-                component="img"
-                height="140"
-                image={data.image}
-                alt="green iguana"
-                sx={{ maxWidth: 300, minWidth: 300, flexShrink: 0 }}
-            />
-            </Box>
-            <Box>
-            <Typography>More info: {data.comments}</Typography>
-            </Box>
-        </Box>
-        <Box
-        sx={{display: "flex", flexDirection: "column", justifyContent: "space-evenly"}}
-        >
-            <Box sx={{display: "flex", justifyContent: "space-evenly", alignItems: "center", width: 500, height: 80}}>
-                <Typography>Event name: {data.eventname}</Typography>
-                <Typography>Event type: {data.type}</Typography>
-            </Box>
-            <Box sx={{display: "flex", justifyContent: "space-evenly", alignItems: "center", width: 500, height: 80}}>
-                <Typography>Date and time: {data.datentime}</Typography>
-                <Typography>Location: {data.location}</Typography>
-            </Box>
-            <Box sx={{display: "flex", justifyContent: "space-evenly", alignItems: "center", width: 500, height: 80}}>
-                <Typography>Current attendees: {attendees.count}/{data.attendees}</Typography>
-            </Box>
 
-
-        </Box>
-        </Box>
-        <Paper
+        <Container
+            sx={{ 
+                height: "90vh", 
+                display: "flex", 
+                justifyContent: "center", 
+                alignItems: "center", 
+                flexDirection: "column", 
+                mt: 5 
+            }}>
+            <Paper
                 sx={{
                     display: "flex",
                     justifyContent: "space-around",
                     backgroundColor: "#FDF2E9",
-                    padding: 3
+                    padding: 1,
+                    height: "50%",
+                    width: "100%"
                 }}
+                elevation={10}
             >
                 <Box
-                    sx={{display: "flex", flexDirection: "column",justifyContent: "space-around", alignItems: "center"}}
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-around",
+                        alignItems: "center"
+                        
+                    }}
                 >
-                    <Card sx={{ width: 300, height: 140}}>
+                    <Card sx={{ width: 300, height: 140 }}>
                         <CardMedia
                             component="img"
                             alt="blueSpider"
@@ -148,81 +128,143 @@ export default function EditEventPage({imageEvents}) {
                             value={formData.image}
                             label="Image"
                             onChange={handleOnChange}
-                            sx={{width: 200}}
+                            sx={{ width: 200 }}
                         >
                             {imageEvents.map((click, index) => (
-                                <MenuItem key = {index} value={click}>{index}</MenuItem>
+                                <MenuItem key={index} value={click}>{index}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>
                 </Box>
                 <Box
-                    sx={{ display: "block", border: "1px solid" }}
-                >
-                   
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        height: "100%",
+                        width: 800,
+                        justifyContent: "space-evenly",
+                        border: "1px solid"
+                    }}>
                     <Box
-                        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
-                    >
-                        <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Date and Time :</Typography>
-                        <LocalizationProvider  dateAdapter={AdapterDayjs}>
-                            <DateTimePicker 
-                            name="datentime"
-                            defaultValue={dayjs().tz('Asia/Singapore', true)}
-                            onChange={handleDate}
-                            format="DD-MM-YYYY hh:mm a"
-                            />
-                        </LocalizationProvider>
-                        <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Location :</Typography>
+                        sx={{
+                            display: "flex",
+                            justifyContent: "space-evenly",
+                            alignItems: "center"
+                        }}>
+                    </Box>
+                    
+                    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <Typography sx={{ mr: { xs: "auto", md: 0.5 } }}>Location:</Typography>
                         <TextField
                             name="location"
+                            placeholder="Street name..Postal code"
                             value={formData.location}
                             onChange={handleOnChange}
-                            sx={{ mr: { xs: "auto", md: 1 } }}
+                            sx={{ width: 300 }}
                         />
+                    </Box>              
+                    <Box
+                        sx={{ display: "flex", justifyContent: "space-evenly", alignItems: "center" }}
+                    >
+                         <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <Typography sx={{ mr: { xs: "auto", md: 0.5 } }}>Date & time:</Typography>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DateTimePicker
+                                    name="datentime"
+                                    defaultValue={dayjs().tz('Asia/Singapore', true)}
+                                    onChange={handleDate}
+                                    format="DD-MM-YYYY hh:mm a"
+                                    sx={{ width: 220, mr: 0 }}
+                                />
+                            </LocalizationProvider>
+                        </Box>
+                        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "50%" }}>
+                            <Typography sx={{ mr: { xs: "auto", md: 0.5 } }}>Attendees :</Typography>
+                            <TextField
+                                name="attendees"
+                                value={formData.attendees}
+                                onChange={handleOnChange}
+                                sx={{ width: 60 }}
+                            />
+                        </Box>
                     </Box>
                     <Box
-                        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
-                    >
-                        
-                        <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Attendees :</Typography>
-                        <TextField
-                            name="attendees"
-                            value={formData.attendees}
-                            onChange={handleOnChange}
-                            sx={{ mr: { xs: "auto", md: 1 } }}
-                        />
-                    </Box>
-                    <Box
-                        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
-                    >
+                        sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            flexDirection: "column",
+                            height: "40%"
+                        }}>
                         <Typography sx={{ mr: { xs: "auto", md: 1 } }}>Comments :</Typography>
                         <TextField
                             name="comments"
                             value={formData.comments}
+                            placeholder="Description of event, attendees roles etc."
                             onChange={handleOnChange}
-                            sx={{ mr: { xs: "auto", md: 1 } }}
-                        />     
+                            multiline
+                            minRows={5}
+                            sx={{ mr: { xs: "auto", md: 1 }, width: "80%" }}
+                        />
                     </Box>
                     <Box
-                    sx={{
-                        display: { xs: "flex", md: "flex" },
-                        justifyContent: { xs: "center", md: "space-around" },
-                        alignItems: "center",
-                    }}> 
-                    <Button
-                        variant="outlined"
-                        sx={{color: "black", borderColor: "black" }}
-                        onClick={edit}
-                    >Edit</Button>
-                    <Button
-                        variant="outlined"
-                        sx={{color: "black", borderColor: "black" }}
-                        onClick={clickDeleteEvent}
-                    >Delete</Button>
+                        sx={{
+                            display: { xs: "flex", md: "flex" },
+                            justifyContent: { xs: "center", md: "space-around" },
+                            alignItems: "center",
+                        }}>
+                        <Button
+                            variant="outlined"
+                            sx={{ color: "black", borderColor: "black" }}
+                            onClick={edit}
+                        >Edit</Button>
+                        <Button
+                            variant="outlined"
+                            sx={{ color: "black", borderColor: "black" }}
+                            onClick={clickDeleteEvent}
+                        >Delete</Button>
                     </Box>
                 </Box>
             </Paper>
-    
-    </Container>
+            <Box sx={{ display: "flex", justifyContent: "center", height: "50%", width: "100%" }}>
+                <Box
+                    sx={{ display: "flex", flexDirection: "column", justifyContent: "space-evenly", alignItems: "center" }}
+                >
+                    <Box>
+                        <CardMedia
+                            component="img"
+                            height="140"
+                            image={data.image}
+                            alt="green iguana"
+                            sx={{ maxWidth: 300, minWidth: 300, flexShrink: 0 }}
+                        />
+                    </Box>
+                    <Box sx={{height: "60%"}}>
+                    <Typography sx={{  }} color="#FF6F61">More info:</Typography>
+                    <Typography sx={{wordBreak: "break-word", width: 600, fontSize: "18px"}} color="#333333">{data.comments}</Typography>
+                    </Box>
+                </Box>
+                <Box
+                    sx={{ display: "flex", flexDirection: "column", justifyContent: "space-evenly" }}
+                >
+                    <Typography sx={{ alignSelf: "center" }} color="#FF6F61">Event name: </Typography>
+                    <Typography sx={{fontSize: "18px", alignSelf: "center"}} color="#333333">{data.eventname}</Typography>
+                    <Typography sx={{ alignSelf: "center" }} color="#FF6F61">Event type: </Typography>
+                    <Typography sx={{fontSize: "18px", alignSelf: "center"}} color="#333333">{data.type}</Typography>
+                    <Typography sx={{ alignSelf: "center" }} color="#FF6F61">Date and time: </Typography>
+                    <Typography sx={{fontSize: "18px", alignSelf: "center"}} color="#333333">{data.datentime}</Typography>
+                    <Typography sx={{ alignSelf: "center" }} color="#FF6F61">Location: </Typography>
+                    <Typography sx={{ wordBreak: "break-word", fontSize: "18px", alignSelf: "center" }} color="#333333">{data.location}</Typography>
+                    
+                    <Box sx={{ display: "flex", justifyContent: "space-evenly", alignItems: "center", width: 500, height: 80 }}>
+                        <Typography>Current attendees: {attendees.count}/{data.attendees}</Typography>
+                    </Box>
+
+
+                </Box>
+            </Box>
+
+        </Container>
+
     
 )}

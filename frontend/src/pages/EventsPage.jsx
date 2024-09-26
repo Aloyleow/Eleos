@@ -4,7 +4,7 @@ import { Container, Typography, Card, CardContent, CardActionArea, CardMedia, Te
 import { useNavigate } from "react-router-dom"
 import { sortEventsAsc }  from "../utilities/functions"
 
-export default function EventsPage({countries, types, user}) {
+export default function EventsPage({countries, types, user, humanType}) {
     const [events, setEvents] = useState([])
     const [search, setSearch] = useState("")
     const [selectCountry, setSelectCountry] = useState("")
@@ -30,8 +30,10 @@ export default function EventsPage({countries, types, user}) {
     const handleOnClick = (id) => {
         if (!user){
             navigate("/login")
-        } else {
-        navigate(`/event/${id}`)
+        } else if (user && humanType === "user"){
+            navigate(`/event/${id}`)
+        } else if (user && humanType === "host"){
+            navigate(`/event/host/${id}`)
         }
     }
     const handleSearch = (event) => {

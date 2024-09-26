@@ -22,21 +22,23 @@ import { countrys } from './utilities/countries'
 import { serviceTypes } from './utilities/serviceTypes'
 import { hostImage, eventImage } from './utilities/images'
 import AboutPage from './pages/AboutPage'
+import HostEventDetailPage from './pages/HostEventDetailPage'
 
 function App() {
   const [imageHost] = useState(hostImage)
   const [imageEvents] = useState(eventImage)
   const [countries] = useState(countrys)
   const [types] = useState(serviceTypes)
+  const [error, setError] = useState(false)
   const [user, setUser] = useState(verifyUser())
-  const [type, setType] = useState(localStorage.getItem("type") || null)
+  const [humanType, setHumanType] = useState(localStorage.getItem("type") || null)
   const navigate = useNavigate()
   
   const handleSignOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("type");
     setUser(null);
-    setType(null);
+    setHumanType(null);
     navigate('/');
   };
 
@@ -44,11 +46,11 @@ function App() {
     localStorage.removeItem("token");
     localStorage.removeItem("type");
     setUser(null);
-    setType(null);
+    setHumanType(null);
   }
 
   useEffect (() => {
-    if (type) {localStorage.setItem("type", type)}
+    if (humanType) {localStorage.setItem("type", humanType)}
   })
 
   
@@ -56,31 +58,33 @@ function App() {
   return (
     <>
       {!user && <Navbar />}
-      {type === "user" && <NavBarUser handleSignOut={handleSignOut}/>}
-      {type === "host" && <NavBarHost handleSignOut={handleSignOut}/>}
+      {humanType === "user" && <NavBarUser handleSignOut={handleSignOut}/>}
+      {humanType === "host" && <NavBarHost handleSignOut={handleSignOut}/>}
       <Routes>
         <Route path='/' element={<HomePage handleHomePage={handleHomePage}/>} />
-        <Route path='/login' element={<LoginPage setUser={setUser} setType={setType}/>} />
+        <Route path='/login' element={<LoginPage setUser={setUser} setHumanType={setHumanType}/>} />
         <Route path="/signup" element={<SignUpPage />}/>
         <Route path="/signup/host" element={<SignUpPageHost imageHost={imageHost} countries={countries}/>}/>
-        <Route path='/events' element={<EventsPage countries={countries} types={types} user={user}/>} />
+        <Route path='/events' element={<EventsPage countries={countries} types={types} user={user} humanType={humanType}/>} />
         <Route path='/organisations' element={<OrganisationsPage />} />
         <Route path='/about' element={<AboutPage/>}/>
-        {user && type === "user" ? (
+        {user && humanType === "user" ? (
           <>
             <Route path='/user' element={<UserPage />} />
             <Route path='/user/history' element={<UserEventHistoryPage/>}/>
             <Route path='/event/:eventsid' element={<EventsDetailPage/>}/>
           </>) : <Route path='/' element={<HomePage />} />}
-        {user && type === "host" ? (
+        {user && humanType === "host" ? (
           <>
             <Route path='/host' element={<HostPage/>} />
             <Route path='/host/history' element={<HostEventHistoryPage/>} />
-            <Route path='/host/create' element={<CreateEventPage imageEvents={imageEvents} countries={countries} types={types}/>}/>
+            <Route path='/host/create' element={<CreateEventPage imageEvents={imageEvents} countries={countries} types={types} error={error} setError={setError}/>}/>
             <Route path='/host/:eventsid/edit' element={<EditEventPage imageEvents={imageEvents}/>}/>
             <Route path='/event/:eventsid' element={<EventsDetailPage/>}/>
+            <Route path='/event/host/:eventsid' element={<HostEventDetailPage/>}/>
           </>) : <Route path='/' element={<HomePage />} />}
       </Routes>
+      
     </>
 
   )

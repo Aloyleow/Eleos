@@ -1,18 +1,9 @@
-import { useState } from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
+import { useState, useEffect } from 'react';
+import { AppBar, Toolbar, Tooltip, IconButton, Menu, MenuItem, Box, Typography, Container, Avatar, Button,  } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
 import VolunteerActivismSharp from '@mui/icons-material/VolunteerActivismSharp';
 import { useNavigate } from 'react-router-dom';
+import { hostOrgName } from '../services/verifyServices';
 
 const pages = ["My Events", "Events", "Organisations"];
 const profileSettings = ["Profile" , "Create events", "Events history", "Log out"]
@@ -20,6 +11,7 @@ const profileSettings = ["Profile" , "Create events", "Events history", "Log out
 export default function NavBarUser({handleSignOut}) {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [name, setName] = useState("")
   const navigate = useNavigate()
 
   const handleOpenNavMenu = (event) => {
@@ -58,6 +50,21 @@ export default function NavBarUser({handleSignOut}) {
       handleSignOut()
     }
   }
+
+  useEffect(()=>{
+    const loadEvents = async() => {
+        try{        
+            const name = await hostOrgName();
+            setName(name.orgName[0].orgname)
+            
+            
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+        
+    loadEvents()
+},[])
 
   return (
     <AppBar position="static"
@@ -149,7 +156,8 @@ export default function NavBarUser({handleSignOut}) {
               </Button>
             ))}
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0, display: "flex", alignItems: "center" }}>
+          <Typography sx={{ mr: 1, fontSize: 20}}>Welcome! {name}</Typography>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />

@@ -1,5 +1,5 @@
 import {Card, CardActionArea, CardContent ,Box, Container, CardMedia, Typography, Button,} from "@mui/material"
-import { userEvents, cancelEvent, updateStarPoints } from "../services/verifyServices"
+import { userEvents, cancelEvent, updateStars } from "../services/verifyServices"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { sortEventsAsc } from "../utilities/functions"
@@ -28,7 +28,7 @@ export default function UserPage() {
     useEffect(()=>{
         const loadEvents = async() => {
             try{
-                await updateStarPoints();            
+                await updateStars();            
             } catch (error) {
                 console.error(error.message);
             }

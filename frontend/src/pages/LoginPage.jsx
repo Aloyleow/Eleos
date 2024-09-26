@@ -4,7 +4,7 @@ import { loginHost, loginUser } from "../services/verifyServices";
 import { useNavigate } from "react-router-dom";
 
 
-export default function LoginPage({setUser, setType}) {
+export default function LoginPage({setUser, setHumanType}) {
     const navigate = useNavigate()
     const [error, setError] = useState(false)
     const [host, setHost] = useState(false)
@@ -32,12 +32,12 @@ export default function LoginPage({setUser, setType}) {
             if (host === true) {
                 const host = await loginHost(formData);
                 setUser(host);
-                setType("host")
+                setHumanType("host")
                 navigate("/host");
             } else {
                 const user = await loginUser(formData);
                 setUser(user);
-                setType("user")
+                setHumanType("user")
                 navigate("/user");
             }
         } catch (err) {

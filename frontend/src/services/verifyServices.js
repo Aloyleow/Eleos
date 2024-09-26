@@ -370,9 +370,9 @@ const hostEventsHistory = async () => {
     }
 }
 
-const userStarPoints = async () => {
+const userStars = async () => {
     try {
-        const res = await fetch(`${BACKEND_URL}/api/user/details`, {
+        const res = await fetch(`${BACKEND_URL}/api/user/details/reputation`, {
             method: "GET",
             headers: { 
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -390,7 +390,7 @@ const userStarPoints = async () => {
     }
 }
 
-const updateStarPoints = async () => {
+const updateStars = async () => {
     try {
         const res = await fetch(`${BACKEND_URL}/api/user/event/update/reputation`, {
             method: "PUT",
@@ -453,6 +453,46 @@ const isUserAttending = async (eventsid) => {
 
 }
 
+const userFullName = async () => {
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/user/details/fullname`, {
+            method: "GET",
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" 
+            },
+        });
+        const json = await res.json();
+        if (json.error) {
+            throw new Error (json.error);
+        }
+        return json;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
+const hostOrgName = async () => {
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/host/details/orgname`, {
+            method: "GET",
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" 
+            },
+        });
+        const json = await res.json();
+        if (json.error) {
+            throw new Error (json.error);
+        }
+        return json;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
 export { 
     loginUser,
     loginHost,
@@ -472,9 +512,11 @@ export {
     getOrganisations,
     userEventsHistory,
     hostEventsHistory,
-    userStarPoints,
-    updateStarPoints,
+    userStars,
+    updateStars,
     eventHostUserTrack,
     isUserAttending,
-    checkUser_attendingsCount
+    checkUser_attendingsCount,
+    userFullName,
+    hostOrgName
 }

@@ -4,6 +4,7 @@ const router = express.Router()
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { Pool } = require("pg");
+const verifyToken = require("../middlewares/verify-token")
 
 
 const SALT_LENGTH = 14;
@@ -62,5 +63,18 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ error: error.message });
   };
 });
+
+router.use(verifyToken)
+
+router.get("/details/orgname", async (req, res) => {
+  const query = "SELECT orgname FROM hosts WHERE hostsid = $1";
+  const input = [req.human.id]
+  try {
+    const orgName = (await pool.query(query, input)).rows;
+    res.status(201).json({ orgName });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  };
+})
 
 module.exports = router
