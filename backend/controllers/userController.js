@@ -68,12 +68,23 @@ router.post("/login", async (req, res) => {
 
 router.use(verifyToken)
 
-router.get("/details", async (req, res) => {
+router.get("/details/reputation", async (req, res) => {
   const query = "SELECT reputation FROM users WHERE usersid = $1";
   const input = [req.human.id]
   try {
-    const userStarPoints = (await pool.query(query, input)).rows;
-    res.status(201).json({ userStarPoints });
+    const userStars = (await pool.query(query, input)).rows;
+    res.status(201).json({ userStars });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  };
+})
+
+router.get("/details/fullname", async (req, res) => {
+  const query = "SELECT fullname FROM users WHERE usersid = $1";
+  const input = [req.human.id]
+  try {
+    const fullName = (await pool.query(query, input)).rows;
+    res.status(201).json({ fullName });
   } catch (error) {
     res.status(500).json({ error: error.message });
   };

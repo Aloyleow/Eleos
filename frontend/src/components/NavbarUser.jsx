@@ -1,19 +1,10 @@
 import { useEffect, useState } from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
+import { AppBar, Toolbar, Tooltip, IconButton, Menu, MenuItem, Box, Typography, Container, Avatar, Button,  } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
+import StarsIcon from '@mui/icons-material/Stars';
 import VolunteerActivismSharp from '@mui/icons-material/VolunteerActivismSharp';
 import { useNavigate } from 'react-router-dom';
-import { userStarPoints } from '../services/verifyServices';
+import { userStars, userFullName } from '../services/verifyServices';
 
 const pages = ["My Events", "Join Events", "Organisations"];
 const profileSettings = ["Profile" , "Events history", "Log out"]
@@ -22,6 +13,7 @@ export default function NavBarUser({handleSignOut}) {
   const [sp, setSP] = useState(0)
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [name, setName] = useState("")
   const navigate = useNavigate()
 
   const handleOpenNavMenu = (event) => {
@@ -62,8 +54,11 @@ export default function NavBarUser({handleSignOut}) {
   useEffect(()=>{
     const loadEvents = async() => {
         try{
-            const data = await userStarPoints();
-            setSP(data.userStarPoints[0].reputation);
+            const data = await userStars();
+            setSP(data.userStars[0].reputation);
+            const name = await userFullName();
+            setName(name.fullName[0].fullname)
+
 
         } catch (error) {
             console.error(error.message);
@@ -164,8 +159,10 @@ export default function NavBarUser({handleSignOut}) {
             ))}
           </Box>
           <Box sx={{ flexGrow: 0, display: "flex", alignItems: "center" }}>
-          <Typography sx={{ mr: 1, fontSize: 30}}>{sp}</Typography>
-            <Typography sx={{ mr: 2, fontSize: 20}}>Starpoints!</Typography>
+          <Typography sx={{ mr: 1, fontSize: 20}}>Welcome! {name}</Typography>
+          <StarsIcon></StarsIcon>
+            <Typography sx={{ mr: 1, fontSize: 20}} color='#FFEA00'>{sp}</Typography>
+            
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />

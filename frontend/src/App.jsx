@@ -84,6 +84,7 @@ function App() {
             <Route path='/event/host/:eventsid' element={<HostEventDetailPage/>}/>
           </>) : <Route path='/' element={<HomePage />} />}
       </Routes>
+      
     </>
 
   )
