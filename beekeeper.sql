@@ -27,6 +27,7 @@ CREATE TABLE hosts (
 
 CREATE TABLE events (
     eventsid SERIAL PRIMARY KEY,
+    orgname orgname TEXT NOT NULL UNIQUE CHECK (orgname <> '')
     eventname TEXT NOT NULL CHECK (eventname <> ''),
     type VARCHAR NOT NULL CHECK (type <> ''),
     datentime VARCHAR NOT NULL CHECK (datentime <> ''),
@@ -58,7 +59,15 @@ SELECT * FROM events WHERE hostsid = 4
 
 
 
--- HostsUser ()
+-- user  
+-- weiming 123
+
+
+
+-- org
+-- scc 
+-- ddd
+
 
 
 
