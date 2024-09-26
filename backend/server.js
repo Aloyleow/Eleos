@@ -8,10 +8,8 @@ const userEventRouter = require("./controllers/userEventControllers");
 const hostEventRouter = require("./controllers/hostEventControllers");
 const publicinfoRouter = require("./controllers/publicInfoControllers")
 
-const port = process.env.PORT || 8888;
-
 const app = express();
-
+const port = process.env.PORT || 8888;
 app.use(express.static("../frontend/dist"));
 
 app.use(morgan("dev"));
