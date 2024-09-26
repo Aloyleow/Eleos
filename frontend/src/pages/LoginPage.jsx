@@ -1,7 +1,8 @@
-import { Container, Paper, TextField, Typography, Box, Button, Radio, RadioGroup, FormControlLabel, FormControl, } from "@mui/material";
+import { Container, Paper, TextField, Typography, Box, Button, Radio, RadioGroup, FormControlLabel, FormControl, Modal } from "@mui/material";
 import { useState } from "react";
-import { loginHost, loginUser } from "../services/verifyServices";
+import { loginHost, loginUser, forgotPassword } from "../services/verifyServices";
 import { useNavigate } from "react-router-dom";
+
 
 
 export default function LoginPage({setUser, setHumanType}) {
@@ -12,9 +13,21 @@ export default function LoginPage({setUser, setHumanType}) {
         username: "",
         password: ""
     })
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    const [userNric, setUserNric] = useState({
+        username: "",
+        nric: ""
+    })
 
+   
     const handleOnChange = (event) => {
         setFormData({...formData, [event.target.name]: event.target.value})
+    }
+
+    const handleOnChangeUserNric = (event) => {
+        setUserNric({...userNric, [event.target.name]: event.target.value})
     }
 
     const handleOnChangeRadio = (event) => {
@@ -46,8 +59,20 @@ export default function LoginPage({setUser, setHumanType}) {
         }
     }
 
+    const handleForgetPassword = async (event) => {
+        event.preventDefault();
+        try {
+            await forgotPassword(userNric)
+            handleClose()
+        } catch (err) {
+            setError(true)
+            return err
+        }
+    }
+
 
     return (
+       <>
         <Container
             sx={{
                 // backgroundColor: "lightgreen",
@@ -130,7 +155,45 @@ export default function LoginPage({setUser, setHumanType}) {
                     
                 </Box>
             </Paper>
+            <Button sx={{ mt: 2 }} onClick={handleOpen}>Forget password</Button>
         </Container>
+        <div>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                
+                <Box sx={{
+                    position: "absolute", 
+                    top: "30%", left: "38%", 
+                    backgroundColor: "#FDF2E9", 
+                    display: "flex", 
+                    flexDirection: "column",
+                    height: 400,
+                    justifyContent: "space-evenly",
+                    alignItems: "center",
+                    alignContent: "center"
+                }}>
+                    <Typography sx={{wordBreak: "break-word", width: "70%", alignSelf: "center", justifyContent: "center"}}>Key in your username and ic a new password will be sent to your email</Typography>
+                    <Typography sx={{ mr: { xs: "auto", md: 3 } }}>Username :</Typography>
+                    <TextField 
+                    value = {userNric.username}
+                    name = "username"
+                    onChange= {handleOnChangeUserNric}
+                    />
+                    <Typography sx={{ mr: { xs: "auto", md: 3 } }}>NRIC :</Typography>
+                    <TextField 
+                    value = {userNric.nric}
+                    name = "nric"
+                    onChange= {handleOnChangeUserNric}
+                    />
+                    <Button onClick={handleForgetPassword}>Get new password</Button>
+                </Box>             
+            </Modal>
+        </div>
+        </>   
     )
 }
 

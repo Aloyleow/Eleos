@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { Pool } = require("pg");
 const verifyToken = require("../middlewares/verify-token");
+const nodeMailer = require("nodemailer")
 
 const SALT_LENGTH = 12;
 const connectionString = process.env.PGSTRING_URI;
@@ -54,7 +55,7 @@ router.post("/login", async (req, res) => {
     const match = await bcrypt.compare(password, result.password);
     if (user && match) {
       const token = jwt.sign(
-        { id: user.rows[0].usersid, username: req.body.username, fullname: req.body.fullname},
+        { id: user.rows[0].usersid, username: req.body.username},
         process.env.JWT_SECRET,
         { expiresIn: "10000hr" }
       );
@@ -65,6 +66,60 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ error: error.message });
   };
 });
+
+
+router.put("/login/forgetpassword", async (req, res) => {
+  const changepassQuery = "UPDATE users SET PASSWORD = $3 WHERE username = $1 AND nric =$2"
+  const randomNumber = Math.floor(111111 + Math.random() * 900000)
+  const fixNumber = randomNumber.toString()
+  const input = [
+    req.body.username,
+    req.body.nric,
+    bcrypt.hashSync(fixNumber, SALT_LENGTH)
+  ]
+  const emailQuery = 'SELECT email FROM users WHERE nric =$1'
+  
+  try {
+    const html = `
+    <head>
+    <h1>LETS * HELP<h1>
+    </head>
+    <body>
+    <h3>Dear user<h3>
+    <p>this is your new password<p>
+    <p>${fixNumber}</p>
+    `;
+
+    const transporter = nodeMailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD
+      },
+      tls: {
+        rejectUnauthorized: false
+      }
+    })
+
+    const authQuery = await pool.query(changepassQuery, input);
+    const userEmail = (await pool.query(emailQuery, [req.body.nric])).rows[0].email;
+
+    const email = {
+      from: `aloyleowWork@gmail.com`,
+      to: `${userEmail}`,
+      subject: `New Password`,
+      html: html
+    }
+
+    const info = await transporter.sendMail(email)
+    if (authQuery && info) {
+      return res.status(200).json({ info });
+    }
+    res.status(401).json({ error: "Invalid username or password." })
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  };
+})
 
 router.use(verifyToken)
 

@@ -52,7 +52,7 @@ router.post("/login", async (req, res) => {
     const match = await bcrypt.compare(password, result.password);
     if (host && match) {
       const token = jwt.sign(
-        {  id: host.rows[0].hostsid, username: req.body.username, orgname: req.body.orgname },
+        {  id: host.rows[0].hostsid, username: req.body.username, orgname: host.rows[0].orgname},
         process.env.JWT_SECRET,
         { expiresIn: "10000hr" }
       );

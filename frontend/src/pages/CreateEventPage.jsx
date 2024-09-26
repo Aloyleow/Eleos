@@ -23,7 +23,7 @@ export default function CreateEventPage({imageEvents, countries, types, error, s
         country: "",
         comments: "",
         attendees: "",
-        image: ""
+        image: "",
     })
 
     const navigate = useNavigate()

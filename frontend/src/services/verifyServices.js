@@ -492,6 +492,26 @@ const hostOrgName = async () => {
     }
 }
 
+const forgotPassword = async (userNric) => {
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/user/login/forgetpassword`, {
+            method: "PUT",
+            headers: { 
+                "Content-Type": "application/json" 
+            },
+            body: JSON.stringify(userNric)
+        });
+        const json = await res.json();
+        if (json.error) {
+            throw new Error (json.error);
+        }
+        return json;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+
+} 
 export { 
     loginUser,
     loginHost,
@@ -517,5 +537,6 @@ export {
     isUserAttending,
     checkUser_attendingsCount,
     userFullName,
-    hostOrgName
+    hostOrgName,
+    forgotPassword
 }
