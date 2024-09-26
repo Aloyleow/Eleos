@@ -16,7 +16,7 @@ router.get("/test", async (req, res) => {
     SELECT email 
       FROM users u
       RIGHT JOIN user_attendings ua on u.usersid = ua.usersid
-      WHERE ua.eventsid = 7
+      WHERE ua.eventsid = 25
     `
     try {
         const event = (await pool.query(query)).rows;    

@@ -89,7 +89,21 @@ router.get("/hostevents/history", async (req, res) => {
 })
 
 router.delete("/hostevents/:eventsid", async (req, res) => {
-    const html = `<h1>harllow<h1>`;
+    const queryUsers =`
+      SELECT email 
+      FROM users u
+      RIGHT JOIN user_attendings ua on u.usersid = ua.usersid
+      WHERE ua.eventsid = $1
+    `
+    let userEmails = []
+    const html = `
+    <head>
+    <h1>LETS * HELP<h1>
+    </head>
+    <body>
+    <h3>Dear user<h3>
+    <p>Due to some changes, your event by ${req.human.orgname} has been cancelled<p>
+    `;
     const transporter = nodeMailer.createTransport({
         service: "gmail",
         auth: {
@@ -102,19 +116,17 @@ router.delete("/hostevents/:eventsid", async (req, res) => {
     })
     const email = {
         from: `aloyleowWork@gmail.com`,
-        to: `aloyleow91@gmail.com`,
+        to: userEmails,
         subject: `Test`,
         html: html
     }
     const queryDelete = "DELETE FROM events WHERE eventsid = $1"
-    const queryUsers =`
-      SELECT email 
-      FROM users u
-      RIGHT JOIN user_attendings ua on u.usersid = ua.usersid
-      WHERE ua.eventsid = $1
-    `
+    
     try {
-        const users = await pool.query(queryUsers, [req.params.eventsid])
+        const users = (await pool.query(queryUsers, [req.params.eventsid])).rows
+        for (const obj of users) {
+            userEmails.push(obj.email)
+        }
         const info = await transporter.sendMail(email)
         const event = (await pool.query(queryDelete, [req.params.eventsid])).rows;
         res.status(201).json({ info, event });
