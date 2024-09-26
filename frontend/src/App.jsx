@@ -28,6 +28,7 @@ function App() {
   const [imageEvents] = useState(eventImage)
   const [countries] = useState(countrys)
   const [types] = useState(serviceTypes)
+  const [error, setError] = useState(false)
   const [user, setUser] = useState(verifyUser())
   const [type, setType] = useState(localStorage.getItem("type") || null)
   const navigate = useNavigate()
@@ -76,7 +77,7 @@ function App() {
           <>
             <Route path='/host' element={<HostPage/>} />
             <Route path='/host/history' element={<HostEventHistoryPage/>} />
-            <Route path='/host/create' element={<CreateEventPage imageEvents={imageEvents} countries={countries} types={types}/>}/>
+            <Route path='/host/create' element={<CreateEventPage imageEvents={imageEvents} countries={countries} types={types} error={error} setError={setError}/>}/>
             <Route path='/host/:eventsid/edit' element={<EditEventPage imageEvents={imageEvents}/>}/>
             <Route path='/event/:eventsid' element={<EventsDetailPage/>}/>
           </>) : <Route path='/' element={<HomePage />} />}
