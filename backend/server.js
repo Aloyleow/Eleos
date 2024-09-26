@@ -8,7 +8,7 @@ const userEventRouter = require("./controllers/userEventControllers");
 const hostEventRouter = require("./controllers/hostEventControllers");
 const publicinfoRouter = require("./controllers/publicInfoControllers")
 
-const port = process.env.PORT;
+const port = process.env.PORT || 8888;
 
 const app = express();
 
