@@ -13,10 +13,7 @@ const pool = new Pool({
 
 router.get("/test", async (req, res) => {
     const query = ` 
-    SELECT email 
-      FROM users u
-      RIGHT JOIN user_attendings ua on u.usersid = ua.usersid
-      WHERE ua.eventsid = 25
+    SELECT email FROM users WHERE nric = 'S1234567A'
     `
     try {
         const event = (await pool.query(query)).rows;    
@@ -48,28 +45,6 @@ router.get("/organisations", async (req, res) => {
         res.status(500).json({ error: error.message });
     };
 })
-
-// router.get("/viewall/:eventid", async (req, res) => {
-//     const query = `
-//     SELECT orgname 
-//     FROM hosts h
-//     RIGHT JOIN events e on h.hostsid = e.hostsid
-//     WHERE h.hostsid = $1 AND e.eventsid = $2
-//     `
-//     const input = [
-//         req.human.id,
-//         req.params.eventid
-//     ]
-
-//     try {
-//         const event = (await pool.query(query, input)).rows;
-//         const checkedEvent = filterEventsFutureDate(event)    
-//         res.status(201).json({ checkedEvent });
-//     } catch (error) {
-//         res.status(500).json({ error: error.message });
-//     };
-// })
-
 
 router.use(verifyToken);
 

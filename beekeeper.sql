@@ -1,7 +1,7 @@
 CREATE TABLE users (
     usersid SERIAL PRIMARY KEY,
     fullname TEXT NOT NULL CHECK (fullname ~ '^[a-zA-Z\s]+$' AND fullname <> '') ,
-    nric VARCHAR(9) NOT NULL CHECK (nric ~ '^[ST][0-9]{7}[A-Z]$' AND nric <> '' ),
+    nric TEXT NOT NULL CHECK (nric ~ '^[ST][0-9]{7}[A-Z]$' AND nric <> '' ),
     dob VARCHAR NOT NULL CHECK (dob <> ''),
     email TEXT NOT NULL CHECK (email ~ '^[^@]*@[^@]*$' AND email <> ''),
     contactnumber VARCHAR(8) NOT NULL CHECK (contactnumber ~ '^[0-9]+$' and contactnumber <> ''),
@@ -45,6 +45,7 @@ CREATE TABLE user_attendings (
     eventsid INT NOT NULL REFERENCES events(eventsid) ON DELETE CASCADE,
     UNIQUE (usersid, eventsid)
 );
+
 
 
 SELECT * FROM events
