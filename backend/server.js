@@ -9,7 +9,7 @@ const hostEventRouter = require("./controllers/hostEventControllers");
 const publicinfoRouter = require("./controllers/publicInfoControllers")
 
 const app = express();
-const port = process.env.PORT || 8888;
+const port = process.env.PORT || 3000;
 app.use(express.static("../frontend/dist"));
 
 app.use(morgan("dev"));
