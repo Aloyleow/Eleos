@@ -12,6 +12,8 @@ const port = process.env.PORT;
 
 const app = express();
 
+app.use(express.static("../frontend/dist"));
+
 app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
