@@ -28,7 +28,7 @@ router.get("/test", async (req, res) => {
 
 
 router.get("/viewall", async (req, res) => {
-    const query = "SELECT * FROM events ORDER BY datentime DESC"
+    const query = "SELECT * FROM events"
     try {
         const event = (await pool.query(query)).rows;
         const checkedEvent = filterEventsFutureDate(event)    
@@ -48,6 +48,18 @@ router.get("/organisations", async (req, res) => {
         res.status(500).json({ error: error.message });
     };
 })
+
+// router.get("/viewall/:eventid", async (req, res) => {
+//     const query = "SELECT orgname FROM events WHERE "
+//     try {
+//         const event = (await pool.query(query)).rows;
+//         const checkedEvent = filterEventsFutureDate(event)    
+//         res.status(201).json({ checkedEvent });
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     };
+
+// })
 
 
 router.use(verifyToken);
