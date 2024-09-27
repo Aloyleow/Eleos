@@ -38,7 +38,7 @@ export default function HostEventHistoryPage() {
                 mt: 5
             }}
         >
-            <Typography>Events attended</Typography>
+            <Typography>Events Hosted</Typography>
             {data.map((event, index)=>(
             <Card key={index} sx={{ width: "80%", minWidth: "auto", backgroundColor: "#FDF2E9", mt: 2, ml: 13 }}>
                 <CardActionArea sx={{display: "flex",}} onClick={() => {handleOnClick(event.eventsid)}}>                   

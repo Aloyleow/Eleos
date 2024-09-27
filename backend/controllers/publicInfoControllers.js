@@ -5,10 +5,9 @@ const { Pool } = require("pg");
 const verifyToken = require("../middlewares/verify-token");
 const { filterEventsFutureDate } = require("../utilities/functions")
 
-const connectionString = process.env.PGSTRING_URI;
 
 const pool = new Pool({
-    connectionString
+    connectionString: process.env.PGSTRING_URI
 });
 
 router.get("/test", async (req, res) => {

@@ -8,10 +8,10 @@ const verifyToken = require("../middlewares/verify-token")
 
 
 const SALT_LENGTH = 14;
-const connectionString = process.env.PGSTRING_URI;
+
 
 const pool = new Pool({
-    connectionString
+    connectionString: process.env.PGSTRING_URI
 });
 
 /*
