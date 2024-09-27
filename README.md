@@ -1,4 +1,4 @@
-# Development of Covid-19 Data Analysis and Tracker  (V1.0.0)
+# Development of Lets * Help  (V1.0.0)
 
 
 ## Project summary
