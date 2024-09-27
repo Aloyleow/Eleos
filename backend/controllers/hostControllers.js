@@ -9,7 +9,6 @@ const verifyToken = require("../middlewares/verify-token")
 
 const SALT_LENGTH = 14;
 
-
 const pool = new Pool({
     connectionString: process.env.PGSTRING_URI
 });

@@ -8,9 +8,9 @@ const userEventRouter = require("./controllers/userEventControllers");
 const hostEventRouter = require("./controllers/hostEventControllers");
 const publicinfoRouter = require("./controllers/publicInfoControllers")
 
-const port = process.env.PORT;
-
 const app = express();
+const port = process.env.PORT || 8888;
+app.use(express.static("../frontend/dist"));
 
 app.use(morgan("dev"));
 app.use(cors());
@@ -22,6 +22,6 @@ app.use("/api/user/event", userEventRouter);
 app.use("/api/host/event", hostEventRouter);
 app.use("/api/publicinfo", publicinfoRouter)
 
-app.listen(port, () =>{
+app.listen(port, '0.0.0.0',() =>{
     console.log(`Eleos listening on port ${port}`);
 });

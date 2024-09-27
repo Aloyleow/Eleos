@@ -5,7 +5,6 @@ const { Pool } = require("pg");
 const verifyToken = require("../middlewares/verify-token");
 const { filterEventsFutureDate } = require("../utilities/functions")
 
-
 const pool = new Pool({
     connectionString: process.env.PGSTRING_URI
 });

@@ -9,6 +9,7 @@ const nodeMailer = require("nodemailer")
 
 const SALT_LENGTH = 12;
 
+
 const pool = new Pool({
     connectionString: process.env.PGSTRING_URI
 });
