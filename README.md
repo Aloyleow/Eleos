@@ -49,3 +49,4 @@ The development of this app(V1.0.0) was a intense yet fun journey, this is becau
 - Host able to veiw user details for those who are attending
 - Host able to blacklist users
 - User able to use star points to edit profile picture
+- users and host should be able to see what errors when logging in, signing up, creating events, editing events.
