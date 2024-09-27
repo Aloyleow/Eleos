@@ -8,10 +8,10 @@ const verifyToken = require("../middlewares/verify-token");
 const nodeMailer = require("nodemailer")
 
 const SALT_LENGTH = 12;
-const connectionString = process.env.DATABASE_URL;
+
 
 const pool = new Pool({
-    connectionString
+    connectionString: process.env.PGSTRING_URI
 });
 
 /* 

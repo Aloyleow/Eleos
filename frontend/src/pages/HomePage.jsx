@@ -57,7 +57,8 @@ export default function HomePage({ handleHomePage }) {
         width: "100%",
         display: "flex",
         justifyContent: "flex-end",
-        border: "1px solid"
+        border: "1px solid",
+        overflow: "hidden",
        }}
       >
       <Box
