@@ -10,11 +10,18 @@ const publicinfoRouter = require("./controllers/publicInfoControllers")
 
 const app = express();
 const port = process.env.PORT || 8888;
-app.use(express.static("../frontend/dist"));
 
 app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
+
+// Serve static files from the "dist" directory inside the "frontend" folder
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+// Handle all other requests by serving the index.html for your frontend
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/dist"));
+});
 
 app.use("/api/user", userRouter);
 app.use("/api/host", hostRouter);
