@@ -20,16 +20,16 @@ app.use(express.json());
 // Serve static files from the "dist" directory inside the "frontend" folder
 app.use(express.static("../frontend/dist"))
 
-// Handle all other requests by serving the index.html for your frontend
-app.get("/*", function (req, res) {
-    res.sendFile(path.join(__dirname, "..", "frontend", "dist", "index.html"));
-  });
-
 app.use("/api/user", userRouter);
 app.use("/api/host", hostRouter);
 app.use("/api/user/event", userEventRouter);
 app.use("/api/host/event", hostEventRouter);
-app.use("/api/publicinfo", publicinfoRouter)
+app.use("/api/publicinfo", publicinfoRouter);
+
+// Handle all other requests by serving the index.html for your frontend
+app.get("/*", function (req, res) {
+    res.sendFile(path.join(__dirname, "..", "frontend", "dist", "index.html"));
+  });
 
 app.listen(port, '0.0.0.0',() =>{
     console.log(`Eleos listening on port ${port}`);
