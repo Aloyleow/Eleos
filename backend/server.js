@@ -21,9 +21,9 @@ app.use(express.json());
 app.use(express.static("../frontend/dist"))
 
 // Handle all other requests by serving the index.html for your frontend
-// app.get("/*", function (req, res) {
-//     res.sendFile(path.join(__dirname, "..", "frontend", "dist", "index.html"));
-//   });
+app.get("/*", function (req, res) {
+    res.sendFile(path.join(__dirname, "..", "frontend", "dist", "index.html"));
+  });
 
 app.use("/api/user", userRouter);
 app.use("/api/host", hostRouter);

@@ -113,7 +113,6 @@ const getEvents = async () => {
         const res = await fetch(`${BACKEND_URL}/api/publicinfo/viewall`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
-
         });
         const json = await res.json();
         if (json.error) {
