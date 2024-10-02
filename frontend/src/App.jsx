@@ -52,8 +52,6 @@ function App() {
   useEffect (() => {
     if (humanType) {localStorage.setItem("type", humanType)}
   })
-
-  
   
   return (
     <>

@@ -27,7 +27,7 @@ router.get("/viewall", async (req, res) => {
     try {
         const event = (await pool.query(query)).rows;
         const checkedEvent = filterEventsFutureDate(event)    
-        res.status(201).json({ checkedEvent });
+        res.status(201).json(checkedEvent);
     } catch (error) {
         res.status(500).json({ error: error.message });
     };
@@ -55,6 +55,7 @@ router.get("/:eventid", async (req, res) => {
         res.status(500).json({ error: error.message });
     };
 })
+
 
 router.get("/getuser_attendings/:eventsid", async (req, res) => {
     const query = `

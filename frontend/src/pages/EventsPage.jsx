@@ -15,7 +15,7 @@ export default function EventsPage({countries, types, user, humanType}) {
         const loadEvents = async() => {
             try{
                 const data = await getEvents();
-                const sortData = sortEventsAsc(data.checkedEvent)
+                const sortData = sortEventsAsc(data)
                 setEvents(sortData);
 
             } catch (error) {
