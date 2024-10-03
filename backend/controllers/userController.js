@@ -9,7 +9,6 @@ const nodeMailer = require("nodemailer")
 
 const SALT_LENGTH = 12;
 
-
 const pool = new Pool({
     connectionString: process.env.PGSTRING_URI
 });
@@ -36,28 +35,28 @@ router.post("/signup", async (req, res) => {
   ];
   
   try {
-    const user = (await pool.query(query, input)).rows;
-    res.status(201).json({ user });
+    const user = await pool.query(query, input);
+    res.status(201).json(user.rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
   };
 });
 
 /*
-improve error catches
+improve error catches, improve log in security
 */
 router.post("/login", async (req, res) => {
   const query = "SELECT * FROM users WHERE username = $1";
-  const { username, password } = req.body;
+  const input = [req.body.username]
   try {
-    const user = await pool.query(query, [username]);
-    const result = user.rows[0];
-    const match = await bcrypt.compare(password, result.password);
+    const user = await pool.query(query, input);
+    const userPassword = user.rows[0].password;
+    const match = await bcrypt.compare(req.body.password, userPassword);
     if (user && match) {
       const token = jwt.sign(
         { id: user.rows[0].usersid, username: req.body.username},
         process.env.JWT_SECRET,
-        { expiresIn: "10000hr" }
+        { expiresIn: "1hr" }
       );
       return res.status(200).json({ token });
     }
@@ -67,7 +66,7 @@ router.post("/login", async (req, res) => {
   };
 });
 
-
+//refactor codes needed
 router.put("/login/forgetpassword", async (req, res) => {
   const changepassQuery = "UPDATE users SET PASSWORD = $3 WHERE username = $1 AND nric =$2"
   const randomNumber = Math.floor(111111 + Math.random() * 900000)
@@ -127,8 +126,8 @@ router.get("/details/reputation", async (req, res) => {
   const query = "SELECT reputation FROM users WHERE usersid = $1";
   const input = [req.human.id]
   try {
-    const userStars = (await pool.query(query, input)).rows;
-    res.status(201).json({ userStars });
+    const userStars = await pool.query(query, input);
+    res.status(201).json(userStars.rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
   };
@@ -138,8 +137,8 @@ router.get("/details/fullname", async (req, res) => {
   const query = "SELECT fullname FROM users WHERE usersid = $1";
   const input = [req.human.id]
   try {
-    const fullName = (await pool.query(query, input)).rows;
-    res.status(201).json({ fullName });
+    const fullName = await pool.query(query, input).rows;
+    res.status(201).json(fullName.rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
   };

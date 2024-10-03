@@ -9,17 +9,17 @@ const pool = new Pool({
     connectionString: process.env.PGSTRING_URI
 });
 
-router.get("/test", async (req, res) => {
-    const query = ` 
-    SELECT email FROM users WHERE nric = 'S1234567A'
-    `
-    try {
-        const event = (await pool.query(query)).rows;    
-        res.status(201).json(event);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    };
-})
+// router.get("/test", async (req, res) => {
+//     const query = ` 
+//     SELECT email FROM users WHERE nric = 'S1234567A'
+//     `
+//     try {
+//         const event = (await pool.query(query)).rows;    
+//         res.status(201).json(event);
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     };
+// })
 
 
 router.get("/viewall", async (req, res) => {
@@ -37,8 +37,8 @@ router.get("/viewall", async (req, res) => {
 router.get("/organisations", async (req, res) => {
     const query = "SELECT * FROM hosts"
     try {
-        const event = (await pool.query(query)).rows;
-        res.status(201).json({ event });
+        const event = await pool.query(query);
+        res.status(201).json(event.rows);
     } catch (error) {
         res.status(500).json({ error: error.message });
     };
@@ -46,11 +46,12 @@ router.get("/organisations", async (req, res) => {
 
 router.use(verifyToken);
 
-router.get("/:eventid", async (req, res) => {
+router.get("/:eventsid", async (req, res) => {
     const query = "SELECT * FROM events WHERE eventsid = $1"
+    const input = [req.params.eventsid]
     try {
-        const event = (await pool.query(query, [req.params.eventid])).rows;
-        res.status(201).json({ event });
+        const event = await pool.query(query, input);
+        res.status(201).json(event.rows);
     } catch (error) {
         res.status(500).json({ error: error.message });
     };
@@ -63,8 +64,9 @@ router.get("/getuser_attendings/:eventsid", async (req, res) => {
     FROM user_attendings
     WHERE eventsid=$1
     `
+    const input = [req.params.eventsid]
     try {
-        const event = await pool.query(query, [req.params.eventsid]);
+        const event = await pool.query(query, input);
         res.status(201).json(event);
     } catch (error) {
         res.status(500).json({ error: error.message });
