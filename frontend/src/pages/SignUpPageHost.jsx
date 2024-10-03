@@ -11,7 +11,6 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 dayjs.extend(utc);
 
-
 export default function SignUpPageHost({imageHost, countries}) {
     const navigate = useNavigate()
     const [error, setError] = useState(false)

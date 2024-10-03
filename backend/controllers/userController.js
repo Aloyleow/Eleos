@@ -137,7 +137,7 @@ router.get("/details/fullname", async (req, res) => {
   const query = "SELECT fullname FROM users WHERE usersid = $1";
   const input = [req.human.id]
   try {
-    const fullName = await pool.query(query, input).rows;
+    const fullName = await pool.query(query, input);
     res.status(201).json(fullName.rows);
   } catch (error) {
     res.status(500).json({ error: error.message });

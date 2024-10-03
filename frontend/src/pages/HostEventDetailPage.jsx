@@ -16,7 +16,7 @@ export default function HostEventDetailPage(){
         const loadEvents = async() => {
             try{
                 const oneEvent = await getOneEvent(eventsid);
-                setData(oneEvent.event[0]);
+                setData(oneEvent[0]);
                 const attendees = await user_attendingsCount(eventsid)
                 setAttendees(attendees.rows[0])
                                 

@@ -51,8 +51,8 @@ export default function EditEventPage({imageEvents}) {
         const loadEvents = async() => {
             try{
                 const data = await getOneEvent(eventsid);
-                setData(data.event[0]);
-                setFormData(data.event[0])
+                setData(data[0]);
+                setFormData(data[0])
                 
             } catch (error) {
                 console.error(error.message);

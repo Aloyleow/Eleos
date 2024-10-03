@@ -14,7 +14,7 @@ export default function HostPage() {
         const loadEvents = async() => {
             try{
                 const dataLoaded = await hostEvents();
-                const sortDataLoaded = sortEventsAsc(dataLoaded.checkedEvent)
+                const sortDataLoaded = sortEventsAsc(dataLoaded)
                 setData(sortDataLoaded);
                 
                 const attendeesData = {}

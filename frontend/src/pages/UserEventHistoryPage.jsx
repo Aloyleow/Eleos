@@ -13,7 +13,7 @@ export default function UserEventHistoryPage() {
         const loadEvents = async() => {
             try{
                 const data = await userEventsHistory();
-                setData(data.checkedUserAttendings);            
+                setData(data);            
             } catch (error) {
                 console.error(error.message);
             }

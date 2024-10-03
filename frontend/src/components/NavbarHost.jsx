@@ -55,7 +55,7 @@ export default function NavBarUser({handleSignOut}) {
     const loadEvents = async() => {
         try{        
             const name = await hostOrgName();
-            setName(name.orgName[0].orgname)
+            setName(name[0].orgname)
             
             
         } catch (error) {

@@ -55,11 +55,9 @@ export default function NavBarUser({handleSignOut}) {
     const loadEvents = async() => {
         try{
             const data = await userStars();
-            setSP(data.userStars[0].reputation);
+            setSP(data[0].reputation);
             const name = await userFullName();
-            setName(name.fullName[0].fullname)
-
-
+            setName(name[0].fullname)
         } catch (error) {
             console.error(error.message);
         }
