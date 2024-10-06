@@ -1,18 +1,18 @@
 meta {
-  name: loginHOST
+  name: user-login
   type: http
-  seq: 6
+  seq: 3
 }
 
 post {
-  url: http://localhost:8888/api/host/login
+  url: http://localhost:8888/api/user/login
   body: json
   auth: none
 }
 
 body:json {
   {   
-          "username": "morning",
+          "username": "aloy",
           "password": "123"
   }
 }

@@ -1,0 +1,22 @@
+meta {
+  name: user-attendings
+  type: http
+  seq: 24
+}
+
+get {
+  url: http://localhost:8888/api/user/attendings
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJhbG95IiwiaWF0IjoxNzI3OTI1OTM2LCJleHAiOjE3Mjc5Mjk1MzZ9.O0LWa7g8rEeLQNf2tVZhl61RwVS7jz9NikzhIchbjfc
+}
+
+body:json {
+  {   
+          "username": "aloy",
+          "password": "123"
+  }
+}

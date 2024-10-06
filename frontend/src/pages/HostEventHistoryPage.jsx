@@ -14,7 +14,7 @@ export default function HostEventHistoryPage() {
         const loadEvents = async() => {
             try{
                 const data = await hostEventsHistory();
-                const sortData = sortEventsDec(data.checkedEventsHistory)
+                const sortData = sortEventsDec(data)
                 setData(sortData);            
             } catch (error) {
                 console.error(error.message);

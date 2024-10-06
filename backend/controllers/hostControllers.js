@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken");
 const { Pool } = require("pg");
 const verifyToken = require("../middlewares/verify-token")
 
-
 const SALT_LENGTH = 14;
 
 const pool = new Pool({
@@ -34,8 +33,8 @@ router.post("/signup", async (req, res) => {
         bcrypt.hashSync(req.body.password, SALT_LENGTH)
     ];
     try {
-        const user = (await pool.query(query, input)).rows;
-        res.status(201).json({user});
+        const host = await pool.query(query, input);
+        res.status(201).json(host.rows);
     } catch (error) {
         res.status(500).json({ error: error.message });
     };
@@ -44,11 +43,11 @@ router.post("/signup", async (req, res) => {
 
 router.post("/login", async (req, res) => {
     const query = "SELECT * FROM hosts WHERE username = $1";
-    const { username, password } = req.body;
+    const input = [req.body.username]
   try {
-    const host = await pool.query(query, [username]);
-    const result = host.rows[0];
-    const match = await bcrypt.compare(password, result.password);
+    const host = await pool.query(query, input);
+    const hostPassword = host.rows[0].password;
+    const match = await bcrypt.compare(req.body.password, hostPassword);
     if (host && match) {
       const token = jwt.sign(
         {  id: host.rows[0].hostsid, username: req.body.username, orgname: host.rows[0].orgname},
@@ -69,8 +68,8 @@ router.get("/details/orgname", async (req, res) => {
   const query = "SELECT orgname FROM hosts WHERE hostsid = $1";
   const input = [req.human.id]
   try {
-    const orgName = (await pool.query(query, input)).rows;
-    res.status(201).json({ orgName });
+    const orgName = await pool.query(query, input);
+    res.status(201).json(orgName.rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
   };

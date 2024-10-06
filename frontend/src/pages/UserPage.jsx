@@ -15,7 +15,7 @@ export default function UserPage() {
         const loadEvents = async() => {
             try{
                 const data = await userEvents();
-                const sortData = sortEventsAsc(data.checkedUserAttendings)
+                const sortData = sortEventsAsc(data)
                 setData(sortData);            
             } catch (error) {
                 console.error(error.message);

@@ -1,0 +1,31 @@
+meta {
+  name: publicinfo-getuser_attendings-eventsid
+  type: http
+  seq: 28
+}
+
+get {
+  url: http://localhost:8888/api/publicinfo/getuser_attendings/:eventsid
+  body: none
+  auth: bearer
+}
+
+params:path {
+  eventsid: 
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJhbG95Iiwib3JnbmFtZSI6Im1vcm5pbmciLCJpYXQiOjE3Mjc5MjYzNjUsImV4cCI6MTc2MzkyNjM2NX0.KPGNNGQNtlfzsN81DGJgNIElgvANISin8xaIm-qL_KY
+}
+
+body:json {
+  {
+    "eventname": "cook5them",
+    "type": "cook",
+    "datentime": "1210202412pm",
+    "location": "jurong",
+    "country": "singapore",
+    "comments": "hello",
+    "attendees": 12
+  }
+}

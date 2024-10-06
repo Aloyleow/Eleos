@@ -9,7 +9,6 @@ const pool = new Pool({
     connectionString: process.env.PGSTRING_URI
 });
 
-
 router.use(verifyToken);
 
 router.get("/userattendings", async (req, res) => {
@@ -21,9 +20,9 @@ router.get("/userattendings", async (req, res) => {
     `
     const input = [ req.human.id ]
     try {
-      const userattendings = (await pool.query(query, input)).rows;
-      const checkedUserAttendings = filterEventsFutureDate(userattendings)
-      res.status(201).json({ checkedUserAttendings });
+      const userattendings = await pool.query(query, input);
+      const checkedUserAttendings = filterEventsFutureDate(userattendings.rows)
+      res.status(201).json(checkedUserAttendings);
     } catch (error) {
       res.status(500).json({ error: error.message });
     };
@@ -71,8 +70,8 @@ router.delete("/userattendings/:eventsid", async (req, res) => {
     req.human.id,
   ]
   try {
-      const delattend = await pool.query(query, input);
-      res.status(200).json(delattend)
+      const delAttend = await pool.query(query, input);
+      res.status(200).json(delAttend)
   } catch (error) {
       res.status(500).json({ error: error.message });
   };
@@ -87,10 +86,10 @@ router.get("/userattendings/history", async (req, res) => {
   `
   const input = [ req.human.id ]
   try {
-    const userattendings = (await pool.query(query, input)).rows;
-    const checkedUserAttendings = filterEventsPastDate(userattendings)
+    const userattendings = await pool.query(query, input);
+    const checkedUserAttendings = filterEventsPastDate(userattendings.rows)
     
-    res.status(201).json({ checkedUserAttendings });
+    res.status(201).json(checkedUserAttendings);
   } catch (error) {
     res.status(500).json({ error: error.message });
   };
@@ -109,10 +108,10 @@ router.put("/update/reputation", async (req, res) => {
   WHERE usersid = $2
   `
   try {
-    const userattendings = (await pool.query(queryHistory, [req.human.id])).rows;
-    const checkedUserAttendings = filterEventsPastDate(userattendings)
-    const updateReputation = (await pool.query(queryEdit, [checkedUserAttendings.length, req.human.id])).rows;
-    res.status(201).json({ updateReputation });
+    const userattendings = await pool.query(queryHistory, [req.human.id]);
+    const checkedUserAttendings = filterEventsPastDate(userattendings.rows)
+    const updateReputation = await pool.query(queryEdit, [checkedUserAttendings.length, req.human.id]);
+    res.status(201).json( updateReputation.rows );
   } catch (error) {
     res.status(500).json({ error: error.message });
   };
@@ -126,8 +125,8 @@ router.get("/userattendings/:eventsid/check", async (req, res) => {
   `
   const input = [ req.human.id, req.params.eventsid ]
   try {
-    const userAttendings = (((await pool.query(query, input)).rowCount));
-    res.status(201).json({ userAttendings });
+    const userAttendings = await pool.query(query, input);
+    res.status(201).json(userAttendings.rowCount);
   } catch (error) {
     res.status(500).json({ error: error.message });
   };

@@ -1,17 +1,17 @@
 meta {
-  name: viewAttendingEVENTS
+  name: host-event-getuser_attendings-eventsid
   type: http
   seq: 14
 }
 
 get {
-  url: http://localhost:8888/api/event/:eventid
+  url: http://localhost:8888/api/host/event/getuser_attendings/:eventsid
   body: none
   auth: bearer
 }
 
 params:path {
-  eventid: 4
+  eventsid: 
 }
 
 auth:bearer {

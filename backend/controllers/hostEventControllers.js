@@ -31,13 +31,14 @@ router.post("/create", async (req, res) => {
         req.human.orgname
     ];
     try {
-        const event = (await pool.query(query, input)).rows;
-        res.status(201).json({ event });
+        const event = await pool.query(query, input);
+        res.status(201).json(event.rows);
     } catch (error) {
         res.status(500).json({ error: error.message });
     };
 });
 
+//should we return back edited page ?
 router.put("/update/:eventsid", async (req, res) => {
     const query = `
     UPDATE events
@@ -65,10 +66,11 @@ router.put("/update/:eventsid", async (req, res) => {
 
 router.get("/hostevents", async (req, res) => {
     const query = "SELECT * FROM events WHERE hostsid = $1"
+    const input = [req.human.id]
     try {
-        const event = (await pool.query(query, [req.human.id])).rows;
-        const checkedEvent = filterEventsFutureDate(event)
-        res.status(201).json({ checkedEvent });
+        const event = await pool.query(query, input);
+        const checkedEvent = filterEventsFutureDate(event.rows)
+        res.status(201).json( checkedEvent );
     } catch (error) {
         res.status(500).json({ error: error.message });
     };
@@ -77,10 +79,11 @@ router.get("/hostevents", async (req, res) => {
 
 router.get("/hostevents/history", async (req, res) => {
     const query = "SELECT * FROM events WHERE hostsid = $1"
+    const input = [req.human.id]
     try {
-        const event = (await pool.query(query, [req.human.id])).rows;
-        const checkedEventsHistory = filterEventsPastDate(event)
-        res.status(201).json({ checkedEventsHistory });
+        const event = await pool.query(query, input);
+        const checkedEventsHistory = filterEventsPastDate(event.rows)
+        res.status(201).json(checkedEventsHistory);
     } catch (error) {
         res.status(500).json({ error: error.message });
     };

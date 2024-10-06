@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { getOneEvent, joinEvent, user_attendingsCount, checkUser_attendingsCount, isUserAttending } from "../services/verifyServices"
 import { useNavigate, useParams } from "react-router-dom"
 import { Box, Container, CardMedia, Typography, Button } from "@mui/material"
-
+//need to reorg the code, its very weird on getting the attendees count for now
 export default function EventsDetailPage(){
     const navigate = useNavigate()
     const { eventsid } = useParams()
@@ -15,9 +15,9 @@ export default function EventsDetailPage(){
         const loadEvents = async() => {
             try{
                 const oneEvent = await getOneEvent(eventsid);
-                setData(oneEvent.event[0]);
+                setData(oneEvent[0]);
                 const userAttendingThisEvent = await isUserAttending(eventsid)
-                if (userAttendingThisEvent.userAttendings === 1){
+                if (userAttendingThisEvent === 1){
                     setDisable(true)
                 }
                            

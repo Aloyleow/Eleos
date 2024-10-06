@@ -14,7 +14,7 @@ export default function OrganisationsPage() {
         const loadEvents = async() => {
             try{
                 const data = await getOrganisations();
-                setOrg(data.event);  
+                setOrg(data);  
             } catch (error) {
                 console.error(error.message);
             }
