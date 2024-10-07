@@ -18,7 +18,22 @@ make dob standard, make nric unique and standard, make email standard, make coun
 make sign up more secure like singpass ? make diff countries (nric, contactnumber)
 */
 router.post("/signup", async (req, res) => {
-  const query = `
+  const queryCheckNric = `
+    SELECT *  
+    FROM users 
+    WHERE nric = $1
+    `;
+    const queryCheckEmail = `
+    SELECT *  
+    FROM users 
+    WHERE email = $1
+    `;
+    const queryCheckUsername = `
+    SELECT *  
+    FROM users 
+    WHERE username = $1
+    `;
+  const querySignup = `
     INSERT INTO users (fullname, nric, dob, contactnumber, email, country, username, password)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
     RETURNING *
@@ -33,10 +48,25 @@ router.post("/signup", async (req, res) => {
     req.body.username,
     bcrypt.hashSync(req.body.password, SALT_LENGTH)
   ];
-  
+
   try {
-    const user = await pool.query(query, input);
+
+    const userCheckNric = await pool.query(queryCheckNric, [req.body.nric]);
+    if (userCheckNric.rows.length > 0) {
+      throw new Error("NRIC invalid")
+    }
+    const userCheckEmail = await pool.query(queryCheckEmail, [req.body.email]);
+    if (userCheckEmail.rows.length > 0) {
+      throw new Error("Email invalid")
+    }
+    const userCheckUsername = await pool.query(queryCheckUsername, [req.body.username]);
+    if (userCheckUsername.rows.length > 0) {
+      throw new Error("Username taken")
+    }
+
+    const user = await pool.query(querySignup, input);
     res.status(201).json(user.rows);
+    
   } catch (error) {
     res.status(500).json({ error: error.message });
   };

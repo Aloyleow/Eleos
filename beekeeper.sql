@@ -3,7 +3,7 @@ CREATE TABLE users (
     fullname TEXT NOT NULL CHECK (fullname ~ '^[a-zA-Z\s]+$' AND fullname <> '') ,
     nric TEXT NOT NULL UNIQUE CHECK (nric ~ '^[ST][0-9]{7}[A-Z]$' AND nric <> '' ),
     dob VARCHAR NOT NULL CHECK (dob <> ''),
-    email TEXT NOT NULL CHECK (email ~ '^[^@]*@[^@]*$' AND email <> ''),
+    email TEXT NOT NULL UNIQUE CHECK (email ~ '^[^@]*@[^@]*$' AND email <> ''),
     contactnumber VARCHAR(8) NOT NULL CHECK (contactnumber ~ '^[0-9]+$' and contactnumber <> ''),
     country TEXT NOT NULL CHECK (country <> ''),
     username VARCHAR(20) NOT NULL UNIQUE CHECK (username <> ''), 
