@@ -14,15 +14,14 @@ CREATE TABLE users (
 CREATE TABLE hosts (
     hostsid SERIAL PRIMARY KEY,
     orgname TEXT NOT NULL UNIQUE CHECK (orgname <> '') ,
-    uen VARCHAR(9) NOT NULL CHECK (uen  ~ '^[a-zA-Z0-9]+$' AND uen  <> '' ),
+    uen VARCHAR(9) NOT NULL UNIQUE CHECK (uen  ~ '^[a-zA-Z0-9]+$' AND uen  <> '' ),
     regdate VARCHAR NOT NULL CHECK (regdate <> ''),
-    email TEXT NOT NULL CHECK (email ~ '^[^@]*@[^@]*$' AND email <> ''),
+    email TEXT NOT NULL UNIQUE CHECK (email ~ '^[^@]*@[^@]*$' AND email <> ''),
     contactnumber VARCHAR(8) CHECK (contactnumber ~ '^[0-9]+$' and contactnumber <> ''),
     country TEXT NOT NULL CHECK (country <> ''),
     image TEXT NOT NULL CHECK (image <> ''),
     username VARCHAR(20) NOT NULL UNIQUE CHECK (username <> ''), 
-    password TEXT NOT NULL CHECK (password <> '')
-    
+    password TEXT NOT NULL CHECK (password <> '')   
 );
 
 CREATE TABLE events (
@@ -58,16 +57,6 @@ WHERE ua.usersid = 5
 
 SELECT * FROM events WHERE hostsid = 4
 
-
-
--- user  
--- weiming 123
-
-
-
--- org
--- scc 
--- ddd
 
 
 

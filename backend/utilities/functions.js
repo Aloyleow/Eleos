@@ -22,8 +22,16 @@ const filterEventsPastDate = (event) => {
     return filteredEvents    
 }
 
+const checkInputFilled = (array) => {
+    for (let i = 0; i < array.length; i ++) {
+      if (array[i] === "") {
+        throw new Error(`Input undefined at ${i}`)
+      }
+    }
+  }
 
 module.exports = {
     filterEventsFutureDate,
-    filterEventsPastDate
+    filterEventsPastDate,
+    checkInputFilled
 }

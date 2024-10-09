@@ -6,17 +6,15 @@ const jwt = require("jsonwebtoken");
 const { Pool } = require("pg");
 const verifyToken = require("../middlewares/verify-token");
 const nodeMailer = require("nodemailer")
-
+const { checkInputFilled } = require("../utilities/functions");
 const SALT_LENGTH = 12;
 
 const pool = new Pool({
     connectionString: process.env.PGSTRING_URI
 });
 
-/* 
-make dob standard, make nric unique and standard, make email standard, make country standard, improve error catches
-make sign up more secure like singpass ? make diff countries (nric, contactnumber)
-*/
+
+// make dob standard make sign up more secure like singpass ? make diff countries (nric, contactnumber)
 router.post("/signup", async (req, res) => {
   const queryCheckNric = `
     SELECT *  
@@ -50,7 +48,10 @@ router.post("/signup", async (req, res) => {
   ];
 
   try {
-
+    // Check input filled
+    checkInputFilled(input)
+    // Check blocks for unique entities, prevent server side checks
+    // Explecitly state req.body criteria if input is big else use arraytext
     const userCheckNric = await pool.query(queryCheckNric, [req.body.nric]);
     if (userCheckNric.rows.length > 0) {
       throw new Error("NRIC invalid")
@@ -77,14 +78,17 @@ improve error catches, improve log in security
 */
 router.post("/login", async (req, res) => {
   const query = "SELECT * FROM users WHERE username = $1";
-  const input = [req.body.username]
+  const input = [
+    req.body.username,
+    req.body.password
+  ]
   try {
-    const user = await pool.query(query, input);
+    const user = await pool.query(query, [input[0]]);
     const userPassword = user.rows[0].password;
-    const match = await bcrypt.compare(req.body.password, userPassword);
+    const match = await bcrypt.compare(input[1], userPassword);
     if (user && match) {
       const token = jwt.sign(
-        { id: user.rows[0].usersid, username: req.body.username},
+        { id: user.rows[0].usersid, username: input[0]},
         process.env.JWT_SECRET,
         { expiresIn: "1hr" }
       );
