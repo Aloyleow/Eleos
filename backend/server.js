@@ -18,7 +18,7 @@ app.use(cors());
 app.use(express.json());
 
 // Serve static files from the "dist" directory inside the "frontend" folder
-// app.use(express.static("../frontend/dist"))
+app.use(express.static("../frontend/dist"))
 
 app.use("/api/user", userRouter);
 app.use("/api/host", hostRouter);
@@ -27,9 +27,9 @@ app.use("/api/host/event", hostEventRouter);
 app.use("/api/publicinfo", publicinfoRouter);
 
 // Handle all other requests by serving the index.html for your frontend
-// app.get("/*", function (req, res) {
-//     res.sendFile(path.join(__dirname, "..", "frontend", "dist", "index.html"));
-//   });
+app.get("/*", function (req, res) {
+    res.sendFile(path.join(__dirname, "..", "frontend", "dist", "index.html"));
+  });
 
 app.listen(port, () =>{
     console.log(`Eleos listening on port ${port}`)
