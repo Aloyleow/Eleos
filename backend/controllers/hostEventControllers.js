@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const { Pool } = require("pg");
 const verifyToken = require("../middlewares/verify-token");
-const { filterEventsFutureDate, filterEventsPastDate } =require("../utilities/functions")
+const { filterEventsFutureDate, filterEventsPastDate, checkEventDateIsValid } =require("../utilities/functions")
 const nodeMailer = require("nodemailer")
 
 const pool = new Pool({
@@ -31,6 +31,7 @@ router.post("/create", async (req, res) => {
         req.human.orgname
     ];
     try {
+        checkEventDateIsValid(input[2])
         const event = await pool.query(query, input);
         res.status(201).json(event.rows);
     } catch (error) {

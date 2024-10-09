@@ -30,8 +30,16 @@ const checkInputFilled = (array) => {
     }
   }
 
+const checkEventDateIsValid = (date) => {
+    const checkDate = new Date(date).getTime()
+    if (checkDate < Date.now()) {
+        throw new Error("Date must be valid")
+    }
+}
+
 module.exports = {
     filterEventsFutureDate,
     filterEventsPastDate,
-    checkInputFilled
+    checkInputFilled,
+    checkEventDateIsValid
 }
