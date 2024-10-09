@@ -3,7 +3,12 @@ const express = require("express");
 const router = express.Router();
 const { Pool } = require("pg");
 const verifyToken = require("../middlewares/verify-token");
-const { filterEventsFutureDate, filterEventsPastDate, checkEventDateIsValid, checkAttendeesCount } =require("../utilities/functions")
+const { 
+    filterEventsFutureDate, 
+    filterEventsPastDate, 
+    checkEventDateIsValid, 
+    checkAttendeesCount, 
+    checkAttendeesChange } =require("../utilities/functions")
 const nodeMailer = require("nodemailer")
 
 const pool = new Pool({
@@ -40,15 +45,20 @@ router.post("/create", async (req, res) => {
     };
 });
 
-//should we return back edited page ?
+//should we return back edited page ? email the user if theres any change
 router.put("/update/:eventsid", async (req, res) => {
-    const queryCheck = `SELECT * FROM events WHERE eventsid = $1 AND hostsid = $2`
+    const queryUpdate = `SELECT * FROM events WHERE eventsid = $1 AND hostsid = $2`
+    const queryCount = `
+    SELECT COUNT (*)
+    FROM user_attendings ua
+    RIGHT JOIN events e ON ua.eventsid = e.eventsid
+    WHERE ua.eventsid= $1 AND e.hostsid= $2
+    `
     const query = `
     UPDATE events
     SET datentime = $1, location = $2, comments = $3, attendees = $4, image =$5
     WHERE eventsid = $7 AND hostsid = $6
     `;
-    const queryUpdate = "SELECT * FROM events WHERE eventsid = $1"
     const input = [
         req.body.datentime,
         req.body.location,
@@ -59,9 +69,14 @@ router.put("/update/:eventsid", async (req, res) => {
         req.params.eventsid
     ];
     try {
-        const eventCheck = await pool.query(queryCheck, [req.params.eventsid, req.human.id,])
+        //call query to check validation
+        const currentAttendeesCheck = await pool.query(queryCount, [req.params.eventsid, req.human.id])
+        checkEventDateIsValid(input[0])
+        checkAttendeesCount(input[3])
+        checkAttendeesChange(currentAttendeesCheck.rows[0].count, input[3])
         await pool.query(query, input);
-        const event = await pool.query(queryUpdate, [req.params.eventsid])
+        //call query to see updated event
+        const event = await pool.query(queryUpdate, [req.params.eventsid, req.human.id])
         res.status(201).json( event.rows );
     } catch (error) {
         res.status(500).json({ error: error.message });

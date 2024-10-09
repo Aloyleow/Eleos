@@ -43,10 +43,16 @@ const checkAttendeesCount = (count) => {
     }
 }
 
+const checkAttendeesChange = (currentAttendees, editedAttendees) => {
+    if (currentAttendees > editedAttendees) {
+        throw new Error("Cannot edit attendees count")
+    }
+}
 module.exports = {
     filterEventsFutureDate,
     filterEventsPastDate,
     checkInputFilled,
     checkEventDateIsValid,
-    checkAttendeesCount
+    checkAttendeesCount,
+    checkAttendeesChange
 }
