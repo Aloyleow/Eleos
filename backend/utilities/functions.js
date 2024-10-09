@@ -37,9 +37,16 @@ const checkEventDateIsValid = (date) => {
     }
 }
 
+const checkAttendeesCount = (count) => {
+    if (count < 1 || null){
+        throw new Error("Attendees must not be 0")
+    }
+}
+
 module.exports = {
     filterEventsFutureDate,
     filterEventsPastDate,
     checkInputFilled,
-    checkEventDateIsValid
+    checkEventDateIsValid,
+    checkAttendeesCount
 }

@@ -71,12 +71,28 @@ router.post("/login", async (req, res) => {
       req.body.password
     ]
   try {
-    const host = await pool.query(query, [input[0]]);
+    checkInputFilled(input)
+
+    const host = await pool.query(query, [req.body.username]);
+    /* 
+    Reason for this check, there is a chance where username dosent exist in table, 
+    catch error will appear instaed of invalid error 
+    */
+    if (host.rows.length < 1) {
+      throw new Error("Invalid username or password.")
+    }
     const hostPassword = host.rows[0].password;
-    const match = await bcrypt.compare(input[1], hostPassword);
+    const match = await bcrypt.compare(req.body.password, hostPassword);
     if (host && match) {
+      if (!host.rows[0].hostsid){
+        throw new Error("Host id missing")
+      } else if (!req.body.username) {
+        throw new Error("username missing")
+      } else if (!host.rows[0].orgname) {
+        throw new Error("Orgname missing")
+      }
       const token = jwt.sign(
-        {  id: host.rows[0].hostsid, username: [input[0]], orgname: host.rows[0].orgname},
+        {  id: host.rows[0].hostsid, username: req.body.username, orgname: host.rows[0].orgname},
         process.env.JWT_SECRET,
         { expiresIn: "1hr" }
       );

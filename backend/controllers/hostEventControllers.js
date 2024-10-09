@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const { Pool } = require("pg");
 const verifyToken = require("../middlewares/verify-token");
-const { filterEventsFutureDate, filterEventsPastDate, checkEventDateIsValid } =require("../utilities/functions")
+const { filterEventsFutureDate, filterEventsPastDate, checkEventDateIsValid, checkAttendeesCount } =require("../utilities/functions")
 const nodeMailer = require("nodemailer")
 
 const pool = new Pool({
@@ -32,6 +32,7 @@ router.post("/create", async (req, res) => {
     ];
     try {
         checkEventDateIsValid(input[2])
+        checkAttendeesCount(input[6])
         const event = await pool.query(query, input);
         res.status(201).json(event.rows);
     } catch (error) {
@@ -41,6 +42,7 @@ router.post("/create", async (req, res) => {
 
 //should we return back edited page ?
 router.put("/update/:eventsid", async (req, res) => {
+    const queryCheck = `SELECT * FROM events WHERE eventsid = $1 AND hostsid = $2`
     const query = `
     UPDATE events
     SET datentime = $1, location = $2, comments = $3, attendees = $4, image =$5
@@ -57,6 +59,7 @@ router.put("/update/:eventsid", async (req, res) => {
         req.params.eventsid
     ];
     try {
+        const eventCheck = await pool.query(queryCheck, [req.params.eventsid, req.human.id,])
         await pool.query(query, input);
         const event = await pool.query(queryUpdate, [req.params.eventsid])
         res.status(201).json( event.rows );

@@ -41,7 +41,6 @@ router.post("/signup", async (req, res) => {
     // Check input filled
     checkInputFilled(input)
     // Check blocks for unique entities, prevent server side checks
-    // Explecitly state req.body criteria if input is big else use arraytext
     const userCheck = await pool.query(queryUserCheck, [req.body.nric, req.body.email, req.body.username]);
     if (userCheck.rows.length > 0) {
       if (req.body.nric === userCheck.rows[0].nric){
@@ -71,12 +70,24 @@ router.post("/login", async (req, res) => {
   try {
     checkInputFilled(input)
 
-    const user = await pool.query(query, [input[0]]); 
+    const user = await pool.query(query, [req.body.username]);
+    /* 
+    Reason for this check, there is a chance where username dosent exist in table, 
+    catch error will appear instaed of invalid error 
+    */
+    if (user.rows.length < 1) {
+      throw new Error("Invalid username or password.")
+    } 
     const userPassword = user.rows[0].password;
-    const match = await bcrypt.compare(input[1], userPassword);
+    const match = await bcrypt.compare(req.body.password, userPassword);
     if (user && match) {
+      if (!user.rows[0].usersid){
+        throw new Error("User id missing")
+      } else if (!req.body.username) {
+        throw new Error("username missing")
+      }
       const token = jwt.sign(
-        { id: user.rows[0].usersid, username: input[0]},
+        { id: user.rows[0].usersid, username: req.body.username},
         process.env.JWT_SECRET,
         { expiresIn: "1hr" }
       );
