@@ -16,20 +16,10 @@ const pool = new Pool({
 
 // make dob standard make sign up more secure like singpass ? make diff countries (nric, contactnumber)
 router.post("/signup", async (req, res) => {
-  const queryCheckNric = `
+  const queryUserCheck = `
     SELECT *  
     FROM users 
-    WHERE nric = $1
-    `;
-    const queryCheckEmail = `
-    SELECT *  
-    FROM users 
-    WHERE email = $1
-    `;
-    const queryCheckUsername = `
-    SELECT *  
-    FROM users 
-    WHERE username = $1
+    WHERE nric = $1 or email = $2 or username = $3
     `;
   const querySignup = `
     INSERT INTO users (fullname, nric, dob, contactnumber, email, country, username, password)
@@ -52,22 +42,18 @@ router.post("/signup", async (req, res) => {
     checkInputFilled(input)
     // Check blocks for unique entities, prevent server side checks
     // Explecitly state req.body criteria if input is big else use arraytext
-    const userCheckNric = await pool.query(queryCheckNric, [req.body.nric]);
-    if (userCheckNric.rows.length > 0) {
-      throw new Error("NRIC invalid")
+    const userCheck = await pool.query(queryUserCheck, [req.body.nric, req.body.email, req.body.username]);
+    if (userCheck.rows.length > 0) {
+      if (req.body.nric === userCheck.rows[0].nric){
+        throw new Error("NRIC invalid")
+      } else if (req.body.email === userCheck.rows[0].email){
+        throw new Error("Email invalid")
+      } else if (req.body.username === userCheck.rows[0].username){
+        throw new Error("Username taken")    
+      }     
     }
-    const userCheckEmail = await pool.query(queryCheckEmail, [req.body.email]);
-    if (userCheckEmail.rows.length > 0) {
-      throw new Error("Email invalid")
-    }
-    const userCheckUsername = await pool.query(queryCheckUsername, [req.body.username]);
-    if (userCheckUsername.rows.length > 0) {
-      throw new Error("Username taken")
-    }
-
     const user = await pool.query(querySignup, input);
-    res.status(201).json(user.rows);
-    
+    res.status(201).json(user.rows); 
   } catch (error) {
     res.status(500).json({ error: error.message });
   };
@@ -83,7 +69,9 @@ router.post("/login", async (req, res) => {
     req.body.password
   ]
   try {
-    const user = await pool.query(query, [input[0]]);
+    checkInputFilled(input)
+
+    const user = await pool.query(query, [input[0]]); 
     const userPassword = user.rows[0].password;
     const match = await bcrypt.compare(input[1], userPassword);
     if (user && match) {

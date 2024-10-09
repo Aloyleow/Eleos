@@ -24,7 +24,7 @@ const filterEventsPastDate = (event) => {
 
 const checkInputFilled = (array) => {
     for (let i = 0; i < array.length; i ++) {
-      if (array[i] === "") {
+      if (array[i].trim() === "") {
         throw new Error(`Input undefined at ${i}`)
       }
     }

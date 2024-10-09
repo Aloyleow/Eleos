@@ -11,10 +11,11 @@ const pool = new Pool({
 
 // router.get("/test", async (req, res) => {
 //     const query = ` 
-//     SELECT email FROM users WHERE nric = 'S1234567A'
+//     SELECT *  
+//     FROM users
 //     `
 //     try {
-//         const event = (await pool.query(query)).rows;    
+//         const event = await pool.query(query);    
 //         res.status(201).json(event);
 //     } catch (error) {
 //         res.status(500).json({ error: error.message });
